@@ -18,28 +18,30 @@ public class LecturaAulas {
      */
     public static void leer_archivo() {
         String classroom;
-        String id_aula, descripcio_aula, capacitat_aula, pc_aula,
-                num_pc, projector_aula, insonoritzada_aula;
+        String id_aula, descripcio_aula;
+        int capacitat_aula,num_pc;
+        boolean pc_aula, projector_aula, insonoritzada_aula;
         //File: clase que me guarda el fichero
         //classrooms: variable que me apunta al fichero de texto que quiero leer
         File classrooms = new File("files/classrooms.csv");
         //le decimos que intente hacer el siguiente codigo (abrir el fichero para
         //leerlo porque puede ser que de error)   
+        String[] clase;
         try {
             Scanner sc = new Scanner(classrooms);
             boolean first_see = true;//variable que usaremos para no imprimir la cabecera en la primera vuelta del bucle
             while (sc.hasNextLine()) {//mientras haya una siguiente linea que leer ejecutar el siguiente codigo
                 classroom = sc.nextLine();
-                String[] clase = classroom.split(",");//separamos String[] por comas para poder tratar cada valor por separado
+                clase = classroom.split(",");//separamos String[] por comas para poder tratar cada valor por separado
                 if (!first_see) {
                     //Assignamos el valor de la pos[x] del vector clase[] a una variable determinada
                     id_aula = clase[0];
                     descripcio_aula = clase[1];
-                    capacitat_aula = clase[2];
-                    pc_aula = clase[3];
-                    num_pc = clase[4];
-                    projector_aula = clase[5];
-                    insonoritzada_aula = clase[6];
+                    capacitat_aula = Integer.parseInt(clase[2]);
+                    pc_aula = Boolean.parseBoolean(clase[3]);
+                    num_pc = Integer.parseInt(clase[4]);
+                    projector_aula = Boolean.parseBoolean(clase[5]);
+                    insonoritzada_aula = Boolean.parseBoolean(clase[6]);
                     //Imprimimos por pantalla
                     System.out.println("Clase: " + id_aula);
                     System.out.println("Descripción: " + descripcio_aula);
