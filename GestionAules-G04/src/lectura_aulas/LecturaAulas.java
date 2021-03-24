@@ -14,7 +14,7 @@ public class LecturaAulas {
 
     public static void main(String[] args) {
 
-        AddRecord();
+        modRecord();
         //leer_archivo();
     }
 
@@ -280,7 +280,7 @@ public class LecturaAulas {
                                 System.out.println("\nActualizando...");
                                 break;
                             default:
-                                System.out.println("ERROR: OPCIÓN INCORECTA.<Presione Enter>");
+                                System.out.println("ERROR: OPCIÓN INCORECTA.\n<Presione Enter>");
                                 try {
                                     System.in.read();
                                 } catch (Exception e) {
