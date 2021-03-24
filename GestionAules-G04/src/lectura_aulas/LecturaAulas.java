@@ -1,7 +1,9 @@
 package lectura_aulas;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -483,4 +485,66 @@ public class LecturaAulas {
 
     }
 
+
+ public static void eliminar() {
+      File fichero = new File("GestionAules-G04/files/classrooms.csv");
+      
+        
+        // Array para guardar todas las líneas leídas del fichero
+        ArrayList<String> lineas = new ArrayList<>();
+        
+        // Abrimos el fichero de texto para leerlo en memoria
+        try {
+          try (Scanner lectorFichero = new Scanner(fichero)) {
+              while(lectorFichero.hasNext()) {
+                  lineas.add(lectorFichero.nextLine());
+              }
+          }
+        } catch (FileNotFoundException e) {
+            System.out.println("Ha ocurrido un error al abrir/leer el fichero");
+        }
+        
+        // Abrimos el fichero de texto para sobreescribirlo
+        // Eliminaremos la linea indicada
+        try {
+            Scanner sc = new Scanner(System.in);
+
+            do {
+                //Introducimos el aula a modificar.
+                System.out.print("Introduce el aula a modificar: ");
+                aula = sc.next();
+
+                //Vemos si la clase existe o no existe
+                for (String classroom : classroom_info) {
+                    //Si existe guardamos los datos del aula en sus variables.
+                    if (aula.equals(classroom.substring(0, classroom.indexOf(",")))) {
+                        laClaseExiste = true;
+                        lineaAula = classroom;
+                        aulaUpdate = lineaAula.split(",");
+                        id_aula = aulaUpdate[0];
+                        descripcio_aula = aulaUpdate[1];
+                        capacitat_aula = Integer.parseInt(aulaUpdate[2]);
+                        pc_aula = Boolean.parseBoolean(aulaUpdate[3]);
+                        num_pc = Integer.parseInt(aulaUpdate[4]);
+                        projector_aula = Boolean.parseBoolean(aulaUpdate[5]);
+                        insonoritzada_aula = Boolean.parseBoolean(aulaUpdate[6]);
+                    }
+                }
+
+                if (!laClaseExiste) {
+                    System.out.println("ERROR: La clase introducida no existe!");
+                } else {
+                         if (linea .equals(linea)) {
+                      writer.write(linea + "\n");
+                  }
+        
+        
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Ha ocurrido un error al abrir/sobreescribir el fichero");
+        }
+    }
 }
+        
+        
