@@ -2,6 +2,7 @@ package lectura_aulas;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /*
@@ -9,12 +10,14 @@ import java.util.Scanner;
  */
 public class LecturaAulas {
 
+    //Declaramos un objeto Scanner para leer los datos
     public static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-        
-        AddRecord();
-        leer_archivo();
+
+        addRecord();
+        modRecord();
+        //leer_archivo();
     }
 
     /**
@@ -68,41 +71,342 @@ public class LecturaAulas {
     /**
      * Funcion que permite crear a la usuaria una nueva entrada en el fichero
      */
-    public static void AddRecord() {
+    public static void addRecord() {
 
         File fichero = new File("files/classrooms.csv");
 
         try {
             // El true al final indica que escribiremos al final del fichero añadiendo texto
             FileWriter writer = new FileWriter(fichero, true);
+
+            String id_aula, descripcio_aula, String_capacitat_aula;
+            int capacitat_aula = -1, num_pc;
+            boolean pc_aula, projector_aula, insonoritzada_aula, es_numero = true, es_valido = true;
             
-            String id_aula, descripcio_aula;
-            int capacitat_aula, num_pc;
-            boolean pc_aula, projector_aula, insonoritzada_aula;
-            
+            //Nueva entrada de id_aula
             System.out.println("Introduce el id de el Aula: ");
             id_aula = sc.nextLine();
-            System.out.println("Introduce la descripcion de el Aula: ");
-            descripcio_aula = sc.nextLine();
-            System.out.println("Introduce la capacidad de el Aula: ");
-            capacitat_aula = sc.nextInt();
+            
+            //Nueva entrada de descripcio_aula
+            do {
+                System.out.println("Introduce la descripcion de el Aula: ");
+                descripcio_aula = sc.nextLine();
+                //validaciones 
+                es_valido = validarStringNumLetras(descripcio_aula);
+
+                if (es_valido == false) {
+                    System.out.println("Se han introducido caracteres erróneos");
+                }
+            } while (es_valido == false);
+
+            //Nueva entrada de capacitat_aula
+            do {
+                System.out.println("Introduce la capacidad de el Aula: ");
+                String_capacitat_aula = sc.nextLine();
+                //validaciones 
+                es_numero = validarStringNum(String_capacitat_aula);
+                capacitat_aula = convertirStringaInt(String_capacitat_aula);
+                if (es_numero == false) {
+                    System.out.println("Se han introducido caracteres no numéricos");
+                }
+            } while (es_numero == false);
+
+            //Nueva entrada de pc_aula
             System.out.println("Introduce si el Aula tiene ordenadores: ");
             pc_aula = sc.nextBoolean();
+            //Nueva entrada de num_pc
             System.out.println("Introduce el numero de ordenadores que tiene el Aula: ");
             num_pc = sc.nextInt();
+            //Nueva entrada de projector_aula
             System.out.println("Introduce si el Aula tiene proyector: ");
             projector_aula = sc.nextBoolean();
+            //Nueva entrada de insonoritzada_aula
             System.out.println("Introduce el Aula está insonorizada: ");
             insonoritzada_aula = sc.nextBoolean();
-            
-            writer.write(id_aula+","+descripcio_aula+","+capacitat_aula+","+
-                    pc_aula+","+num_pc+","+projector_aula+","+insonoritzada_aula + "\n");
+
+            writer.write(id_aula + "," + descripcio_aula + "," + capacitat_aula + ","
+                    + pc_aula + "," + num_pc + "," + projector_aula + "," + insonoritzada_aula + "\n");
             writer.flush();//limpia la memoria del writer
-            
+
             writer.close();
         } catch (Exception e) {
             System.out.println("Ha ocurrido un error al crear/escribir en el fichero");
         }
 
     }
+
+    //--------------------------------
+    // VALIDACIONES FUNCION (addRecord)
+    //--------------------------------
+    /**
+     * Valida si el String es un numero o no
+     *
+     * @param cadena
+     * @return true si es un numero / false si no lo es
+     */
+    public static boolean validarStringNum(String cadena) {
+        //validamos que sea un numero comparando con un patron
+        if (cadena.matches("[0-9]*")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Convierte un String a Int para poder seguir tratando con el tipo de datos
+     * que queremos, una vez hemos hecho la validacion
+     *
+     * @param numero
+     * @return numero convertido a tipo Int
+     */
+    public static int convertirStringaInt(String numero) {
+        // Se reemplazan todos los caracteres que no correspondan a un numero
+        // por espacio
+        numero = numero.replaceAll("[^0-9]", "");
+
+        // Si la cadena queda vacia
+        if (numero.equals("")) {
+            numero = "0";
+        }
+        return Integer.parseInt(numero);
+    }
+
+    /**
+     * TODO no valida correctament
+     * Valida si el String tiene los caracteres validos para este campo
+     *
+     * @param cadena
+     * @return true si es valido / false si no lo es
+     */
+    public static boolean validarStringNumLetras(String cadena) {
+        //validamos que los caracteres sean validos comparando con un patron
+        if (cadena.matches("[^a-zA-Z0-9]")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Funcion que modifica los registros de una clase y actualiza el fichero
+     */
+    public static void modRecord() {
+        File file_classrooms = new File("files/classrooms.csv");
+
+        ArrayList<String> classroom_info = new ArrayList<>();
+        String aula = null, lineaAula, valor;
+        String[] aulaUpdate = null;
+        boolean laClaseExiste = false, claseRepetida = false;
+        boolean error = false;
+        int opcion_menu = 0, valornum;
+
+        //variables update
+        String id_aula = null, descripcio_aula = null;
+        int capacitat_aula = 0, num_pc = 0;
+        boolean pc_aula = false, projector_aula = false, insonoritzada_aula = false;
+
+        //File to ArrayList
+        try {
+            Scanner leerFichero = new Scanner(file_classrooms);
+
+            while (leerFichero.hasNext()) {
+                classroom_info.add(leerFichero.nextLine());
+            }
+
+            leerFichero.close();
+        } catch (Exception e) {
+            System.out.println("¡HA OCURRIDO UN ERROR!");
+        }
+
+        //ArrayList to updated File
+        try {
+            Scanner sc = new Scanner(System.in);
+
+            do {
+                //Introducimos el aula a modificar.
+                System.out.print("Introduce el aula a modificar: ");
+                aula = sc.next();
+
+                //Vemos si la clase existe o no existe
+                for (String classroom : classroom_info) {
+                    //Si existe guardamos los datos del aula en sus variables.
+                    if (aula.equals(classroom.substring(0, classroom.indexOf(",")))) {
+                        laClaseExiste = true;
+                        lineaAula = classroom;
+                        aulaUpdate = lineaAula.split(",");
+                        id_aula = aulaUpdate[0];
+                        descripcio_aula = aulaUpdate[1];
+                        capacitat_aula = Integer.parseInt(aulaUpdate[2]);
+                        pc_aula = Boolean.parseBoolean(aulaUpdate[3]);
+                        num_pc = Integer.parseInt(aulaUpdate[4]);
+                        projector_aula = Boolean.parseBoolean(aulaUpdate[5]);
+                        insonoritzada_aula = Boolean.parseBoolean(aulaUpdate[6]);
+                    }
+                }
+
+                if (!laClaseExiste) {
+                    System.out.println("ERROR: La clase introducida no existe!");
+                } else {
+
+                    //Si existe pedimos que campo se va a actualizar
+                    do {
+                        System.out.println("\nAULA SELECCIONADA: " + aula);
+                        System.out.println("CODIGO\tDESCRIPCION");
+                        System.out.println("1\tid_aula\n"
+                                + "2\tdescripcio_aula\n"
+                                + "3\tcapacitat_aula\n"
+                                + "4\tpc_aula(true|false)\n"
+                                + "5\tnum_pc\n"
+                                + "6\tprojector_aula(true|false)\n"
+                                + "7\tinsonoritzada_aula(true|false)\n"
+                                + "0\tACEPTAR Y ACTUALIZAR\n");
+                        System.out.print("Codigo: ");
+                        opcion_menu = sc.nextInt();
+
+                        switch (opcion_menu) {
+                            case 1:
+                                System.out.print("Inserte nuevo registro: ");
+                                valor = sc.next();
+                                for (String classroom : classroom_info) {
+                                    if (valor.equals(classroom.substring(0, classroom.indexOf(",")))) {
+                                        System.out.println("\nERROR:EL AULA YA EXISTE.\n<Presione Enter>");
+                                        claseRepetida = true;
+                                        try {
+                                            System.in.read();
+                                        } catch (Exception e) {
+                                        }
+                                    }
+                                }
+                                if (!claseRepetida) {
+                                    id_aula = valor;
+                                }
+                                claseRepetida = false;
+                                break;
+                            case 2:
+                                System.out.print("Inserte nuevo registro: ");
+                                descripcio_aula = sc.next();
+                                break;
+                            case 3:
+                                System.out.print("Inserte nuevo registro: ");
+                                valornum = sc.nextInt();
+                                if (valornum >= 0) {
+                                    capacitat_aula = sc.nextInt();
+                                } else {
+                                    System.out.println("\nERROR:VALOR NEGATIVO INSERTADO.\n<Presione Enter>");
+                                    try {
+                                        System.in.read();
+                                    } catch (Exception e) {
+                                    }
+                                }
+
+                                break;
+
+                            case 4:
+                                System.out.print("Inserte nuevo registro: ");
+                                valor = sc.next().toLowerCase();
+                                if (valor.equals("true") | valor.equals("false")) {
+                                    pc_aula = Boolean.parseBoolean(valor);
+                                } else {
+                                    System.out.println("\nERROR: VALOR INCORRECTO, SOLO TRUE O FALSE.\n<Presione Enter>");
+                                    try {
+                                        System.in.read();
+                                    } catch (Exception e) {
+                                    }
+                                }
+                                break;
+                            case 5:
+                                System.out.print("Inserte nuevo registro: ");
+                                valornum = sc.nextInt();
+                                if (valornum >= 0) {
+                                    num_pc = sc.nextInt();
+                                } else {
+                                    System.out.println("\nERROR:VALOR NEGATIVO INSERTADO.\n<Presione Enter>");
+                                    try {
+                                        System.in.read();
+                                    } catch (Exception e) {
+                                    }
+                                }
+
+                                break;
+                            case 6:
+                                System.out.print("Inserte nuevo registro: ");
+                                valor = sc.next().toLowerCase();
+                                if (valor.equals("true") | valor.equals("false")) {
+                                    projector_aula = Boolean.parseBoolean(valor);
+                                } else {
+                                    System.out.println("\nERROR: VALOR INCORRECTO, SOLO TRUE O FALSE.\n<Presione Enter>");
+                                    try {
+                                        System.in.read();
+                                    } catch (Exception e) {
+                                    }
+                                }
+
+                                break;
+                            case 7:
+                                System.out.print("Inserte nuevo registro: ");
+                                valor = sc.next().toLowerCase();
+                                if (valor.equals("true") | valor.equals("false")) {
+                                    insonoritzada_aula = Boolean.parseBoolean(valor);
+                                } else {
+                                    System.out.println("\nERROR: VALOR INCORRECTO, SOLO TRUE O FALSE.\n<Presione Enter>");
+                                    try {
+                                        System.in.read();
+                                    } catch (Exception e) {
+                                    }
+                                }
+
+                                break;
+                            case 0:
+                                System.out.println("\nActualizando...");
+                                break;
+                            default:
+                                System.out.println("ERROR: OPCIÓN INCORECTA.\n<Presione Enter>");
+                                try {
+                                    System.in.read();
+                                } catch (Exception e) {
+                                }
+                                break;
+                        }//END switch
+                    } while (opcion_menu != 0);//END do
+                } //END else
+            } while (!laClaseExiste);
+
+        } catch (Exception e) {
+
+            System.out.println("¡HA OCURRIDO UN ERROR!");
+            System.out.println("POSIBLEMENTE EL VALOR INTRODUCIDO NO SEA CORRECTO.");
+            System.out.println("EL REGISTRO NO SE HA MODIFICADO");
+            error = true;
+        }
+
+        //ACTUALIZANDO EL ARCHIVO
+        try {
+            FileWriter writer = new FileWriter(file_classrooms);
+
+            for (String classroom : classroom_info) {
+                if (aula.equals(classroom.substring(0, classroom.indexOf(","))) && laClaseExiste && !error) {
+
+                    writer.write(id_aula
+                            + "," + descripcio_aula
+                            + "," + capacitat_aula
+                            + "," + pc_aula
+                            + "," + num_pc
+                            + "," + projector_aula
+                            + "," + insonoritzada_aula + "\n");
+                } else {
+                    writer.write(classroom + "\n");
+                }
+            }
+            if (laClaseExiste && !error) {
+                System.out.println("\nREGISTRO AZTUALIZADO CON ÉXITO\n");
+            }
+
+            writer.close();
+        } catch (Exception e) {
+            System.out.println("¡HA OCURRIDO UN ERROR!");
+        }
+
+    }
+
 }
