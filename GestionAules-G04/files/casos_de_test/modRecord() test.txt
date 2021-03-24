@@ -1,0 +1,62 @@
+CASOS DE TEST modRecord()
+
+CASO A): Insert del aula a modificar.
+CASO A 1):
+	Entrada: Aula no existente en el documento.
+	Salida: ERROR: La clase introducida no existe!
+CASO A 2):
+	Entrada: Aula existente en el documento.
+	Salida: Correcto.
+
+CASO B): Insert CODIGO del campo a modificar
+CASO B 1):
+	Entrada: Valor negativo.
+	Salida: ERROR: OPCIÓN INCORECTA.
+		<Presione Enter>
+CASO B 2): 
+	Entrada: Mayor a 7.
+	Salida: ERROR: OPCIÓN INCORECTA.
+		<Presione Enter>
+CASO B 3):
+	Entrada: Valor alfabetico
+	Salida: ¡HA OCURRIDO UN ERROR!
+		POSIBLEMENTE EL VALOR INTRODUCIDO NO SEA CORRECTO.
+		EL REGISTRO NO SE HA MODIFICADO
+	(ERROR GRAVE: Por insertar texto en variable int, la función acaba sin modificar nada)
+CASO B 4):
+	Entrada: 0-7
+	Salida: Correcto.
+
+CASO C): CODIGO 1. id_aula (CAMPO ÚNICO)
+CASO C 1):
+	Entrada: Aula que ya existe en el documento.
+	Salida: ERROR:EL AULA YA EXISTE.
+		<Presione Enter>
+CASO C 2):
+	Entrada: Aula no existe en el documento.
+	Salida: Correcto.
+
+CASO D): CODIGO 3. capacitat_aula (CAMPO NUMÉRICO)
+CASO D 1): 
+	Entrada: valor negativo.
+	Salida: ERROR:VALOR NEGATIVO INSERTADO.
+		<Presione Enter>
+CASO D 2)
+	Entrada: texto.
+	Salida:¡HA OCURRIDO UN ERROR!
+		POSIBLEMENTE EL VALOR INTRODUCIDO NO SEA CORRECTO.
+		EL REGISTRO NO SE HA MODIFICADO
+	(ERROR GRAVE: Por insertar texto en variable int, la función acaba sin modificar nada)
+CASO D 3):
+	Entrada: valor positivo
+	Salida: Correcto.
+
+CASO E): CODIGO 4. pc_aula (CAMPO BOOLEAN)
+CASO E 1):
+	Entrada: cualquier valor que no es "true" o "false".
+	Salida: ERROR: VALOR INCORRECTO, SOLO TRUE O FALSE.
+		<Presione Enter>
+CASO E 2):
+	Entrada:"true" | "false"
+	Salida: Correcto.
+	
