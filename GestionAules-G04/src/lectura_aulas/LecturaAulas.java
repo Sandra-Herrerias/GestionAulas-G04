@@ -13,9 +13,9 @@ public class LecturaAulas {
     public static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-        
+
         AddRecord();
-        leer_archivo();
+        //leer_archivo();
     }
 
     /**
@@ -76,11 +76,11 @@ public class LecturaAulas {
         try {
             // El true al final indica que escribiremos al final del fichero añadiendo texto
             FileWriter writer = new FileWriter(fichero, true);
-            
+
             String id_aula, descripcio_aula;
             int capacitat_aula, num_pc;
             boolean pc_aula, projector_aula, insonoritzada_aula;
-            
+
             System.out.println("Introduce el id de el Aula: ");
             id_aula = sc.nextLine();
             System.out.println("Introduce la descripcion de el Aula: ");
@@ -95,19 +95,19 @@ public class LecturaAulas {
             projector_aula = sc.nextBoolean();
             System.out.println("Introduce el Aula está insonorizada: ");
             insonoritzada_aula = sc.nextBoolean();
-            
-            writer.write(id_aula+","+descripcio_aula+","+capacitat_aula+","+
-                    pc_aula+","+num_pc+","+projector_aula+","+insonoritzada_aula + "\n");
+
+            writer.write(id_aula + "," + descripcio_aula + "," + capacitat_aula + ","
+                    + pc_aula + "," + num_pc + "," + projector_aula + "," + insonoritzada_aula + "\n");
             writer.flush();//limpia la memoria del writer
-            
+
             writer.close();
         } catch (Exception e) {
             System.out.println("Ha ocurrido un error al crear/escribir en el fichero");
         }
 
     }
-    
-    /** 
+
+    /**
      * Funcion que modifica los registros de una clase y actualiza el fichero
      */
     public static void ModRecord() {
@@ -118,7 +118,7 @@ public class LecturaAulas {
         String[] aulaUpdate = null;
         boolean laClaseExiste = false, claseRepetida = false;
         boolean error = false;
-        int opcion_menu = 0;
+        int opcion_menu = 0, valornum;
 
         //variables update
         String id_aula = null, descripcio_aula = null;
@@ -170,7 +170,7 @@ public class LecturaAulas {
 
                     //Si existe pedimos que campo se va a actualizar
                     do {
-                        System.out.println("Que campo vas a modificar?");
+                        System.out.println("\nAULA SELECCIONADA: " + aula);
                         System.out.println("CODIGO\tDESCRIPCION");
                         System.out.println("1\tid_aula\n"
                                 + "2\tdescripcio_aula\n"
@@ -182,15 +182,19 @@ public class LecturaAulas {
                                 + "0\tACEPTAR Y ACTUALIZAR\n");
                         System.out.print("Codigo: ");
                         opcion_menu = sc.nextInt();
-                        System.out.print("Inserte nuevo registro: ");
+
                         switch (opcion_menu) {
                             case 1:
+                                System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next();
                                 for (String classroom : classroom_info) {
                                     if (valor.equals(classroom.substring(0, classroom.indexOf(",")))) {
-                                        System.out.println("\nERROR:LA ID YA EXISTE!\n");
-                                        System.out.println("EL VALOR NO SE HA MODIFICADO");
+                                        System.out.println("\nERROR:EL AULA YA EXISTE.\n<Presione Enter>");
                                         claseRepetida = true;
+                                        try {
+                                            System.in.read();
+                                        } catch (Exception e) {
+                                        }
                                     }
                                 }
                                 if (!claseRepetida) {
@@ -199,37 +203,76 @@ public class LecturaAulas {
                                 claseRepetida = false;
                                 break;
                             case 2:
+                                System.out.print("Inserte nuevo registro: ");
                                 descripcio_aula = sc.next();
                                 break;
                             case 3:
-                                capacitat_aula = sc.nextInt();
+                                System.out.print("Inserte nuevo registro: ");
+                                valornum = sc.nextInt();
+                                if (valornum >= 0) {
+                                    capacitat_aula = sc.nextInt();
+                                } else {
+                                    System.out.println("\nERROR:VALOR NEGATIVO INSERTADO.\n<Presione Enter>");
+                                    try {
+                                        System.in.read();
+                                    } catch (Exception e) {
+                                    }
+                                }
+
                                 break;
+
                             case 4:
+                                System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next().toLowerCase();
                                 if (valor.equals("true") | valor.equals("false")) {
                                     pc_aula = Boolean.parseBoolean(valor);
                                 } else {
-                                    System.out.println("ERROR: Valor incorrecto.");
+                                    System.out.println("\nERROR: VALOR INCORRECTO, SOLO TRUE O FALSE.\n<Presione Enter>");
+                                    try {
+                                        System.in.read();
+                                    } catch (Exception e) {
+                                    }
                                 }
                                 break;
                             case 5:
-                                num_pc = sc.nextInt();
+                                System.out.print("Inserte nuevo registro: ");
+                                valornum = sc.nextInt();
+                                if (valornum >= 0) {
+                                    num_pc = sc.nextInt();
+                                } else {
+                                    System.out.println("\nERROR:VALOR NEGATIVO INSERTADO.\n<Presione Enter>");
+                                    try {
+                                        System.in.read();
+                                    } catch (Exception e) {
+                                    }
+                                }
+
                                 break;
                             case 6:
+                                System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next().toLowerCase();
                                 if (valor.equals("true") | valor.equals("false")) {
                                     projector_aula = Boolean.parseBoolean(valor);
                                 } else {
-                                    System.out.println("ERROR: Valor incorrecto.");
+                                    System.out.println("\nERROR: VALOR INCORRECTO, SOLO TRUE O FALSE.\n<Presione Enter>");
+                                    try {
+                                        System.in.read();
+                                    } catch (Exception e) {
+                                    }
                                 }
 
                                 break;
                             case 7:
+                                System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next().toLowerCase();
                                 if (valor.equals("true") | valor.equals("false")) {
                                     insonoritzada_aula = Boolean.parseBoolean(valor);
                                 } else {
-                                    System.out.println("ERROR: Valor incorrecto.");
+                                    System.out.println("\nERROR: VALOR INCORRECTO, SOLO TRUE O FALSE.\n<Presione Enter>");
+                                    try {
+                                        System.in.read();
+                                    } catch (Exception e) {
+                                    }
                                 }
 
                                 break;
@@ -237,18 +280,22 @@ public class LecturaAulas {
                                 System.out.println("\nActualizando...");
                                 break;
                             default:
-                                System.out.println("ERROR: Valor incorrecto");
+                                System.out.println("ERROR: OPCIÓN INCORECTA.<Presione Enter>");
+                                try {
+                                    System.in.read();
+                                } catch (Exception e) {
+                                }
                                 break;
                         }//END switch
                     } while (opcion_menu != 0);//END do
                 } //END else
             } while (!laClaseExiste);
-          
+
         } catch (Exception e) {
 
             System.out.println("¡HA OCURRIDO UN ERROR!");
             System.out.println("POSIBLEMENTE EL VALOR INTRODUCIDO NO SEA CORRECTO.");
-            System.out.println("EL VALOR NO SE HA MODIFICADO");
+            System.out.println("EL REGISTRO NO SE HA MODIFICADO");
             error = true;
         }
 
@@ -271,7 +318,7 @@ public class LecturaAulas {
                 }
             }
             if (laClaseExiste && !error) {
-                System.out.println("REGISTRO AZTUALIZADO CON ÉXITO");
+                System.out.println("\nREGISTRO AZTUALIZADO CON ÉXITO\n");
             }
 
             writer.close();
