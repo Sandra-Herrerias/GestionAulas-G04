@@ -68,11 +68,7 @@ public class LecturaAulas {
         }
     }
 
-    /**TODO
-     * mirar de repetir menys codi, ficant-lo en funcions
-     * mirar que hi hagin menys o igual numero de pc que de capacitat d'aula
-     * millorar control d'errors, encara no esta blindat 
-     * 
+    /**
      * Funcion que permite crear a la usuaria una nueva entrada en el fichero
      */
     public static void addRecord() {
@@ -83,23 +79,23 @@ public class LecturaAulas {
             // El true al final indica que escribiremos al final del fichero añadiendo texto
             FileWriter writer = new FileWriter(fichero, true);
 
-            String id_aula, descripcio_aula, String_capacitat_aula, String_num_pc, 
-                    String_pc_aula, String_projector_aula, String_insonoritzada_aula;
+            String id_aula, descripcio_aula, capacitatAulaStr, numPcStr, 
+                    pcAulaStr, projectorAulaStr, insonoritzadaAulaStr;
             int capacitat_aula = -1, num_pc = -1;
             boolean pc_aula = true, projector_aula=true, insonoritzada_aula=true, 
-                    es_numero = true, es_valido = true;
+                    esNumero = true, esValido = true;
 
             //Nueva entrada de id_aula
             do {
                 System.out.println("Introduce el id de el Aula: ");
                 id_aula = sc.nextLine();
                 //validaciones 
-                es_valido = validarStringNumLetras(id_aula);
+                esValido = validarIdDescripcio(id_aula);
 
-                if (es_valido == false) {
+                if (esValido == false) {
                     System.out.println("Se han introducido caracteres erróneos");
                 }
-            } while (es_valido == false);
+            } while (esValido == false);
             
             
             //Nueva entrada de descripcio_aula
@@ -107,88 +103,88 @@ public class LecturaAulas {
                 System.out.println("Introduce la descripcion de el Aula: ");
                 descripcio_aula = sc.nextLine();
                 //validaciones 
-                es_valido = validarStringNumLetras(descripcio_aula);
+                esValido = validarIdDescripcio(descripcio_aula);
 
-                if (es_valido == false) {
+                if (esValido == false) {
                     System.out.println("Se han introducido caracteres erróneos");
                 }
-            } while (es_valido == false);
+            } while (esValido == false);
 
             //Nueva entrada de capacitat_aula
             do {
                 System.out.println("Introduce la capacidad de el Aula: ");
-                String_capacitat_aula = sc.nextLine();
+                capacitatAulaStr = sc.nextLine();
                 //validaciones 
-                es_numero = validarStringNum(String_capacitat_aula);
-                capacitat_aula = convertirStringaInt(String_capacitat_aula);
-                if (es_numero == false) {
+                esNumero = validarStringNum(capacitatAulaStr);
+                capacitat_aula = convertirStringaInt(capacitatAulaStr);
+                if (esNumero == false) {
                     System.out.println("Se han introducido caracteres no numéricos");
                 }
-            } while (es_numero == false);
+            } while (esNumero == false);
 
             //Nueva entrada de pc_aula 
             do {
                 System.out.println("Introduce si el Aula tiene ordenadores o no: ");
-                String_pc_aula = sc.nextLine();
+                pcAulaStr = sc.nextLine();
 
-                es_valido = validarBoolean(String_pc_aula);
+                esValido = validarSiNo(pcAulaStr);
 
-                if (es_valido == false) {
+                if (esValido == false) {
                     System.out.println("Carácteres erróneos, sólo se aceptan (si|SI|no|NO|)");
                 }
-            } while (es_valido == false);
+            } while (esValido == false);
 
-            if ("si".equals(String_pc_aula) || "SI".equals(String_pc_aula)) {
+            if ("si".equals(pcAulaStr) || "SI".equals(pcAulaStr)) {
                 pc_aula = true;
-            } else if ("no".equals(String_pc_aula) || "NO".equals(String_pc_aula)) {
+            } else if ("no".equals(pcAulaStr) || "NO".equals(pcAulaStr)) {
                 pc_aula = false;
             }
 
             //Nueva entrada de num_pc
             do {
                 System.out.println("Introduce el numero de ordenadores que tiene el Aula: ");
-                String_num_pc = sc.nextLine();
+                numPcStr = sc.nextLine();
                 //validaciones 
-                es_numero = validarStringNum(String_num_pc);
-                num_pc = convertirStringaInt(String_num_pc);
-                if (es_numero == false) {
+                esNumero = validarStringNum(numPcStr);
+                num_pc = convertirStringaInt(numPcStr);
+                if (esNumero == false) {
                     System.out.println("Se han introducido caracteres no numéricos");
                 }
-            } while (es_numero == false);
+            } while (esNumero == false);
             
             //Nueva entrada de projector_aula           
             do {
                 System.out.println("Introduce si el Aula tiene proyector o no: ");
-                String_projector_aula = sc.nextLine();
+                projectorAulaStr = sc.nextLine();
 
-                es_valido = validarBoolean(String_projector_aula);
+                esValido = validarSiNo(projectorAulaStr);
 
-                if (es_valido == false) {
+                if (esValido == false) {
                     System.out.println("Carácteres erróneos, sólo se aceptan (si|SI|no|NO|)");
                 }
-            } while (es_valido == false);
+            } while (esValido == false);
 
-            if ("si".equals(String_projector_aula) || "SI".equals(String_projector_aula)) {
+            if ("si".equals(projectorAulaStr) || "SI".equals(projectorAulaStr)) {
                 projector_aula = true;
-            } else if ("no".equals(String_projector_aula) || "NO".equals(String_projector_aula)) {
+            } else if ("no".equals(projectorAulaStr) || "NO".equals(projectorAulaStr)) {
                 projector_aula = false;
             }
             
             //Nueva entrada de insonoritzada_aula
             do {
                 System.out.println("Introduce si el Aula está insonorizada o no: ");
-                String_insonoritzada_aula = sc.nextLine();
+                insonoritzadaAulaStr = sc.nextLine();
 
-                es_valido = validarBoolean(String_insonoritzada_aula);
+                esValido = validarSiNo(insonoritzadaAulaStr);
 
-                if (es_valido == false) {
+                if (esValido == false) {
                     System.out.println("Carácteres erróneos, sólo se aceptan (si|SI|no|NO|)");
                 }
-            } while (es_valido == false);
+            } while (esValido == false);
 
-            if ("si".equals(String_insonoritzada_aula) || "SI".equals(String_insonoritzada_aula)) {
+            if ("si".equals(insonoritzadaAulaStr) || "SI".equals(insonoritzadaAulaStr)) {
                 insonoritzada_aula = true;
-            } else if ("no".equals(String_insonoritzada_aula) || "NO".equals(String_insonoritzada_aula)) {
+            } else if ("no".equals(insonoritzadaAulaStr) || "NO".equals(insonoritzadaAulaStr)) {
                 insonoritzada_aula = false;
             }
             
@@ -207,15 +203,16 @@ public class LecturaAulas {
     //--------------------------------
     // VALIDACIONES FUNCION (addRecord)
     //--------------------------------
-    /**TODO em dóna error al ficar dos dígits
-     * Valida si el String es un numero o no
+    /**
+     * Valida si el String es un numero (puede ser de 1 o mas digitos)o no
      *
      * @param cadena
      * @return true si es un numero / false si no lo es
      */
     public static boolean validarStringNum(String cadena) {
-        //validamos que sea un numero comparando con un patron
-        if (cadena.matches("[0-9]*")) {
+        //validamos que sea un numero comparando con un patron 
+        //hecho con expresiones regulares
+        if (cadena.matches("[0-9]+")) {
             return true;
         } else {
             return false;
@@ -230,26 +227,20 @@ public class LecturaAulas {
      * @return numero convertido a tipo Int
      */
     public static int convertirStringaInt(String numero) {
-        // Se reemplazan todos los caracteres que no correspondan a un numero
-        // por espacio
-        numero = numero.replaceAll("[^0-9]", "");
-
-        // Si la cadena queda vacia
-        if (numero.equals("")) {
-            numero = "0";
-        }
         return Integer.parseInt(numero);
     }
 
-    /**TODO no m'agafa dos digits
-     * Valida si el String tiene los caracteres validos para este campo
+    /**
+     * Valida si empieza por lo menos por una letra mayúscula o minúscula y que 
+     * acabe con dos dígitos
      *
      * @param cadena
      * @return true si es valido / false si no lo es
      */
-    public static boolean validarStringNumLetras(String cadena) {
-        //validamos que los caracteres sean validos comparando con un patron
-        if (cadena.matches("[a-zA-Z0-9]")) {
+    public static boolean validarIdDescripcio(String cadena) {
+        //validamos que los caracteres sean validos comparando con un patron 
+        //hecho con expresiones regulares
+        if (cadena.matches("^[a-zA-Z]+[0-9][0-9]$")) {
             return true;
         } else {
             return false;
@@ -262,8 +253,8 @@ public class LecturaAulas {
      * @param cadena
      * @return true si es valido / false si no lo es
      */
-    public static boolean validarBoolean(String cadena) {
-        //validamos que los caracteres sean validos 
+    public static boolean validarSiNo(String cadena) {
+        //validamos que los caracteres introducidos sean validos 
         if (cadena.matches("(si|no|SI|NO)")) {
             return true;
         } else {
