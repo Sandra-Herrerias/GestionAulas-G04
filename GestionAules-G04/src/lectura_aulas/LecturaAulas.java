@@ -10,10 +10,12 @@ import java.util.Scanner;
  */
 public class LecturaAulas {
 
+    //Declaramos un objeto Scanner para leer los datos
     public static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
 
+        addRecord();
         modRecord();
         //leer_archivo();
     }
@@ -69,7 +71,7 @@ public class LecturaAulas {
     /**
      * Funcion que permite crear a la usuaria una nueva entrada en el fichero
      */
-    public static void AddRecord() {
+    public static void addRecord() {
 
         File fichero = new File("files/classrooms.csv");
 
@@ -77,22 +79,48 @@ public class LecturaAulas {
             // El true al final indica que escribiremos al final del fichero añadiendo texto
             FileWriter writer = new FileWriter(fichero, true);
 
-            String id_aula, descripcio_aula;
-            int capacitat_aula, num_pc;
-            boolean pc_aula, projector_aula, insonoritzada_aula;
-
+            String id_aula, descripcio_aula, String_capacitat_aula;
+            int capacitat_aula = -1, num_pc;
+            boolean pc_aula, projector_aula, insonoritzada_aula, es_numero = true, es_valido = true;
+            
+            //Nueva entrada de id_aula
             System.out.println("Introduce el id de el Aula: ");
             id_aula = sc.nextLine();
-            System.out.println("Introduce la descripcion de el Aula: ");
-            descripcio_aula = sc.nextLine();
-            System.out.println("Introduce la capacidad de el Aula: ");
-            capacitat_aula = sc.nextInt();
+            
+            //Nueva entrada de descripcio_aula
+            do {
+                System.out.println("Introduce la descripcion de el Aula: ");
+                descripcio_aula = sc.nextLine();
+                //validaciones 
+                es_valido = validarStringNumLetras(descripcio_aula);
+
+                if (es_valido == false) {
+                    System.out.println("Se han introducido caracteres erróneos");
+                }
+            } while (es_valido == false);
+
+            //Nueva entrada de capacitat_aula
+            do {
+                System.out.println("Introduce la capacidad de el Aula: ");
+                String_capacitat_aula = sc.nextLine();
+                //validaciones 
+                es_numero = validarStringNum(String_capacitat_aula);
+                capacitat_aula = convertirStringaInt(String_capacitat_aula);
+                if (es_numero == false) {
+                    System.out.println("Se han introducido caracteres no numéricos");
+                }
+            } while (es_numero == false);
+
+            //Nueva entrada de pc_aula
             System.out.println("Introduce si el Aula tiene ordenadores: ");
             pc_aula = sc.nextBoolean();
+            //Nueva entrada de num_pc
             System.out.println("Introduce el numero de ordenadores que tiene el Aula: ");
             num_pc = sc.nextInt();
+            //Nueva entrada de projector_aula
             System.out.println("Introduce si el Aula tiene proyector: ");
             projector_aula = sc.nextBoolean();
+            //Nueva entrada de insonoritzada_aula
             System.out.println("Introduce el Aula está insonorizada: ");
             insonoritzada_aula = sc.nextBoolean();
 
@@ -105,6 +133,59 @@ public class LecturaAulas {
             System.out.println("Ha ocurrido un error al crear/escribir en el fichero");
         }
 
+    }
+
+    //--------------------------------
+    // VALIDACIONES FUNCION (addRecord)
+    //--------------------------------
+    /**
+     * Valida si el String es un numero o no
+     *
+     * @param cadena
+     * @return true si es un numero / false si no lo es
+     */
+    public static boolean validarStringNum(String cadena) {
+        //validamos que sea un numero comparando con un patron
+        if (cadena.matches("[0-9]*")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Convierte un String a Int para poder seguir tratando con el tipo de datos
+     * que queremos, una vez hemos hecho la validacion
+     *
+     * @param numero
+     * @return numero convertido a tipo Int
+     */
+    public static int convertirStringaInt(String numero) {
+        // Se reemplazan todos los caracteres que no correspondan a un numero
+        // por espacio
+        numero = numero.replaceAll("[^0-9]", "");
+
+        // Si la cadena queda vacia
+        if (numero.equals("")) {
+            numero = "0";
+        }
+        return Integer.parseInt(numero);
+    }
+
+    /**
+     * TODO no valida correctament
+     * Valida si el String tiene los caracteres validos para este campo
+     *
+     * @param cadena
+     * @return true si es valido / false si no lo es
+     */
+    public static boolean validarStringNumLetras(String cadena) {
+        //validamos que los caracteres sean validos comparando con un patron
+        if (cadena.matches("[^a-zA-Z0-9]")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
