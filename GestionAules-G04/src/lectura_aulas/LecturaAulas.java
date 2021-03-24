@@ -110,7 +110,7 @@ public class LecturaAulas {
     /**
      * Funcion que modifica los registros de una clase y actualiza el fichero
      */
-    public static void ModRecord() {
+    public static void modRecord() {
         File file_classrooms = new File("files/classrooms.csv");
 
         ArrayList<String> classroom_info = new ArrayList<>();
