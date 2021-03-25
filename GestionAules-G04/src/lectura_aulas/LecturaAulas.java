@@ -18,9 +18,9 @@ public class LecturaAulas {
     public static void main(String[] args) {
 
        // addRecord();
-        //modRecord();
+        modRecord();
        // leer_archivo();
-        eliminar();
+        //eliminar();
     }
 
     /**
@@ -333,10 +333,10 @@ public class LecturaAulas {
                         System.out.println("1\tid_aula\n"
                                 + "2\tdescripcio_aula\n"
                                 + "3\tcapacitat_aula\n"
-                                + "4\tpc_aula(true|false)\n"
+                                + "4\tpc_aula(si|no)\n"
                                 + "5\tnum_pc\n"
-                                + "6\tprojector_aula(true|false)\n"
-                                + "7\tinsonoritzada_aula(true|false)\n"
+                                + "6\tprojector_aula(si|no)\n"
+                                + "7\tinsonoritzada_aula(si|no)\n"
                                 + "0\tACEPTAR Y ACTUALIZAR\n");
                         System.out.print("Codigo: ");
                         opcion_menu = sc.nextInt();
@@ -362,7 +362,16 @@ public class LecturaAulas {
                                 break;
                             case 2:
                                 System.out.print("Inserte nuevo registro: ");
-                                descripcio_aula = sc.next();
+                                valor = sc.next();
+                                if (validarIdDescripcio(valor)){
+                                    descripcio_aula = valor;
+                                } else {
+                                    System.out.println("ERROR: SOLO FORMATO 'Ddddd99' ACEPTADO\n<Presione Enter>");
+                                    try {
+                                        System.in.read();
+                                    } catch (Exception e) {
+                                    }
+                                }
                                 break;
                             case 3:
                                 System.out.print("Inserte nuevo registro: ");
@@ -382,8 +391,12 @@ public class LecturaAulas {
                             case 4:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next().toLowerCase();
-                                if (valor.equals("true") | valor.equals("false")) {
-                                    pc_aula = Boolean.parseBoolean(valor);
+                                if (valor.equals("si") | valor.equals("no")) {
+                                    if(valor.equals("si")){
+                                        pc_aula = true;
+                                    } else if(valor.equals("no")){
+                                        pc_aula = false;
+                                    }
                                 } else {
                                     System.out.println("\nERROR: VALOR INCORRECTO, SOLO TRUE O FALSE.\n<Presione Enter>");
                                     try {
@@ -409,10 +422,15 @@ public class LecturaAulas {
                             case 6:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next().toLowerCase();
-                                if (valor.equals("true") | valor.equals("false")) {
-                                    projector_aula = Boolean.parseBoolean(valor);
+                                if (valor.equals("si") | valor.equals("no")) {
+                                    if(valor.equals("si")){
+                                        projector_aula = true;
+                                    } else if(valor.equals("no")){
+                                        projector_aula = false;
+                                    }
+                                    
                                 } else {
-                                    System.out.println("\nERROR: VALOR INCORRECTO, SOLO TRUE O FALSE.\n<Presione Enter>");
+                                    System.out.println("\nERROR: VALOR INCORRECTO, SOLO SI O NO.\n<Presione Enter>");
                                     try {
                                         System.in.read();
                                     } catch (Exception e) {
@@ -423,10 +441,14 @@ public class LecturaAulas {
                             case 7:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next().toLowerCase();
-                                if (valor.equals("true") | valor.equals("false")) {
-                                    insonoritzada_aula = Boolean.parseBoolean(valor);
+                                if (valor.equals("si") | valor.equals("no")) {
+                                    if(valor.equals("si")){
+                                        insonoritzada_aula = true;
+                                    } else if(valor.equals("no")){
+                                        insonoritzada_aula = false;
+                                    }
                                 } else {
-                                    System.out.println("\nERROR: VALOR INCORRECTO, SOLO TRUE O FALSE.\n<Presione Enter>");
+                                    System.out.println("\nERROR: VALOR INCORRECTO, SOLO SI O NO.\n<Presione Enter>");
                                     try {
                                         System.in.read();
                                     } catch (Exception e) {
