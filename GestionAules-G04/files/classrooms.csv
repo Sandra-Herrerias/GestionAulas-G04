@@ -1,5 +1,4 @@
 id_aula ,descripcio_aula,capacitat_aula,pc_aula,num_pc,projector_aula,insonoritzada_aula  
-or01,Ordinadors01,20,true,15,false,false 
 au01,Aula01,29,false,0,true,true 
 lab01,Laboratori01,14,false,0,true,true 
 or02,Ordinadors02,20,true,15,true,false 
