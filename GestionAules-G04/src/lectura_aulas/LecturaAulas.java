@@ -537,36 +537,52 @@ public class LecturaAulas {
     }
 
     public static void eliminar() {
-        File fichero = new File("files/classrooms.txt");
-
+      File file_classrooms = new File("C:/prueba/prueba.csv");
+        
         // Array para guardar todas las líneas leídas del fichero
-        ArrayList<String> lineas = new ArrayList<>();
+        ArrayList<String> classroom_info = new ArrayList<>();
+        String aula;
+        boolean laClaseExiste = false;
 
+        
         // Abrimos el fichero de texto para leerlo en memoria
         try {
-            try ( Scanner lectorFichero = new Scanner(fichero)) {
-                while (lectorFichero.hasNext()) {
-                    lineas.add(lectorFichero.nextLine());
-                }
+            
+            Scanner leerFichero = new Scanner(file_classrooms);
+                      
+            while (leerFichero.hasNext()) {
+                classroom_info.add(leerFichero.nextLine());
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("Ha ocurrido un error al abrir/leer el fichero");
-        }
-
-        // Abrimos el fichero de texto para sobreescribirlo
-        // Eliminaremos la línea 3
-        try {
-            FileWriter writer = new FileWriter(fichero);
-
-            for (String linea : lineas) {
-                if (!"lab07,Laboratori07,14,false,0,false,true".equals(linea)) {
-                    writer.write(linea + "\n");
-                }
-            }
-
-            writer.close();
+            
+           leerFichero.close();
         } catch (Exception e) {
-            System.out.println("Ha ocurrido un error al abrir/sobreescribir el fichero");
+            System.out.println("Ha ocurrido un error al abrir o leer el fichero");
         }
-    }
-}
+        
+        //Array para eliminar la linea.
+        try {
+            Scanner sc = new Scanner(System.in);
+            FileWriter writer = new FileWriter(file_classrooms);
+            do {
+                //Introducimos el aula a modificar.
+                System.out.print("Introduce el aula a eliminar: ");
+                aula = sc.next();
+
+                //Vemos si la clase existe o no existe
+                for (String classroom : classroom_info) {
+                    //Si existe guardamos los datos del aula en sus variables.
+                    if (aula.equals(classroom.substring(0, classroom.indexOf(",")))) {
+                        laClaseExiste = true;
+                       writer.write(aula+ "\n");
+                        
+                    }else{
+                        System.out.println("La linea que quieres eliminar no existe.");
+                    }
+                
+                writer.close();
+                }      
+            }while(!laClaseExiste);
+            }catch (Exception e) {
+            System.out.println("Ha ocurrido un error al sobreescribir el fichero");
+        }}}
+    
