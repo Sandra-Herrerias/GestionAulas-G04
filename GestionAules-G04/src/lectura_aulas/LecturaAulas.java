@@ -18,9 +18,9 @@ public class LecturaAulas {
     public static void main(String[] args) {
 
         // addRecord();
-        modRecord();
+        //modRecord();
         // leer_archivo();
-        //eliminar();
+        eliminar();
     }
 
     /**
@@ -537,7 +537,7 @@ public class LecturaAulas {
     }
 
     public static void eliminar() {
-      File file_classrooms = new File("files/classrooms.csv"");
+      File file_classrooms = new File("files/classrooms.csv");
         
       // Array para guardar todas las líneas leídas del fichero
         ArrayList<String> classroom_info = new ArrayList<>();
@@ -564,7 +564,7 @@ public class LecturaAulas {
         try {
             Scanner sc = new Scanner(System.in);
             
-            do {
+            
                 //Introducimos el aula a modificar.
                 System.out.print("Introduce el aula a eliminar: ");
                 aula = sc.next();
@@ -585,7 +585,7 @@ public class LecturaAulas {
                 
            
                 }      
-            }while(!laClaseExiste);
+            
             }catch (Exception e) {
             System.out.println("Ha ocurrido un error al sobreescribir el fichero");
         }
