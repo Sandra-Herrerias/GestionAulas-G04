@@ -539,10 +539,11 @@ public class LecturaAulas {
     public static void eliminar() {
       File file_classrooms = new File("files/classrooms.csv"");
         
-        // Array para guardar todas las líneas leídas del fichero
+      // Array para guardar todas las líneas leídas del fichero
         ArrayList<String> classroom_info = new ArrayList<>();
         String aula;
         boolean laClaseExiste = false;
+        String lineaBorrar = null;
 
         
         // Abrimos el fichero de texto para leerlo en memoria
@@ -573,6 +574,9 @@ public class LecturaAulas {
                     //Si existe guardamos los datos del aula en sus variables.
                     if (aula.equals(classroom.substring(0, classroom.indexOf(",")))) {
                         laClaseExiste = true;
+                        lineaBorrar = classroom;
+                        
+                        System.out.println("Linea a borrar");
                        
                         
                     }else{
@@ -585,11 +589,21 @@ public class LecturaAulas {
             }catch (Exception e) {
             System.out.println("Ha ocurrido un error al sobreescribir el fichero");
         }
-          try {
-          
-              
+        try {
+            FileWriter writer = new FileWriter(file_classrooms);
+            if(laClaseExiste){
+                for (String classroom : classroom_info) {
+                if(!lineaBorrar.equals (classroom)) {
+                     writer.write(classroom + "\n");
+            
+            }
+            
+                }
+              writer.close();
+            } 
         }catch (Exception e) {
             System.out.println("Ha ocurrido un error al sobreescribir el fichero");
         }
-    }}
-    
+        
+        }
+}
