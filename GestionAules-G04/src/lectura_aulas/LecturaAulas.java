@@ -562,7 +562,7 @@ public class LecturaAulas {
         //Array para eliminar la linea.
         try {
             Scanner sc = new Scanner(System.in);
-            FileWriter writer = new FileWriter(file_classrooms);
+            
             do {
                 //Introducimos el aula a modificar.
                 System.out.print("Introduce el aula a eliminar: ");
@@ -573,16 +573,23 @@ public class LecturaAulas {
                     //Si existe guardamos los datos del aula en sus variables.
                     if (aula.equals(classroom.substring(0, classroom.indexOf(",")))) {
                         laClaseExiste = true;
-                       writer.write(aula+ "\n");
+                       
                         
                     }else{
                         System.out.println("La linea que quieres eliminar no existe.");
                     }
                 
-                writer.close();
+           
                 }      
             }while(!laClaseExiste);
             }catch (Exception e) {
             System.out.println("Ha ocurrido un error al sobreescribir el fichero");
-        }}}
+        }
+          try {
+          
+              
+        }catch (Exception e) {
+            System.out.println("Ha ocurrido un error al sobreescribir el fichero");
+        }
+    }}
     
