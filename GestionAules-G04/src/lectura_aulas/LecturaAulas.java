@@ -537,7 +537,7 @@ public class LecturaAulas {
     }
 
     public static void eliminar() {
-      File file_classrooms = new File("C:/prueba/prueba.csv");
+      File file_classrooms = new File("files/classrooms.csv"");
         
         // Array para guardar todas las líneas leídas del fichero
         ArrayList<String> classroom_info = new ArrayList<>();
