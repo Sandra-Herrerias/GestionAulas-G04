@@ -1,9 +1,7 @@
 package lectura_aulas;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -268,13 +266,13 @@ public class LecturaAulas {
      * Funcion que modifica los registros de una clase y actualiza el fichero
      */
     public static void modRecord() {
-        
+
         //LECTURA DE ARCHIVO
         File file_classrooms = new File("files/classrooms.csv");
 
         //ASIGNACION DE VARIABLES
         ArrayList<String> classroom_info = new ArrayList<>();
-        String aula = null, lineaAula, valor;
+        String aula = null, lineaAula = null, valor;
         String[] aulaUpdate = null;
         boolean laClaseExiste = false, claseRepetida = false;
         boolean error = false;
@@ -286,26 +284,13 @@ public class LecturaAulas {
         boolean pc_aula = false, projector_aula = false, insonoritzada_aula = false;
 
         //VOLCANDO DEL FICHERO A LA MEMORIA
+        classroom_info = FileToArrayList(file_classrooms,classroom_info);
         
-        try {
-            Scanner leerFichero = new Scanner(file_classrooms);
-
-            while (leerFichero.hasNext()) {
-                classroom_info.add(leerFichero.nextLine());
-            }
-
-            leerFichero.close();
-        } catch (Exception e) {
-            System.out.println("¡HA OCURRIDO UN ERROR!");
-        }
-
         //BLOQUE DE EDICIÓN
-        
         try {
             Scanner sc = new Scanner(System.in);
-            
+
             //MODIFICACIÓN DEL AULA SELECCIONADA
-            
             do {
                 //Introducimos el aula a modificar.
                 System.out.print("Introduce el aula a modificar: ");
@@ -327,10 +312,9 @@ public class LecturaAulas {
                         insonoritzada_aula = Boolean.parseBoolean(aulaUpdate[6]);
                     }
                 }
-                
+
                 //Si no ha encontrado ninguna coincidencia en el loop anterior
                 //la clase no existe por lo tanto no se podrá editar nada.
-                
                 if (!laClaseExiste) {
                     System.out.println("ERROR: La clase introducida no existe!");
                 } else {
@@ -349,134 +333,57 @@ public class LecturaAulas {
                                 + "0\tACEPTAR Y ACTUALIZAR\n");
                         System.out.print("Codigo: ");
                         valor = sc.next();
-                        if (validarStringNum(valor)){
+                        if (validarStringNum(valor)) {
                             opcion_menu = convertirStringaInt(valor);
                         } else {
                             opcion_menu = 99;
                         }
-                        
+
                         //MENU
                         switch (opcion_menu) {
                             //MODIFICAR id_aula
                             case 1:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next();
-                                for (String classroom : classroom_info) {
-                                    if (valor.equals(classroom.substring(0, classroom.indexOf(",")))) {
-                                        System.out.println("\nERROR:EL AULA YA EXISTE.\n<Presione Enter>");
-                                        claseRepetida = true;
-                                        try {
-                                            System.in.read();
-                                        } catch (Exception e) {
-                                        }
-                                    }
-                                }
-                                if (!claseRepetida) {
-                                    id_aula = valor;
-                                }
-                                claseRepetida = false;
+                                id_aula = writeUniqueID(claseRepetida, valor, id_aula, classroom_info);
                                 break;
                             //MODIFICAR descripcio_aula
                             case 2:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next();
-                                if (validarIdDescripcio(valor)) {
-                                    descripcio_aula = valor;
-                                } else {
-                                    System.out.println("ERROR: SOLO FORMATO 'Ddddd99' ACEPTADO\n<Presione Enter>");
-                                    try {
-                                        System.in.read();
-                                    } catch (Exception e) {
-                                    }
-                                }
+                                descripcio_aula = WriteCorrectDesc(valor, descripcio_aula);
                                 break;
                             //MODIFICAR capacitat_aula
                             case 3:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next();
-                                if (validarStringNum(valor)) {
-                                    capacitat_aula = convertirStringaInt(valor);
-                                } else {
-                                    System.out.println("\nERROR:VALOR INCORRECTO INSERTADO.\n<Presione Enter>");
-                                    try {
-                                        System.in.read();
-                                    } catch (Exception e) {
-                                    }
-                                }
-
+                                capacitat_aula = WriteCorrectNum(valor, capacitat_aula);
                                 break;
 
                             //MODIFICAR pc_aula
                             case 4:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next().toLowerCase();
-                                if (valor.equals("si") | valor.equals("no")) {
-                                    if (valor.equals("si")) {
-                                        pc_aula = true;
-                                    } else if (valor.equals("no")) {
-                                        pc_aula = false;
-                                    }
-                                } else {
-                                    System.out.println("\nERROR: VALOR INCORRECTO, SOLO SI O NO.\n<Presione Enter>");
-                                    try {
-                                        System.in.read();
-                                    } catch (Exception e) {
-                                    }
-                                }
+                                pc_aula = WriteCorrectBoolean(valor,pc_aula);
+                                
                                 break;
                             //MODIFICAR num_pc
                             case 5:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next();
-                                if (validarStringNum(valor)) {
-                                    num_pc = convertirStringaInt(valor);
-                                } else {
-                                    System.out.println("\nERROR:VALOR INCORRECTO INSERTADO.\n<Presione Enter>");
-                                    try {
-                                        System.in.read();
-                                    } catch (Exception e) {
-                                    }
-                                }
-
+                                num_pc = WriteCorrectNum(valor, num_pc);
                                 break;
                             //MODIFICAR projector_aula
                             case 6:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next().toLowerCase();
-                                if (valor.equals("si") | valor.equals("no")) {
-                                    if (valor.equals("si")) {
-                                        projector_aula = true;
-                                    } else if (valor.equals("no")) {
-                                        projector_aula = false;
-                                    }
-
-                                } else {
-                                    System.out.println("\nERROR: VALOR INCORRECTO, SOLO SI O NO.\n<Presione Enter>");
-                                    try {
-                                        System.in.read();
-                                    } catch (Exception e) {
-                                    }
-                                }
-
+                                projector_aula = WriteCorrectBoolean(valor,projector_aula);
                                 break;
                             //MODIFICAR insonoritzada_aula
                             case 7:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next().toLowerCase();
-                                if (valor.equals("si") | valor.equals("no")) {
-                                    if (valor.equals("si")) {
-                                        insonoritzada_aula = true;
-                                    } else if (valor.equals("no")) {
-                                        insonoritzada_aula = false;
-                                    }
-                                } else {
-                                    System.out.println("\nERROR: VALOR INCORRECTO, SOLO SI O NO.\n<Presione Enter>");
-                                    try {
-                                        System.in.read();
-                                    } catch (Exception e) {
-                                    }
-                                }
-
+                                insonoritzada_aula = WriteCorrectBoolean(valor,insonoritzada_aula);
                                 break;
                             //APLICAR MODIFICACIONES
                             case 0:
@@ -504,36 +411,8 @@ public class LecturaAulas {
         }
 
         //ACTUALIZANDO EL ARCHIVO
-        try {
-            FileWriter writer = new FileWriter(file_classrooms);
-
-            //Recorremos la ArrayList
-            for (String classroom : classroom_info) {
-                //Si id_aula coincide con el aula modificada actualiza los campos
-                if (aula.equals(classroom.substring(0, classroom.indexOf(","))) && laClaseExiste && !error) {
-
-                    writer.write(id_aula
-                            + "," + descripcio_aula
-                            + "," + capacitat_aula
-                            + "," + pc_aula
-                            + "," + num_pc
-                            + "," + projector_aula
-                            + "," + insonoritzada_aula + "\n");
-                //Si no coincide utiliza los datos de la ArrayList
-                } else {
-                    writer.write(classroom + "\n");
-                }
-            }
-            //Si el programa finaliza sin problemas.
-            if (laClaseExiste && !error) {
-                System.out.println("\nREGISTRO AZTUALIZADO CON ÉXITO\n");
-            }
-
-            writer.close();
-        } catch (Exception e) {
-            System.out.println("¡HA OCURRIDO UN ERROR!");
-        }
-
+        WriteFile(file_classrooms,classroom_info,aula,laClaseExiste,error,id_aula,descripcio_aula,capacitat_aula,pc_aula,num_pc,projector_aula,insonoritzada_aula);
+      
     }
 
     public static void eliminar() {
@@ -606,4 +485,180 @@ public class LecturaAulas {
         }
         
         }
+    
+    
+    //FUNCIONES PARA ID_AULA
+    /** checkUniqueID()
+     * Revisa que la id introducida no existe en la ArrayList.
+     * @param valor String id_aula
+     * @param classroom_info ArrayList
+     * @return boolean claseRepetida
+     */
+    public static boolean checkUniqueID(String valor, ArrayList<String> classroom_info) {
+        boolean claseRepetida = false;
+        for (String classroom : classroom_info) {
+            if (valor.equals(classroom.substring(0, classroom.indexOf(",")))) {
+                System.out.println("\nERROR:EL AULA YA EXISTE.\n<Presione Enter>");
+                claseRepetida = true;
+                try {
+                    System.in.read();
+                } catch (Exception e) {
+                }
+            }
+        }
+        return claseRepetida;
+    }
+
+    /** writeUniqueID()
+     * Escribe una id correcta y única en una variable.
+     * @param claseRepetida boolean checkUniqueID()
+     * @param valor String id_aula (temporal)
+     * @param id_aula String id_aula (actual)/String valor[Si es nuevo registro]
+     * @param classroom_info ArrayList
+     * @return String id_aula (actualizada)/(nueva)
+     */
+    public static String writeUniqueID(boolean claseRepetida, String valor, String id_aula, ArrayList<String> classroom_info) {
+
+        claseRepetida = checkUniqueID(valor, classroom_info);
+        if (!claseRepetida) {
+            id_aula = valor;
+        }
+        claseRepetida = false;
+
+        return id_aula;
+    }
+
+    //FUNCIONES PARA DESCRIPCIO_AULA
+    /** WriteCorrectDesc()
+     * Escribe una descripción correcta
+     * @param valor String descripcio_aula(temporal)
+     * @param descripcio_aula String descripcio_aula(actual)/descripcio_aula(temporal)[Si es nuevo registro]
+     * @return String descripcio_aula(actualizada)/(nueva)
+     */
+    public static String WriteCorrectDesc(String valor, String descripcio_aula) {
+        if (validarIdDescripcio(valor)) {
+            descripcio_aula = valor;
+        } else {
+            System.out.println("ERROR: SOLO FORMATO 'Ddddd99' ACEPTADO\n<Presione Enter>");
+            try {
+                System.in.read();
+            } catch (Exception e) {
+            }
+        }
+        return descripcio_aula;
+    }
+
+    //FUNCIONES PARA NUMEROS
+    /** WriteCorrectNum()
+     * Escribe un valor numérico correcto.
+     * @param valor int valor_numerico(temporal)
+     * @param to_return int valor_numerico(actual)/int valor [Si es nuevo registro]
+     * @return int valor_numerico(actualizado)/(nuevo)
+     */
+    public static int WriteCorrectNum(String valor, int to_return) {
+        if (validarStringNum(valor)) {
+            to_return = convertirStringaInt(valor);
+        } else {
+            System.out.println("\nERROR:VALOR INCORRECTO INSERTADO.\n<Presione Enter>");
+            try {
+                System.in.read();
+            } catch (Exception e) {
+            }
+        }
+        return to_return;
+    }
+
+    //FUNCIONES PARA BOOLEANOS
+    /** WriteCorrectBoolean()
+     * Escribe un boolean correcto
+     * @param valor boolean valor(temporal)"si"/"no"
+     * @param to_return boolean valor(actual)/valor (temporal)[Si es nuevo registro]
+     * @return valor "true"/"false"
+     */
+    public static boolean WriteCorrectBoolean(String valor,boolean to_return) {
+        if (valor.equals("si") | valor.equals("no")) {
+            if (valor.equals("si")) {
+                to_return = true;
+            } else if (valor.equals("no")) {
+                to_return = false;
+            }
+        } else {
+            System.out.println("\nERROR: VALOR INCORRECTO, SOLO SI O NO.\n<Presione Enter>");
+            try {
+                System.in.read();
+            } catch (Exception e) {
+            }
+        }
+        return to_return;
+    }
+    
+    //FUNCION ESCRIBIR ARCHIVO
+    /** FileToArrayList()
+     * Añade las lineas de un fichero a una ArrayList
+     * @param file_classrooms Variable del archivo cargado
+     * @param classroom_info Variable de la ArrayList
+     * @return ArrayList con las lineas del fichero
+     */
+    public static ArrayList<String> FileToArrayList(File file_classrooms,ArrayList<String> classroom_info){
+        try {
+            Scanner leerFichero = new Scanner(file_classrooms);
+
+            while (leerFichero.hasNext()) {
+                classroom_info.add(leerFichero.nextLine());
+            }
+
+            leerFichero.close();
+        } catch (Exception e) {
+            System.out.println("¡HA OCURRIDO UN ERROR!");
+        }
+        return classroom_info;
+    }
+    
+    /** WriteFile()
+     * Escribe los registros alterados en memoria al archivo.
+     * NOTA: ESTA FUNCION ELIMINA EL ARCHIVO ANTES DE ESCRIBIR
+     * @param file_classrooms
+     * @param classroom_info
+     * @param aula
+     * @param laClaseExiste
+     * @param error
+     * @param id_aula
+     * @param descripcio_aula
+     * @param capacitat_aula
+     * @param pc_aula
+     * @param num_pc
+     * @param projector_aula
+     * @param insonoritzada_aula 
+     */
+    public static void WriteFile(File file_classrooms, ArrayList<String> classroom_info, String aula, boolean laClaseExiste, boolean error, String id_aula, String descripcio_aula, int capacitat_aula, boolean pc_aula, int num_pc, boolean projector_aula, boolean insonoritzada_aula){
+        try {
+            FileWriter writer = new FileWriter(file_classrooms);
+
+            //Recorremos la ArrayList
+            for (String classroom : classroom_info) {
+                //Si id_aula coincide con el aula modificada actualiza los campos
+                if (aula.equals(classroom.substring(0, classroom.indexOf(","))) && laClaseExiste && !error) {
+
+                    writer.write(id_aula
+                            + "," + descripcio_aula
+                            + "," + capacitat_aula
+                            + "," + pc_aula
+                            + "," + num_pc
+                            + "," + projector_aula
+                            + "," + insonoritzada_aula + "\n");
+                    //Si no coincide utiliza los datos de la ArrayList
+                } else {
+                    writer.write(classroom + "\n");
+                }
+            }
+            //Si el programa finaliza sin problemas.
+            if (laClaseExiste && !error) {
+                System.out.println("\nREGISTRO AZTUALIZADO CON ÉXITO\n");
+            }
+
+            writer.close();
+        } catch (Exception e) {
+            System.out.println("¡HA OCURRIDO UN ERROR!");
+        }
+    }
 }
