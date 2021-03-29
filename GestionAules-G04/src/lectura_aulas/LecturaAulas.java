@@ -15,12 +15,12 @@ public class LecturaAulas {
     //Declaramos un objeto Scanner para leer los datos
     public static Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
 
-        // addRecord();
+        addRecord();
         //modRecord();
         // leer_archivo();
-        eliminar();
+        //eliminar();
     }
 
     /**
@@ -73,129 +73,64 @@ public class LecturaAulas {
 
     /**
      * Funcion que permite crear a la usuaria una nueva entrada en el fichero
+     * @throws java.io.FileNotFoundException
      */
-    public static void addRecord() {
+    public static void addRecord() throws FileNotFoundException {
 
-        File fichero = new File("files/classrooms.csv");
+        File file_classrooms = new File("files/classrooms.csv");
+        Scanner leerFichero = new Scanner(file_classrooms);
 
         try {
-            // El true al final indica que escribiremos al final del fichero añadiendo texto
-            FileWriter writer = new FileWriter(fichero, true);
-
             String id_aula, descripcio_aula, capacitatAulaStr, numPcStr,
                     pcAulaStr, projectorAulaStr, insonoritzadaAulaStr;
-            int capacitat_aula = -1, num_pc = -1;
+            int capacitat_aula, num_pc;
             boolean pc_aula = true, projector_aula = true, insonoritzada_aula = true,
                     esNumero = true, esValido = true;
 
             //Nueva entrada de id_aula
-            do {
-                System.out.println("Introduce el id de el Aula: ");
-                id_aula = sc.nextLine();
-                //validaciones 
-                esValido = validarIdDescripcio(id_aula);
-
-                if (esValido == false) {
-                    System.out.println("Se han introducido caracteres erróneos");
-                }
-            } while (esValido == false);
+            System.out.println("Introduce el id de el Aula: ");
+            id_aula = sc.nextLine();
+            id_aula = validaLetrasyNums(id_aula, esValido);
+            anadirIdAulaNuevo(id_aula);
 
             //Nueva entrada de descripcio_aula
-            do {
-                System.out.println("Introduce la descripcion de el Aula: ");
-                descripcio_aula = sc.nextLine();
-                //validaciones 
-                esValido = validarIdDescripcio(descripcio_aula);
-
-                if (esValido == false) {
-                    System.out.println("Se han introducido caracteres erróneos");
-                }
-            } while (esValido == false);
+            System.out.println("Introduce la descripcion de el Aula: ");
+            descripcio_aula = sc.nextLine();
+            descripcio_aula = validaLetrasyNums(descripcio_aula, esValido);
 
             //Nueva entrada de capacitat_aula
-            do {
-                System.out.println("Introduce la capacidad de el Aula: ");
-                capacitatAulaStr = sc.nextLine();
-                //validaciones 
-                esNumero = validarStringNum(capacitatAulaStr);
-                capacitat_aula = convertirStringaInt(capacitatAulaStr);
-                if (esNumero == false) {
-                    System.out.println("Se han introducido caracteres no numéricos");
-                }
-            } while (esNumero == false);
+            System.out.println("Introduce la capacidad de el Aula: ");
+            capacitatAulaStr = sc.nextLine();
+            capacitat_aula = nuevaEntradaDatosNums(capacitatAulaStr, esNumero);
 
             //Nueva entrada de pc_aula 
-            do {
-                System.out.println("Introduce si el Aula tiene ordenadores o no: ");
-                pcAulaStr = sc.nextLine();
-
-                esValido = validarSiNo(pcAulaStr);
-
-                if (esValido == false) {
-                    System.out.println("Carácteres erróneos, sólo se aceptan (si|SI|no|NO|)");
-                }
-            } while (esValido == false);
-
-            if ("si".equals(pcAulaStr) || "SI".equals(pcAulaStr)) {
-                pc_aula = true;
-            } else if ("no".equals(pcAulaStr) || "NO".equals(pcAulaStr)) {
-                pc_aula = false;
-            }
+            System.out.println("Introduce si el Aula tiene ordenadores o no: ");
+            pcAulaStr = sc.nextLine();
+            pc_aula = nuevaEntradaDatosBoolean(pc_aula, pcAulaStr, esValido);
 
             //Nueva entrada de num_pc
-            do {
-                System.out.println("Introduce el numero de ordenadores que tiene el Aula: ");
-                numPcStr = sc.nextLine();
-                //validaciones 
-                esNumero = validarStringNum(numPcStr);
-                num_pc = convertirStringaInt(numPcStr);
-                if (esNumero == false) {
-                    System.out.println("Se han introducido caracteres no numéricos");
-                }
-            } while (esNumero == false);
+            System.out.println("Introduce el numero de ordenadores que tiene el Aula: ");
+            numPcStr = sc.nextLine();
+            num_pc = nuevaEntradaDatosNums(numPcStr, esNumero);
 
             //Nueva entrada de projector_aula           
-            do {
-                System.out.println("Introduce si el Aula tiene proyector o no: ");
-                projectorAulaStr = sc.nextLine();
-
-                esValido = validarSiNo(projectorAulaStr);
-
-                if (esValido == false) {
-                    System.out.println("Carácteres erróneos, sólo se aceptan (si|SI|no|NO|)");
-                }
-            } while (esValido == false);
-
-            if ("si".equals(projectorAulaStr) || "SI".equals(projectorAulaStr)) {
-                projector_aula = true;
-            } else if ("no".equals(projectorAulaStr) || "NO".equals(projectorAulaStr)) {
-                projector_aula = false;
-            }
+            System.out.println("Introduce si el Aula tiene proyector o no: ");
+            projectorAulaStr = sc.nextLine();
+            projector_aula = nuevaEntradaDatosBoolean(projector_aula, projectorAulaStr, esValido);
 
             //Nueva entrada de insonoritzada_aula
-            do {
-                System.out.println("Introduce si el Aula está insonorizada o no: ");
-                insonoritzadaAulaStr = sc.nextLine();
+            System.out.println("Introduce si el Aula está insonorizada o no: ");
+            insonoritzadaAulaStr = sc.nextLine();
+            insonoritzada_aula = nuevaEntradaDatosBoolean(insonoritzada_aula, insonoritzadaAulaStr, esValido);
 
-                esValido = validarSiNo(insonoritzadaAulaStr);
-
-                if (esValido == false) {
-                    System.out.println("Carácteres erróneos, sólo se aceptan (si|SI|no|NO|)");
-                }
-            } while (esValido == false);
-
-            if ("si".equals(insonoritzadaAulaStr) || "SI".equals(insonoritzadaAulaStr)) {
-                insonoritzada_aula = true;
-            } else if ("no".equals(insonoritzadaAulaStr) || "NO".equals(insonoritzadaAulaStr)) {
-                insonoritzada_aula = false;
-            }
-
-            //Se secribe la nueva entrada completa en el fichero     
-            writer.write(id_aula + "," + descripcio_aula + "," + capacitat_aula + ","
+            // El true al final indica que escribiremos al final del fichero añadiendo texto
+            FileWriter nuevaLinea = new FileWriter(file_classrooms, true);
+            //Se secribe la nueva entrada del resto de atributos en el fichero     
+            nuevaLinea.write(descripcio_aula + "," + capacitat_aula + ","
                     + pc_aula + "," + num_pc + "," + projector_aula + "," + insonoritzada_aula + "\n");
-            writer.flush();//limpia la memoria del writer
+            nuevaLinea.flush();//limpia la memoria del writer
 
-            writer.close();
+            nuevaLinea.close();
         } catch (Exception e) {
             System.out.println("Ha ocurrido un error al crear/escribir en el fichero");
         }
@@ -264,6 +199,134 @@ public class LecturaAulas {
         }
     }
 
+    /**
+     * Crea una nueva entrada de id_aula y descripcio_aula validados
+     *
+     * @param dadaEntradaStr
+     * @param esValido
+     * @return dato de tipo String introducido (ya validado)
+     */
+    public static String validaLetrasyNums(String dadaEntradaStr, boolean esValido) {
+        do {
+            //validaciones 
+            esValido = validarIdDescripcio(dadaEntradaStr);
+
+            if (esValido == false) {
+                System.out.println("Se han introducido caracteres erróneos");
+                System.out.println("Introduce caracteres correctos");
+                dadaEntradaStr = sc.nextLine();
+            }
+        } while (esValido == false);
+        return dadaEntradaStr;
+    }
+
+    /**
+     * Comprueba si el aula ya existe en el fichero
+     *
+     * @param dadaEntradaStr
+     * @return
+     * @throws FileNotFoundException
+     */
+    public static boolean compruebaSiIdAulaYaExiste(String dadaEntradaStr) throws FileNotFoundException {
+        File file_classrooms = new File("files/classrooms.csv");
+        //Accedemos al fichero que queremos leer
+        Scanner lectura = new Scanner(file_classrooms);
+        boolean resultat = false;
+
+        //Lee cada linea del fichero y la añade en un ArrayList
+        while (lectura.hasNext() && resultat == false) {
+            String linea = lectura.nextLine();
+            if (linea.startsWith(dadaEntradaStr)) {
+                resultat = true;
+            }
+        }
+        lectura.close();
+        return resultat;
+    }
+
+    /**
+     * Añade una nueva aula en el caso que no exista ya en el archivo
+     *
+     * @param id_aula
+     * @throws IOException
+     */
+    public static void anadirIdAulaNuevo(String id_aula) throws IOException {
+
+        boolean esValido = true;
+        File file_classrooms = new File("files/classrooms.csv");
+        FileWriter nuevaLinea = new FileWriter(file_classrooms, true);
+
+        try {
+            while (compruebaSiIdAulaYaExiste(id_aula)) {
+                System.out.println("El aula ya existe");
+                System.out.println("Introduce un id de Aula nuevo: ");
+                id_aula = sc.nextLine();
+                id_aula = validaLetrasyNums(id_aula, esValido);
+            }
+
+            if (compruebaSiIdAulaYaExiste(id_aula) == false) {
+                //Se secribe la nueva entrada completa en el fichero     
+                nuevaLinea.write(id_aula + ",");
+                nuevaLinea.flush();//limpia la memoria del writer
+                nuevaLinea.close();
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println("No se ha encontrado ningun fichero");
+        }
+    }
+
+    /**
+     * Crea una nueva entrada de datos numericos
+     *
+     * @param dadaEntradaStr
+     * @param esNumero
+     * @return dato numerico (ya validado)
+     */
+    public static int nuevaEntradaDatosNums(String dadaEntradaStr, boolean esNumero) {
+        int numEntrada = -1;
+        do {
+            esNumero = validarStringNum(dadaEntradaStr);
+
+            if (esNumero) {
+                numEntrada = Integer.parseInt(dadaEntradaStr);
+            } else {
+                System.out.println("Se han introducido caracteres no numéricos");
+                System.out.println("Introduce caracteres correctos");
+                dadaEntradaStr = sc.nextLine();
+            }
+        } while (esNumero == false);
+
+        return numEntrada;
+    }
+
+    /**
+     * Crea una nueva entrada de datos de tipo Boolean
+     *
+     * @param dadaEntrada
+     * @param dadaEntradaStr
+     * @param esValido
+     * @return dato de tipo Boolean (ya validado)
+     */
+    public static boolean nuevaEntradaDatosBoolean(boolean dadaEntrada, String dadaEntradaStr, boolean esValido) {
+        do {
+            esValido = validarSiNo(dadaEntradaStr);
+            if (esValido == false) {
+                System.out.println("Carácteres erróneos, sólo se aceptan (si|SI|no|NO|)");
+                System.out.println("Introduce caracteres correctos");
+                dadaEntradaStr = sc.nextLine();
+            }
+        } while (esValido == false);
+
+        if ("si".equals(dadaEntradaStr) || "SI".equals(dadaEntradaStr)) {
+            dadaEntrada = true;
+        } else if ("no".equals(dadaEntradaStr) || "NO".equals(dadaEntradaStr)) {
+            dadaEntrada = false;
+        }
+
+        return dadaEntrada;
+    }
+
+    
     /**
      * Funcion que modifica los registros de una clase y actualiza el fichero
      */
