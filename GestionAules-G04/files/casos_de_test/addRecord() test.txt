@@ -1,0 +1,55 @@
+CASOS DE TEST addRecord()
+
+CASO A): Insert id_aula.
+CASO A 1):
+	Entrada: Valor que encaja con el patrón establecido
+	Salida: Correcto.
+
+CASO A 2):
+	Entrada: Valor diferente al patrón establecido
+	Salida: Se han introducido caracteres erróneos
+		Introduce caracteres correctos
+
+CASO A 3):
+	Entrada: Aula no existente en el documento.
+	Salida: Correcto. 
+
+CASO A 4):
+	Entrada: Aula existente en el documento.
+	Salida: El aula ya existe
+		Introduce un id de Aula nuevo
+
+CASO B): Insert descripcio_aula. 
+CASO B 1):
+	Entrada: Valor que encaja con el patrón establecido
+	Salida: Correcto.
+CASO B 2):
+	Entrada: Valor diferente al patrón establecido
+	Salida: Se han introducido caracteres erróneos
+		Introduce caracteres correctos
+
+CASO C): Insert capacitat_aula, num_pc. (CAMPO NUMÉRICO)
+CASO C 1):
+	Entrada: cualquier valor que no es numérico.
+	Salida: Se han introducido caracteres incorrectos
+		Introduce caracteres numéricos positivos
+		
+CASO C 2):
+	Entrada: valor numérico
+	Salida: Correcto.
+
+CASO D): Insert pc_aula, projector_aula, insonoritzada_aula. (CAMPO BOOLEAN)
+CASO D 1):
+	Entrada: cualquier valor que no es "si|SI|no|NO".
+	Salida: Caracteres erroneos, sólo se aceptan (si|SI|no|NO)
+		Introduce caracteres correctos
+		
+CASO D 2):
+	Entrada: "si|SI|no|NO"
+	Salida: Correcto.
+
+CASO D 3): Caso concreto pc_aula
+	Entrada: "no|NO"
+	Salida: Correcto.
+	De forma automática, el campo num_pc obtiene el valor 0.
+	

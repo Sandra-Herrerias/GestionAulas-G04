@@ -14,6 +14,7 @@ public class LecturaAulas {
 
     //Declaramos un objeto Scanner para leer los datos
     public static Scanner sc = new Scanner(System.in);
+    public static final int AULA_SIN_ORDENADORES = 0;
 
     public static void main(String[] args) throws FileNotFoundException {
 
@@ -73,6 +74,7 @@ public class LecturaAulas {
 
     /**
      * Funcion que permite crear a la usuaria una nueva entrada en el fichero
+     *
      * @throws java.io.FileNotFoundException
      */
     public static void addRecord() throws FileNotFoundException {
@@ -108,10 +110,14 @@ public class LecturaAulas {
             pcAulaStr = sc.nextLine();
             pc_aula = nuevaEntradaDatosBoolean(pc_aula, pcAulaStr, esValido);
 
-            //Nueva entrada de num_pc
-            System.out.println("Introduce el numero de ordenadores que tiene el Aula: ");
-            numPcStr = sc.nextLine();
-            num_pc = nuevaEntradaDatosNums(numPcStr, esNumero);
+            if (pc_aula == false) {
+                num_pc = AULA_SIN_ORDENADORES;
+            } else {
+                //Nueva entrada de num_pc
+                System.out.println("Introduce el numero de ordenadores que tiene el Aula: ");
+                numPcStr = sc.nextLine();
+                num_pc = nuevaEntradaDatosNums(numPcStr, esNumero);
+            }
 
             //Nueva entrada de projector_aula           
             System.out.println("Introduce si el Aula tiene proyector o no: ");
@@ -290,8 +296,8 @@ public class LecturaAulas {
             if (esNumero) {
                 numEntrada = Integer.parseInt(dadaEntradaStr);
             } else {
-                System.out.println("Se han introducido caracteres no numéricos");
-                System.out.println("Introduce caracteres correctos");
+                System.out.println("Se han introducido caracteres incorrectos");
+                System.out.println("Introduce caracteres numéricos positivos");
                 dadaEntradaStr = sc.nextLine();
             }
         } while (esNumero == false);
@@ -311,7 +317,7 @@ public class LecturaAulas {
         do {
             esValido = validarSiNo(dadaEntradaStr);
             if (esValido == false) {
-                System.out.println("Carácteres erróneos, sólo se aceptan (si|SI|no|NO|)");
+                System.out.println("Caracteres erroneos, sólo se aceptan (si|SI|no|NO)");
                 System.out.println("Introduce caracteres correctos");
                 dadaEntradaStr = sc.nextLine();
             }
@@ -326,12 +332,11 @@ public class LecturaAulas {
         return dadaEntrada;
     }
 
-    
     /**
      * Funcion que modifica los registros de una clase y actualiza el fichero
      */
     public static void modRecord() {
-        
+
         //LECTURA DE ARCHIVO
         File file_classrooms = new File("files/classrooms.csv");
 
@@ -349,7 +354,6 @@ public class LecturaAulas {
         boolean pc_aula = false, projector_aula = false, insonoritzada_aula = false;
 
         //VOLCANDO DEL FICHERO A LA MEMORIA
-        
         try {
             Scanner leerFichero = new Scanner(file_classrooms);
 
@@ -363,12 +367,10 @@ public class LecturaAulas {
         }
 
         //BLOQUE DE EDICIÓN
-        
         try {
             Scanner sc = new Scanner(System.in);
-            
+
             //MODIFICACIÓN DEL AULA SELECCIONADA
-            
             do {
                 //Introducimos el aula a modificar.
                 System.out.print("Introduce el aula a modificar: ");
@@ -390,10 +392,9 @@ public class LecturaAulas {
                         insonoritzada_aula = Boolean.parseBoolean(aulaUpdate[6]);
                     }
                 }
-                
+
                 //Si no ha encontrado ninguna coincidencia en el loop anterior
                 //la clase no existe por lo tanto no se podrá editar nada.
-                
                 if (!laClaseExiste) {
                     System.out.println("ERROR: La clase introducida no existe!");
                 } else {
@@ -412,12 +413,12 @@ public class LecturaAulas {
                                 + "0\tACEPTAR Y ACTUALIZAR\n");
                         System.out.print("Codigo: ");
                         valor = sc.next();
-                        if (validarStringNum(valor)){
+                        if (validarStringNum(valor)) {
                             opcion_menu = convertirStringaInt(valor);
                         } else {
                             opcion_menu = 99;
                         }
-                        
+
                         //MENU
                         switch (opcion_menu) {
                             //MODIFICAR id_aula
@@ -582,7 +583,7 @@ public class LecturaAulas {
                             + "," + num_pc
                             + "," + projector_aula
                             + "," + insonoritzada_aula + "\n");
-                //Si no coincide utiliza los datos de la ArrayList
+                    //Si no coincide utiliza los datos de la ArrayList
                 } else {
                     writer.write(classroom + "\n");
                 }
@@ -600,73 +601,69 @@ public class LecturaAulas {
     }
 
     public static void eliminar() {
-      File file_classrooms = new File("files/classrooms.csv");
-        
-      // Array para guardar todas las líneas leídas del fichero
+        File file_classrooms = new File("files/classrooms.csv");
+
+        // Array para guardar todas las líneas leídas del fichero
         ArrayList<String> classroom_info = new ArrayList<>();
         String aula;
         boolean laClaseExiste = false;
         String lineaBorrar = null;
 
-        
         // Abrimos el fichero de texto para leerlo en memoria
         try {
-            
+
             Scanner leerFichero = new Scanner(file_classrooms);
-                      
+
             while (leerFichero.hasNext()) {
                 classroom_info.add(leerFichero.nextLine());
             }
-            
-           leerFichero.close();
+
+            leerFichero.close();
         } catch (Exception e) {
             System.out.println("Ha ocurrido un error al abrir o leer el fichero");
         }
-        
+
         //Array para eliminar la linea.
         try {
             Scanner sc = new Scanner(System.in);
-            
-            
-                //Introducimos el aula a modificar.
-                System.out.print("Introduce el aula a eliminar: ");
-                aula = sc.next();
 
-                //Vemos si la clase existe o no existe
-                for (String classroom : classroom_info) {
-                    //Si existe guardamos los datos del aula en sus variables.
-                    if (aula.equals(classroom.substring(0, classroom.indexOf(",")))) {
-                        laClaseExiste = true;
-                        lineaBorrar = classroom;
-                        
-                        System.out.println("Linea a borrar");
-                       
-                        
-                    }else{
-                        System.out.println("La linea que quieres eliminar no existe.");
-                    }
-                
-           
-                }      
-            
-            }catch (Exception e) {
+            //Introducimos el aula a modificar.
+            System.out.print("Introduce el aula a eliminar: ");
+            aula = sc.next();
+
+            //Vemos si la clase existe o no existe
+            for (String classroom : classroom_info) {
+                //Si existe guardamos los datos del aula en sus variables.
+                if (aula.equals(classroom.substring(0, classroom.indexOf(",")))) {
+                    laClaseExiste = true;
+                    lineaBorrar = classroom;
+
+                    System.out.println("Linea a borrar");
+
+                } else {
+                    System.out.println("La linea que quieres eliminar no existe.");
+                }
+
+            }
+
+        } catch (Exception e) {
             System.out.println("Ha ocurrido un error al sobreescribir el fichero");
         }
         try {
             FileWriter writer = new FileWriter(file_classrooms);
-            if(laClaseExiste){
+            if (laClaseExiste) {
                 for (String classroom : classroom_info) {
-                if(!lineaBorrar.equals (classroom)) {
-                     writer.write(classroom + "\n");
-            
-            }
-            
+                    if (!lineaBorrar.equals(classroom)) {
+                        writer.write(classroom + "\n");
+
+                    }
+
                 }
-              writer.close();
-            } 
-        }catch (Exception e) {
+                writer.close();
+            }
+        } catch (Exception e) {
             System.out.println("Ha ocurrido un error al sobreescribir el fichero");
         }
-        
-        }
+
+    }
 }
