@@ -1,5 +1,5 @@
 package lectura_aulas;
-
+ 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -17,7 +17,7 @@ public class LecturaAulas {
     public static final int AULA_SIN_ORDENADORES = 0;
 
     public static void main(String[] args) throws FileNotFoundException {
-
+        System.out.println("");
         addRecord();
         //modRecord();
         // leer_archivo();
