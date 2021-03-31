@@ -18,10 +18,10 @@ public class LecturaAulas {
 
     public static void main(String[] args) throws FileNotFoundException {
         System.out.println("");
-        addRecord();
+        //addRecord();
         //modRecord();
         // leer_archivo();
-        //eliminar();
+        eliminar();
     }
 
     /**
@@ -526,7 +526,7 @@ public class LecturaAulas {
                     System.out.println("Linea a borrar");
 
                 } else {
-                    System.out.println("La linea que quieres eliminar no existe.");
+                    System.out.println("");
                 }
 
             }
