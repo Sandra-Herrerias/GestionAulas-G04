@@ -1,0 +1,20 @@
+Casos test de la función eliminar.
+
+Caso 1:
+DESCRIPCIÓN:Si el enlace del archivo no existe.
+ENTRADA:filees/classrooms.csv
+SALIDA:Ha ocurrido un error al abrir o leer el fichero.
+
+Caso 2:
+DESCRIPCIÓN:Si entroducimos un aula que no existe.
+ENTRADA:AULA88
+SALIDA:El aula que ha intoducido no existe
+
+Caso 3:
+DESCRIPCIÓN:Si entroducimos un aula que no existe.
+ENTRADA:au07
+SALIDA:La linea ha sido eliminada
+
+Caso 4:
+DESCRIPCIÓN:Si hay algún error al suscribir el archivo
+SALIDA:Ha ocurrido un error al sobreescribir el fichero

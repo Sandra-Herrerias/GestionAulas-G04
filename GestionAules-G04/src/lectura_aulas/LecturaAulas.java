@@ -523,16 +523,18 @@ public class LecturaAulas {
                     laClaseExiste = true;
                     lineaBorrar = classroom;
 
-                    System.out.println("Linea a borrar");
+                    System.out.println("La linea ha sido eliminada");
 
                 } else {
                     System.out.println("");
                 }
 
             }
+           
+          
 
         } catch (Exception e) {
-            System.out.println("Ha ocurrido un error al sobreescribir el fichero");
+            System.out.println("El aula que ha intoducido no existe");
         }
         try {
             FileWriter writer = new FileWriter(file_classrooms);
