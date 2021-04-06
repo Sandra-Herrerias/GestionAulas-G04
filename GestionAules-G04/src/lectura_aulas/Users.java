@@ -5,10 +5,17 @@
  */
 package lectura_aulas;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Alumne
  */
-public class users {
+public class Users implements Serializable{
+   public String rol;
+   public String nombre;
+   public String contraseña;
+  
+   
     
 }
