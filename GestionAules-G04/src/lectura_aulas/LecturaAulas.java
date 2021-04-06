@@ -26,7 +26,12 @@ public class LecturaAulas {
         //modRecord();
         // leer_archivo();
         //eliminar();
-        MenuTeacher();
+        //MenuTeacher();
+        
+        registrarUsers();
+        leerUsers();
+        Login();
+        
     }
 
     /**
@@ -775,16 +780,148 @@ public class LecturaAulas {
 
     }
 
-    public static void Login() {
-        String user, password;
+    /**
+     * Login()
+     * @throws FileNotFoundException 
+     */
+    public static void Login() throws FileNotFoundException {
+        String user, password, rol = "";
+        boolean correctLogin=false;
 
+        do{
         System.out.println("Control de acceso");
-        System.out.println("***********************");
+        System.out.println("***********************\n");
         System.out.println("Usuario: ");
         user = sc.next();
-        System.out.println("Password: ");
-        password = sc.next();
+        if (ComprobarUser(user)){
+            System.out.println("Password: ");
+            password = sc.next();
+            if (ComprobarPassword(user,password)){
+                rol = asignarRol(user,password);
+                correctLogin=true;
+            } else{
+                System.out.println("CONTRASEÑA INCORRECTA");
+            }
+        } else {
+            System.out.println("USUARIO INCORRECTO");
+        }
+        }while(!correctLogin);
+        
+        if (rol.equals("teacher")){
+            MenuTeacher();
+        } else if (rol.equals("Admin")){
+            MenuAdmin();
+        } else {
+            System.out.println("ERROR: EL ROL NO ES CORRECTO, MODIFICA EL ROL DEL USUARIO");
+        }
 
+    }
+    
+    /**
+     * ComprobarUser(String user)
+     * @param user
+     * @return 
+     */
+    public static boolean ComprobarUser(String user) {
+        boolean correct=false;
+        // LEER FICHERO
+        try {
+            // A partir de aquí accederemos al fichero a leer mediante la variable fichero
+            ObjectInputStream fichero = new ObjectInputStream(new FileInputStream("files/users.dat"));
+
+            // Creamos un nuevo array de usuarios
+            // Y rellenamos con lo recuperado de leer el fichero mediante readObject
+            // readObject recibe todo un array de Empleados y por eso lo casteamos (Users[])
+            Users[] rol = (Users[]) fichero.readObject();
+
+            // Recorremos todo el array del usuario
+            for (Users users : rol) {
+                // Tenemos en cuenta que algunas posiciones del array valen null
+                // En ese caso no leas la información del usuario
+                if (users != null) {
+                    if (users.nombre.equals(user)){
+                        correct=true;
+                    }
+                }
+            }
+            // Cerramos el fichero
+            fichero.close();
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error al leer el fichero");
+        }
+        return correct;
+    }
+    
+    /**
+     * ComprobarPassword(String user, String password)
+     * @param user
+     * @param password
+     * @return 
+     */
+    public static boolean ComprobarPassword(String user, String password) {
+        boolean correct=false;
+        // LEER FICHERO
+        try {
+            // A partir de aquí accederemos al fichero a leer mediante la variable fichero
+            ObjectInputStream fichero = new ObjectInputStream(new FileInputStream("files/users.dat"));
+
+            // Creamos un nuevo array de usuarios
+            // Y rellenamos con lo recuperado de leer el fichero mediante readObject
+            // readObject recibe todo un array de Empleados y por eso lo casteamos (Users[])
+            Users[] rol = (Users[]) fichero.readObject();
+
+            // Recorremos todo el array del usuario
+            for (Users users : rol) {
+                // Tenemos en cuenta que algunas posiciones del array valen null
+                // En ese caso no leas la información del usuario
+                if (users != null) {
+                    if (users.nombre.equals(user) && users.contraseña.equals(password)){
+                        correct=true;
+                    }
+                }
+            }
+            // Cerramos el fichero
+            fichero.close();
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error al leer el fichero");
+        }
+        return correct;
+    }
+    
+    /**
+     * asignarRol(String user, String password)
+     * @param user
+     * @param password
+     * @return 
+     */
+    public static String asignarRol(String user, String password) {
+        String rolUser = "";
+        // LEER FICHERO
+        try {
+            // A partir de aquí accederemos al fichero a leer mediante la variable fichero
+            ObjectInputStream fichero = new ObjectInputStream(new FileInputStream("files/users.dat"));
+
+            // Creamos un nuevo array de usuarios
+            // Y rellenamos con lo recuperado de leer el fichero mediante readObject
+            // readObject recibe todo un array de Empleados y por eso lo casteamos (Users[])
+            Users[] rol = (Users[]) fichero.readObject();
+
+            // Recorremos todo el array del usuario
+            for (Users users : rol) {
+                // Tenemos en cuenta que algunas posiciones del array valen null
+                // En ese caso no leas la información del usuario
+                if (users != null) {
+                    if (users.nombre.equals(user) && users.contraseña.equals(password)){
+                        rolUser = users.rol;
+                    }
+                }
+            }
+            // Cerramos el fichero
+            fichero.close();
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error al leer el fichero");
+        }
+        return rolUser;
     }
 
     public static void leerUsers() {
@@ -817,10 +954,7 @@ public class LecturaAulas {
             System.out.println("Ha ocurrido un error al leer el fichero");
         }
     }
-<<<<<<< Updated upstream
-<<<<<<< HEAD
->>>>>>> main
-=======
+
 public static void MenuTeacher() throws FileNotFoundException{
     Scanner sn = new Scanner(System.in);
     int opcion = 0;
@@ -851,45 +985,46 @@ public static void MenuTeacher() throws FileNotFoundException{
                 break;
         }
     }while(opcion != 5);
+}
+
+/**
+ * PARA EL STRING 5
+ * @throws FileNotFoundException 
+ */
+public static void MenuAdmin() throws FileNotFoundException{
+    Scanner sn = new Scanner(System.in);
+    int opcion = 0;
+    
+    do{
+        System.out.print("Menú de Admin: \n 1.Listar todas las clases  \n 2.Crear nueva clase \n 3.Modificar la clase \n 4.Eliminar la clase \n 5.Salir \n  Ingresa el numero de la opción: ");
+        opcion = sn.nextInt(); 
+    
+    
+    switch (opcion){
+            case 1: 
+                leer_archivo();
+                
+                     break;
+            case 2: 
+                addRecord();
+                     break;
+            case 3: 
+                modRecord();
+                     break;
+            case 4:  eliminar();
+                     break;
+           case 5:
+                System.out.println("Saliendo del programa...");
+            break;
+            default: 
+               System.out.println("La opcion que has seleccionado es erronea");
+                break;
+        }
+    }while(opcion != 5);
     
                      
     
  
 }
-=======
->>>>>>> Stashed changes
-
-    public static void MenuTeacher() throws FileNotFoundException {
-        Scanner sn = new Scanner(System.in);
-        int opcion = 0;
-
-        do {
-            System.out.print("Menú de opciones: \n 1.Listar todas las clases  \n 2.Crear nueva clase \n 3.Modificar la clase \n 4.Eliminar la clase \n 5.Salir \n  Ingresa el numero de la opción: ");
-            opcion = sn.nextInt();
-
-            switch (opcion) {
-                case 1:
-                    leer_archivo();
-
-                    break;
-                case 2:
-                    addRecord();
-                    break;
-                case 3:
-                    modRecord();
-                    break;
-                case 4:
-                    eliminar();
-                    break;
-                case 5:
-                    System.out.println("Saliendo del programa...");
-                    break;
-                default:
-                    System.out.println("La opcion que has seleccionado es erronea");
-                    break;
-            }
-        } while (opcion != 5);
-
-    }
 
 }
