@@ -25,7 +25,8 @@ public class LecturaAulas {
         //addRecord();
         //modRecord();
         // leer_archivo();
-        eliminar();
+        //eliminar();
+        MenuTeacher();
     }
 
     /**
@@ -824,5 +825,45 @@ public static void leerUsers() {
             System.out.println("Ha ocurrido un error al leer el fichero");
         }
     }
+<<<<<<< HEAD
+>>>>>>> main
+=======
+public static void MenuTeacher() throws FileNotFoundException{
+    Scanner sn = new Scanner(System.in);
+    int opcion = 0;
+    
+    do{
+        System.out.print("Menú de opciones: \n 1.Listar todas las clases  \n 2.Crear nueva clase \n 3.Modificar la clase \n 4.Eliminar la clase \n 5.Salir \n  Ingresa el numero de la opción: ");
+        opcion = sn.nextInt(); 
+    
+    
+    switch (opcion){
+            case 1: 
+                leer_archivo();
+                
+                     break;
+            case 2: 
+                addRecord();
+                     break;
+            case 3: 
+                modRecord();
+                     break;
+            case 4:  eliminar();
+                     break;
+           case 5:
+                System.out.println("Saliendo del programa...");
+            break;
+            default: 
+               System.out.println("La opcion que has seleccionado es erronea");
+                break;
+        }
+    }while(opcion != 5);
+    
+                     
+    
+ 
+}
+
+
 >>>>>>> main
 }
