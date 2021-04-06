@@ -741,20 +741,20 @@ public static void registrarUsers() {
             
             //CREAMOS UN ARRAY DE EMPLEADOS
             //Por defecto todas las posiciones del array valen null.
-            users[] rol = new users[10];
+            Users[] rol = new Users[10];
             
             //CREAMOS UN NUEVO EMPLEADO EN LA PRIMERA POSICIÓN DEL ARRAY
-            rol[0] = new users();//Con esta linea le indico que le añado un nuevo empleado.
+            rol[0] = new Users();//Con esta linea le indico que le añado un nuevo empleado.
             rol[0].rol= "teacher";
             rol[0].nombre = "Ana";
-            rol[0].contraseña = "";
+            rol[0].contraseña = "123456";
             
             
             //CREAMOS UN NUEVO EMPLEADO EN LA SEGUNDA POSICIÓN DEL ARRAY
-            rol[1] = new users();
+            rol[1] = new Users();
             rol[1].rol = "Admin";
             rol[1].nombre = "Luis";
-            rol[1].contraseña = "";
+            rol[1].contraseña = "123456";
            
             
             //Con WriteObject escribimos directamente todo el array de empleados
