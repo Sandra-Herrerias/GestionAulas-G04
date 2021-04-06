@@ -742,60 +742,52 @@ public class LecturaAulas {
         }
     }
 
-
-public static void registrarUsers() {
+    public static void registrarUsers() {
         //CREAR/GUARDAR FICHERO BINARIO
-        
-        try{
+
+        try {
             ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream("files/users.dat"));
-            
+
             //CREAMOS UN ARRAY DE EMPLEADOS
             //Por defecto todas las posiciones del array valen null.
             Users[] rol = new Users[10];
-            
+
             //CREAMOS UN NUEVO EMPLEADO EN LA PRIMERA POSICIÓN DEL ARRAY
             rol[0] = new Users();//Con esta linea le indico que le añado un nuevo empleado.
-            rol[0].rol= "teacher";
+            rol[0].rol = "teacher";
             rol[0].nombre = "Ana";
             rol[0].contraseña = "123456";
-            
-            
+
             //CREAMOS UN NUEVO EMPLEADO EN LA SEGUNDA POSICIÓN DEL ARRAY
             rol[1] = new Users();
             rol[1].rol = "Admin";
             rol[1].nombre = "Luis";
             rol[1].contraseña = "123456";
-           
-            
+
             //Con WriteObject escribimos directamente todo el array de empleados
             fichero.writeObject(rol);
-            
+
             //Cerramos el fichero
             fichero.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Ha ocurrido un error al crear/guardar el fichero");
         }
-        
 
-}
+    }
 
-<<<<<<< HEAD
-public static void Login(){
-    String user,password;
-    
-    System.out.println("Control de acceso");
-    System.out.println("***********************");
-    System.out.println("Usuario: ");
-    user=sc.next();
-    System.out.println("Password: ");
-    password=sc.next();
-    
-    
-}
+    public static void Login() {
+        String user, password;
 
-=======
+        System.out.println("Control de acceso");
+        System.out.println("***********************");
+        System.out.println("Usuario: ");
+        user = sc.next();
+        System.out.println("Password: ");
+        password = sc.next();
 
-public static void leerUsers() {
+    }
+
+    public static void leerUsers() {
 
         // LEER FICHERO
         try {
@@ -825,6 +817,7 @@ public static void leerUsers() {
             System.out.println("Ha ocurrido un error al leer el fichero");
         }
     }
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 >>>>>>> main
 =======
@@ -863,7 +856,40 @@ public static void MenuTeacher() throws FileNotFoundException{
     
  
 }
+=======
+>>>>>>> Stashed changes
 
+    public static void MenuTeacher() throws FileNotFoundException {
+        Scanner sn = new Scanner(System.in);
+        int opcion = 0;
 
->>>>>>> main
+        do {
+            System.out.print("Menú de opciones: \n 1.Listar todas las clases  \n 2.Crear nueva clase \n 3.Modificar la clase \n 4.Eliminar la clase \n 5.Salir \n  Ingresa el numero de la opción: ");
+            opcion = sn.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    leer_archivo();
+
+                    break;
+                case 2:
+                    addRecord();
+                    break;
+                case 3:
+                    modRecord();
+                    break;
+                case 4:
+                    eliminar();
+                    break;
+                case 5:
+                    System.out.println("Saliendo del programa...");
+                    break;
+                default:
+                    System.out.println("La opcion que has seleccionado es erronea");
+                    break;
+            }
+        } while (opcion != 5);
+
+    }
+
 }
