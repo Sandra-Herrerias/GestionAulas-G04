@@ -776,4 +776,17 @@ public static void registrarUsers() {
 
 }
 
+public static void Login(){
+    String user,password;
+    
+    System.out.println("Control de acceso");
+    System.out.println("***********************");
+    System.out.println("Usuario: ");
+    user=sc.next();
+    System.out.println("Password: ");
+    password=sc.next();
+    
+    
+}
+
 }
