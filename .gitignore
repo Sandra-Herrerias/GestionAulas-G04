@@ -2,10 +2,3 @@
 /GestionAules-G04/build/
 
 *.class
-
-*.xml
-
-GestionAules-G04/nbproject/project.properties
-
-*.properties
-/GestionAules-G04/dist/
