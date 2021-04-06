@@ -833,7 +833,7 @@ public static void MenuTeacher() throws FileNotFoundException{
     int opcion = 0;
     
     do{
-        System.out.print("Menú de opciones: \n 1.Listar todas las clases  \n 2.Crear nueva clase \n 3.Modificar la clase \n 4.Eliminar la clase \n 5.Salir \n  Ingresa el numero de la opción: ");
+        System.out.print("Menú de Teacher: \n 1.Listar todas las clases  \n 2.Crear nueva clase \n 3.Modificar la clase \n 4.Eliminar la clase \n 5.Salir \n  Ingresa el numero de la opción: ");
         opcion = sn.nextInt(); 
     
     
