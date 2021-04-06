@@ -2,8 +2,10 @@ package lectura_aulas;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -736,4 +738,42 @@ public class LecturaAulas {
             System.out.println("¡HA OCURRIDO UN ERROR!");
         }
     }
+
+
+public static void registrarUsers() {
+        //CREAR/GUARDAR FICHERO BINARIO
+        
+        try{
+            ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream("files/users.dat"));
+            
+            //CREAMOS UN ARRAY DE EMPLEADOS
+            //Por defecto todas las posiciones del array valen null.
+            users[] rol = new users[10];
+            
+            //CREAMOS UN NUEVO EMPLEADO EN LA PRIMERA POSICIÓN DEL ARRAY
+            rol[0] = new users();//Con esta linea le indico que le añado un nuevo empleado.
+            rol[0].rol= "teacher";
+            rol[0].nombre = "Ana";
+            rol[0].contraseña = "";
+            
+            
+            //CREAMOS UN NUEVO EMPLEADO EN LA SEGUNDA POSICIÓN DEL ARRAY
+            rol[1] = new users();
+            rol[1].rol = "Admin";
+            rol[1].nombre = "Luis";
+            rol[1].contraseña = "";
+           
+            
+            //Con WriteObject escribimos directamente todo el array de empleados
+            fichero.writeObject(rol);
+            
+            //Cerramos el fichero
+            fichero.close();
+        }catch(Exception e){
+            System.out.println("Ha ocurrido un error al crear/guardar el fichero");
+        }
+        
+
+}
+
 }
