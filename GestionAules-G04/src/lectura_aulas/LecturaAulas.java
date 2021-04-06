@@ -1,6 +1,5 @@
-
 package lectura_aulas;
- 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -357,8 +356,8 @@ public class LecturaAulas {
         boolean pc_aula = false, projector_aula = false, insonoritzada_aula = false;
 
         //VOLCANDO DEL FICHERO A LA MEMORIA
-        classroom_info = FileToArrayList(file_classrooms,classroom_info);
-        
+        classroom_info = FileToArrayList(file_classrooms, classroom_info);
+
         //BLOQUE DE EDICIÓN
         try {
             Scanner sc = new Scanner(System.in);
@@ -437,8 +436,8 @@ public class LecturaAulas {
                             case 4:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next().toLowerCase();
-                                pc_aula = WriteCorrectBoolean(valor,pc_aula);
-                                
+                                pc_aula = WriteCorrectBoolean(valor, pc_aula);
+
                                 break;
                             //MODIFICAR num_pc
                             case 5:
@@ -450,13 +449,13 @@ public class LecturaAulas {
                             case 6:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next().toLowerCase();
-                                projector_aula = WriteCorrectBoolean(valor,projector_aula);
+                                projector_aula = WriteCorrectBoolean(valor, projector_aula);
                                 break;
                             //MODIFICAR insonoritzada_aula
                             case 7:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next().toLowerCase();
-                                insonoritzada_aula = WriteCorrectBoolean(valor,insonoritzada_aula);
+                                insonoritzada_aula = WriteCorrectBoolean(valor, insonoritzada_aula);
                                 break;
                             //APLICAR MODIFICACIONES
                             case 0:
@@ -484,10 +483,10 @@ public class LecturaAulas {
         }
 
         //ACTUALIZANDO EL ARCHIVO
-        WriteFile(file_classrooms,classroom_info,aula,laClaseExiste,error,id_aula,descripcio_aula,capacitat_aula,pc_aula,num_pc,projector_aula,insonoritzada_aula);
-      
+        WriteFile(file_classrooms, classroom_info, aula, laClaseExiste, error, id_aula, descripcio_aula, capacitat_aula, pc_aula, num_pc, projector_aula, insonoritzada_aula);
+
     }
-    
+
     public static void eliminar() {
         File file_classrooms = new File("files/classrooms.csv");
 
@@ -533,8 +532,6 @@ public class LecturaAulas {
                 }
 
             }
-           
-          
 
         } catch (Exception e) {
             System.out.println("El aula que ha intoducido no existe");
@@ -556,10 +553,11 @@ public class LecturaAulas {
         }
 
     }
-    
+
     //FUNCIONES PARA ID_AULA
-    /** checkUniqueID()
-     * Revisa que la id introducida no existe en la ArrayList.
+    /**
+     * checkUniqueID() Revisa que la id introducida no existe en la ArrayList.
+     *
      * @param valor String id_aula
      * @param classroom_info ArrayList
      * @return boolean claseRepetida
@@ -579,8 +577,9 @@ public class LecturaAulas {
         return claseRepetida;
     }
 
-    /** writeUniqueID()
-     * Escribe una id correcta y única en una variable.
+    /**
+     * writeUniqueID() Escribe una id correcta y única en una variable.
+     *
      * @param claseRepetida boolean checkUniqueID()
      * @param valor String id_aula (temporal)
      * @param id_aula String id_aula (actual)/String valor[Si es nuevo registro]
@@ -599,10 +598,12 @@ public class LecturaAulas {
     }
 
     //FUNCIONES PARA DESCRIPCIO_AULA
-    /** WriteCorrectDesc()
-     * Escribe una descripción correcta
+    /**
+     * WriteCorrectDesc() Escribe una descripción correcta
+     *
      * @param valor String descripcio_aula(temporal)
-     * @param descripcio_aula String descripcio_aula(actual)/descripcio_aula(temporal)[Si es nuevo registro]
+     * @param descripcio_aula String
+     * descripcio_aula(actual)/descripcio_aula(temporal)[Si es nuevo registro]
      * @return String descripcio_aula(actualizada)/(nueva)
      */
     public static String WriteCorrectDesc(String valor, String descripcio_aula) {
@@ -619,10 +620,12 @@ public class LecturaAulas {
     }
 
     //FUNCIONES PARA NUMEROS
-    /** WriteCorrectNum()
-     * Escribe un valor numérico correcto.
+    /**
+     * WriteCorrectNum() Escribe un valor numérico correcto.
+     *
      * @param valor int valor_numerico(temporal)
-     * @param to_return int valor_numerico(actual)/int valor [Si es nuevo registro]
+     * @param to_return int valor_numerico(actual)/int valor [Si es nuevo
+     * registro]
      * @return int valor_numerico(actualizado)/(nuevo)
      */
     public static int WriteCorrectNum(String valor, int to_return) {
@@ -639,13 +642,15 @@ public class LecturaAulas {
     }
 
     //FUNCIONES PARA BOOLEANOS
-    /** WriteCorrectBoolean()
-     * Escribe un boolean correcto
+    /**
+     * WriteCorrectBoolean() Escribe un boolean correcto
+     *
      * @param valor boolean valor(temporal)"si"/"no"
-     * @param to_return boolean valor(actual)/valor (temporal)[Si es nuevo registro]
+     * @param to_return boolean valor(actual)/valor (temporal)[Si es nuevo
+     * registro]
      * @return valor "true"/"false"
      */
-    public static boolean WriteCorrectBoolean(String valor,boolean to_return) {
+    public static boolean WriteCorrectBoolean(String valor, boolean to_return) {
         if (valor.equals("si") | valor.equals("no")) {
             if (valor.equals("si")) {
                 to_return = true;
@@ -661,15 +666,16 @@ public class LecturaAulas {
         }
         return to_return;
     }
-    
+
     //FUNCION ESCRIBIR ARCHIVO
-    /** FileToArrayList()
-     * Añade las lineas de un fichero a una ArrayList
+    /**
+     * FileToArrayList() Añade las lineas de un fichero a una ArrayList
+     *
      * @param file_classrooms Variable del archivo cargado
      * @param classroom_info Variable de la ArrayList
      * @return ArrayList con las lineas del fichero
      */
-    public static ArrayList<String> FileToArrayList(File file_classrooms,ArrayList<String> classroom_info){
+    public static ArrayList<String> FileToArrayList(File file_classrooms, ArrayList<String> classroom_info) {
         try {
             Scanner leerFichero = new Scanner(file_classrooms);
 
@@ -683,10 +689,11 @@ public class LecturaAulas {
         }
         return classroom_info;
     }
-    
-    /** WriteFile()
-     * Escribe los registros alterados en memoria al archivo.
-     * NOTA: ESTA FUNCION ELIMINA EL ARCHIVO ANTES DE ESCRIBIR
+
+    /**
+     * WriteFile() Escribe los registros alterados en memoria al archivo. NOTA:
+     * ESTA FUNCION ELIMINA EL ARCHIVO ANTES DE ESCRIBIR
+     *
      * @param file_classrooms
      * @param classroom_info
      * @param aula
@@ -698,9 +705,9 @@ public class LecturaAulas {
      * @param pc_aula
      * @param num_pc
      * @param projector_aula
-     * @param insonoritzada_aula 
+     * @param insonoritzada_aula
      */
-    public static void WriteFile(File file_classrooms, ArrayList<String> classroom_info, String aula, boolean laClaseExiste, boolean error, String id_aula, String descripcio_aula, int capacitat_aula, boolean pc_aula, int num_pc, boolean projector_aula, boolean insonoritzada_aula){
+    public static void WriteFile(File file_classrooms, ArrayList<String> classroom_info, String aula, boolean laClaseExiste, boolean error, String id_aula, String descripcio_aula, int capacitat_aula, boolean pc_aula, int num_pc, boolean projector_aula, boolean insonoritzada_aula) {
         try {
             FileWriter writer = new FileWriter(file_classrooms);
 
