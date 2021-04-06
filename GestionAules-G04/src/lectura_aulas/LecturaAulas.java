@@ -1,10 +1,12 @@
 package lectura_aulas;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -776,4 +778,35 @@ public static void registrarUsers() {
 
 }
 
+
+public static void leerUsers() {
+
+        // LEER FICHERO
+        try {
+            // A partir de aquí accederemos al fichero a leer mediante la variable fichero
+            ObjectInputStream fichero = new ObjectInputStream(new FileInputStream("files/users.dat"));
+
+            // Creamos un nuevo array de usuarios
+            // Y rellenamos con lo recuperado de leer el fichero mediante readObject
+            // readObject recibe todo un array de Empleados y por eso lo casteamos (Users[])
+            Users[] rol = (Users[]) fichero.readObject();
+
+            // Recorremos todo el array del usuario
+            for (Users users : rol) {
+                // Tenemos en cuenta que algunas posiciones del array valen null
+                // En ese caso no leas la información del usuario
+                if (users != null) {
+
+                    System.out.println("rol: " + users.rol);
+                    System.out.println("Nombre: " + users.nombre);
+                    System.out.println("Contraseña: " + users.contraseña);
+                    System.out.println("--------------------");
+                }
+            }
+            // Cerramos el fichero
+            fichero.close();
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error al leer el fichero");
+        }
+    }
 }
