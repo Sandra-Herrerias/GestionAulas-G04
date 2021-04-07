@@ -787,31 +787,39 @@ public class LecturaAulas {
     public static void Login() throws FileNotFoundException {
         String user, password, rol = "";
         boolean correctLogin=false;
-
-        do{
+        int intentos=3;
+        
         System.out.println("Control de acceso");
         System.out.println("***********************\n");
-        System.out.println("Usuario: ");
+        do{
+        System.out.print("Usuario: ");
         user = sc.next();
         if (ComprobarUser(user)){
-            System.out.println("Password: ");
+            System.out.print("Password: ");
             password = sc.next();
             if (ComprobarPassword(user,password)){
                 rol = asignarRol(user,password);
                 correctLogin=true;
             } else{
-                System.out.println("CONTRASEÑA INCORRECTA");
+                System.out.println("\nCONTRASEÑA INCORRECTA");
+                intentos--;
+                System.out.println("Quedan "+intentos+" intentos.\n");
             }
         } else {
-            System.out.println("USUARIO INCORRECTO");
+            System.out.println("\nUSUARIO INCORRECTO");
+            intentos--;
+            System.out.println("Quedan "+intentos+" intentos.\n");
         }
-        }while(!correctLogin);
+        }while(!correctLogin&&intentos>0);
+        
         
         if (rol.equals("teacher")){
             MenuTeacher();
         } else if (rol.equals("Admin")){
             MenuAdmin();
-        } else {
+        } else if (intentos<1){
+            System.out.println("ERROR: SE HAN ACABADO LOS INTENTOS.");
+        }else {
             System.out.println("ERROR: EL ROL NO ES CORRECTO, MODIFICA EL ROL DEL USUARIO");
         }
 
