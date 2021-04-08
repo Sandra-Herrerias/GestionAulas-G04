@@ -757,13 +757,13 @@ public class LecturaAulas {
             //Por defecto todas las posiciones del array valen null.
             Users[] rol = new Users[10];
 
-            //CREAMOS UN NUEVO EMPLEADO EN LA PRIMERA POSICIÓN DEL ARRAY
+            //CREAMOS UN NUEVO ROL EN LA PRIMERA POSICIÓN DEL ARRAY
             rol[0] = new Users();//Con esta linea le indico que le añado un nuevo empleado.
             rol[0].rol = "teacher";
             rol[0].nombre = "Ana";
             rol[0].contraseña = "123456";
 
-            //CREAMOS UN NUEVO EMPLEADO EN LA SEGUNDA POSICIÓN DEL ARRAY
+            //CREAMOS UN NUEVO ROL EN LA SEGUNDA POSICIÓN DEL ARRAY
             rol[1] = new Users();
             rol[1].rol = "Admin";
             rol[1].nombre = "Luis";
@@ -1044,5 +1044,34 @@ public class LecturaAulas {
      * Insertar nuevos usuarios con el rol teacher a la base de datos
      */
     public static void altaUsuario(){
+    }
+    
+     public static void RegistrarAdmin(){
+           //CREAR/GUARDAR FICHERO BINARIO
+
+        try {
+            ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream("files/users.dat"));
+
+            //CREAMOS UN ARRAY DE EMPLEADOS
+            //Por defecto todas las posiciones del array valen null.
+            Users[] rol = new Users[1];
+
+            //CREAMOS EL ADMIN
+            rol[0] = new Users();//Con esta linea le indico que le añado un nuevo empleado.
+            rol[0].rol = "Admin";
+            rol[0].nombre = "Admin";
+            rol[0].contraseña = "Admin1";
+
+
+            //Con WriteObject escribimos directamente todo el array de empleados
+            fichero.writeObject(rol);
+
+            //Cerramos el fichero
+            fichero.close();
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error al crear/guardar el fichero");
+        }
+
+    
     }
 }
