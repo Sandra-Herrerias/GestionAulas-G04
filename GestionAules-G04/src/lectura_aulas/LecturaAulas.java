@@ -753,24 +753,26 @@ public class LecturaAulas {
         //CREAR/GUARDAR FICHERO BINARIO
 
         try {
+            //SI NO EXISTE EL ARCHIVO BINARIO, LO CREA.
             ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream("files/users.dat",true));       
 
-            //CREAMOS UN ARRAY DE EMPLEADOS
+            //CREAMOS UN ARRAY DE USUARIOS
             //Por defecto todas las posiciones del array valen null.
             
-            User[] users = new User[100];
+            User[] users = new User[10000];
+            
+            //PASAMOS DEL OBJETO BINARIO AL ARRAY.
             try{
                 ObjectInputStream Openfichero = new ObjectInputStream(new FileInputStream("files/users.dat"));
                 users = (User[]) Openfichero.readObject();
                 Openfichero.close();
             }catch(Exception e){}
             
+            //CREAMOS EL ADMIN
             users[0] = new User();
             users[0].rol = "Admin";
             users[0].nombre = "Admin";
-            users[0].contraseña = "admin";
-            
-            //ArrayList<Users> rol = new ArrayList<Users>();
+            users[0].contraseña = "Admin1";
 
             //Con WriteObject escribimos directamente todo el array de empleados
             fichero.writeObject(users);
@@ -809,8 +811,6 @@ public class LecturaAulas {
             int pos = 0;
             String dato = null;
 
-<<<<<<< HEAD
-
             // Recorremos todo el array del usuario
             do{
                 if(users[pos]!=null){
@@ -831,19 +831,6 @@ public class LecturaAulas {
                     finArray=true;
                 }
             }while(!posVacia&&!finArray);
-=======
-            //CREAMOS UN NUEVO ROL EN LA PRIMERA POSICIÓN DEL ARRAY
-            rol[0] = new Users();//Con esta linea le indico que le añado un nuevo empleado.
-            rol[0].rol = "teacher";
-            rol[0].nombre = "Ana";
-            rol[0].contraseña = "123456";
-
-            //CREAMOS UN NUEVO ROL EN LA SEGUNDA POSICIÓN DEL ARRAY
-            rol[1] = new Users();
-            rol[1].rol = "Admin";
-            rol[1].nombre = "Luis";
-            rol[1].contraseña = "123456";
->>>>>>> main
 
             for (int i=0;i<=1;i++){
                 System.out.println(users[i].nombre);
@@ -1121,44 +1108,4 @@ public class LecturaAulas {
             }
         } while (opcion != 5);
     }
-    
-<<<<<<< HEAD
-
-=======
-    /**
-     * Siendo administradores podemos dar de Alta usuario: 
-     * Insertar nuevos usuarios con el rol teacher a la base de datos
-     */
-    public static void altaUsuario(){
-    }
-    
-     public static void RegistrarAdmin(){
-           //CREAR/GUARDAR FICHERO BINARIO
-
-        try {
-            ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream("files/users.dat"));
-
-            //CREAMOS UN ARRAY DE EMPLEADOS
-            //Por defecto todas las posiciones del array valen null.
-            Users[] rol = new Users[1];
-
-            //CREAMOS EL ADMIN
-            rol[0] = new Users();//Con esta linea le indico que le añado un nuevo empleado.
-            rol[0].rol = "Admin";
-            rol[0].nombre = "Admin";
-            rol[0].contraseña = "Admin1";
-
-
-            //Con WriteObject escribimos directamente todo el array de empleados
-            fichero.writeObject(rol);
-
-            //Cerramos el fichero
-            fichero.close();
-        } catch (Exception e) {
-            System.out.println("Ha ocurrido un error al crear/guardar el fichero");
-        }
-
-    
-    }
->>>>>>> main
 }
