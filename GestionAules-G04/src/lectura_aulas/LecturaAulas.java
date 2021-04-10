@@ -19,7 +19,8 @@ public class LecturaAulas {
     //Declaramos un objeto Scanner para leer los datos
     public static Scanner sc = new Scanner(System.in);
     public static final int AULA_SIN_ORDENADORES = 0;
-
+    static User[] users;
+    
     public static void main(String[] args) throws FileNotFoundException {
         System.out.println("");
         //addRecord();
@@ -27,10 +28,11 @@ public class LecturaAulas {
         // leer_archivo();
         //eliminar();
         //MenuTeacher();
-
-        registrarUsers();
+        registrarAdmin();
         leerUsers();
         Login();
+        leerUsers();
+        
 
     }
 
@@ -747,33 +749,100 @@ public class LecturaAulas {
         }
     }
 
-    public static void registrarUsers() {
+    public static void registrarAdmin() {
         //CREAR/GUARDAR FICHERO BINARIO
 
         try {
-            ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream("files/users.dat"));
+            ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream("files/users.dat",true));       
 
             //CREAMOS UN ARRAY DE EMPLEADOS
             //Por defecto todas las posiciones del array valen null.
-            Users[] rol = new Users[10];
-
-            //CREAMOS UN NUEVO EMPLEADO EN LA PRIMERA POSICIÓN DEL ARRAY
-            rol[0] = new Users();//Con esta linea le indico que le añado un nuevo empleado.
-            rol[0].rol = "teacher";
-            rol[0].nombre = "Ana";
-            rol[0].contraseña = "123456";
-
-            //CREAMOS UN NUEVO EMPLEADO EN LA SEGUNDA POSICIÓN DEL ARRAY
-            rol[1] = new Users();
-            rol[1].rol = "Admin";
-            rol[1].nombre = "Luis";
-            rol[1].contraseña = "123456";
+            
+            User[] users = new User[100];
+            try{
+                ObjectInputStream Openfichero = new ObjectInputStream(new FileInputStream("files/users.dat"));
+                users = (User[]) Openfichero.readObject();
+                Openfichero.close();
+            }catch(Exception e){}
+            
+            users[0] = new User();
+            users[0].rol = "Admin";
+            users[0].nombre = "Admin";
+            users[0].contraseña = "admin";
+            
+            //ArrayList<Users> rol = new ArrayList<Users>();
 
             //Con WriteObject escribimos directamente todo el array de empleados
-            fichero.writeObject(rol);
+            fichero.writeObject(users);
 
             //Cerramos el fichero
             fichero.close();
+            
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error al crear/guardar el fichero");
+        }
+
+    }
+    
+    public static void registrarUsers() {
+        //CREAR/GUARDAR FICHERO BINARIO
+
+        User[] users = new User[100];
+            try{
+                ObjectInputStream Openfichero = new ObjectInputStream(new FileInputStream("files/users.dat"));
+                users = (User[]) Openfichero.readObject();
+                Openfichero.close();
+            }catch(Exception e){}
+            
+        try {
+            
+            
+
+            //CREAMOS UN ARRAY DE EMPLEADOS
+            //Por defecto todas las posiciones del array valen null.
+            
+            
+            
+            //ArrayList<Users> rol = new ArrayList<Users>();
+            
+            boolean posVacia=false, finArray=false;
+            int pos = 0;
+            String dato = null;
+
+
+            // Recorremos todo el array del usuario
+            do{
+                if(users[pos]!=null){
+                    pos++;
+                } else{
+                    users[pos] = new User();//Con esta linea le indico que le añado un nuevo empleado.
+                    users[pos].rol = "teacher";
+                    System.out.print("Introduce Nombre del profesor: ");
+                    dato = sc.next();
+                    users[pos].nombre = dato;
+                    System.out.print("Introduce Contraseña del profesor: ");
+                    dato = sc.next();
+                    users[pos].contraseña = dato;
+                    posVacia=true;
+                    
+                }
+                if (pos>=users.length-1){
+                    finArray=true;
+                }
+            }while(!posVacia&&!finArray);
+
+            for (int i=0;i<=1;i++){
+                System.out.println(users[i].nombre);
+            }
+            
+            ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream("files/users.dat"));
+            
+            //Con WriteObject escribimos directamente todo el array de empleados
+            fichero.writeObject(users);
+
+            //Cerramos el fichero
+            fichero.close();
+            
         } catch (Exception e) {
             System.out.println("Ha ocurrido un error al crear/guardar el fichero");
         }
@@ -841,10 +910,10 @@ public class LecturaAulas {
             // Creamos un nuevo array de usuarios
             // Y rellenamos con lo recuperado de leer el fichero mediante readObject
             // readObject recibe todo un array de Empleados y por eso lo casteamos (Users[])
-            Users[] rol = (Users[]) fichero.readObject();
+            User[] rol = (User[]) fichero.readObject();
 
             // Recorremos todo el array del usuario
-            for (Users users : rol) {
+            for (User users : rol) {
                 // Tenemos en cuenta que algunas posiciones del array valen null
                 // En ese caso no leas la información del usuario
                 if (users != null) {
@@ -878,10 +947,10 @@ public class LecturaAulas {
             // Creamos un nuevo array de usuarios
             // Y rellenamos con lo recuperado de leer el fichero mediante readObject
             // readObject recibe todo un array de Empleados y por eso lo casteamos (Users[])
-            Users[] rol = (Users[]) fichero.readObject();
+            User[] rol = (User[]) fichero.readObject();
 
             // Recorremos todo el array del usuario
-            for (Users users : rol) {
+            for (User users : rol) {
                 // Tenemos en cuenta que algunas posiciones del array valen null
                 // En ese caso no leas la información del usuario
                 if (users != null) {
@@ -915,10 +984,10 @@ public class LecturaAulas {
             // Creamos un nuevo array de usuarios
             // Y rellenamos con lo recuperado de leer el fichero mediante readObject
             // readObject recibe todo un array de Empleados y por eso lo casteamos (Users[])
-            Users[] rol = (Users[]) fichero.readObject();
+            User[] rol = (User[]) fichero.readObject();
 
             // Recorremos todo el array del usuario
-            for (Users users : rol) {
+            for (User users : rol) {
                 // Tenemos en cuenta que algunas posiciones del array valen null
                 // En ese caso no leas la información del usuario
                 if (users != null) {
@@ -934,7 +1003,7 @@ public class LecturaAulas {
         }
         return rolUser;
     }
-
+    
     public static void leerUsers() {
 
         // LEER FICHERO
@@ -945,10 +1014,10 @@ public class LecturaAulas {
             // Creamos un nuevo array de usuarios
             // Y rellenamos con lo recuperado de leer el fichero mediante readObject
             // readObject recibe todo un array de Empleados y por eso lo casteamos (Users[])
-            Users[] rol = (Users[]) fichero.readObject();
+            User[] rol = (User[]) fichero.readObject();
 
             // Recorremos todo el array del usuario
-            for (Users users : rol) {
+            for (User users : rol) {
                 // Tenemos en cuenta que algunas posiciones del array valen null
                 // En ese caso no leas la información del usuario
                 if (users != null) {
@@ -1018,7 +1087,7 @@ public class LecturaAulas {
 
             switch (opcion) {
                 case 1:
-                    altaUsuario();
+                    registrarUsers();
                     break;
                 case 2:
                     addRecord();
@@ -1039,10 +1108,5 @@ public class LecturaAulas {
         } while (opcion != 5);
     }
     
-    /**
-     * Siendo administradores podemos dar de Alta usuario: 
-     * Insertar nuevos usuarios con el rol teacher a la base de datos
-     */
-    public static void altaUsuario(){
-    }
+
 }
