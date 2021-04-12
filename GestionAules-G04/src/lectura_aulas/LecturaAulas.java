@@ -20,7 +20,9 @@ public class LecturaAulas {
     public static Scanner sc = new Scanner(System.in);
     public static final int AULA_SIN_ORDENADORES = 0;
     static User[] users;
-    
+    public static final String RUTA_FICHERO_USUARIOS = "files/users.dat";
+    public static final int LONG_ARRAY_USUARIOS = 100;
+
     public static void main(String[] args) throws FileNotFoundException {
         System.out.println("");
         //addRecord();
@@ -28,12 +30,13 @@ public class LecturaAulas {
         // leer_archivo();
         //eliminar();
         //MenuTeacher();
-        registrarAdmin();
-        leerUsers();
-        Login();
-        leerUsers();
-        
+        //registrarAdmin();
+        //leerUsers();
+        //Login();
+        //listarUsers();
+        //addUser();
 
+        addUser();
     }
 
     /**
@@ -754,100 +757,185 @@ public class LecturaAulas {
 
         try {
             //SI NO EXISTE EL ARCHIVO BINARIO, LO CREA.
-            ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream("files/users.dat",true));       
+            ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream("files/users.dat", true));
 
             //CREAMOS UN ARRAY DE USUARIOS
             //Por defecto todas las posiciones del array valen null.
-            
             User[] users = new User[10000];
-            
+
             //PASAMOS DEL OBJETO BINARIO AL ARRAY.
-            try{
+            try {
                 ObjectInputStream Openfichero = new ObjectInputStream(new FileInputStream("files/users.dat"));
                 users = (User[]) Openfichero.readObject();
                 Openfichero.close();
-            }catch(Exception e){}
-            
+            } catch (Exception e) {
+            }
+
             //CREAMOS EL ADMIN
             users[0] = new User();
             users[0].rol = "Admin";
             users[0].nombre = "Admin";
-            users[0].contraseña = "Admin1";
+            users[0].password = "Admin1";
 
             //Con WriteObject escribimos directamente todo el array de empleados
             fichero.writeObject(users);
 
             //Cerramos el fichero
             fichero.close();
-            
+
         } catch (Exception e) {
             System.out.println("Ha ocurrido un error al crear/guardar el fichero");
         }
 
     }
-    
-    public static void registrarUsers() {
-        //CREAR/GUARDAR FICHERO BINARIO
 
-        User[] users = new User[100];
-            try{
-                ObjectInputStream Openfichero = new ObjectInputStream(new FileInputStream("files/users.dat"));
-                users = (User[]) Openfichero.readObject();
-                Openfichero.close();
-            }catch(Exception e){}
-            
-        try {
-            
-            
+    /**
+     * Funcion que añade un nuevo usuario al fichero
+     */
+    public static void addUser() {
+        //Agafem la info del fitxer per a reutilitzarla un cop buidem 
+        //el fitxer i el tornem a sobreescriure
+        User[] users = cargarArrayUser();
 
-            //CREAMOS UN ARRAY DE EMPLEADOS
-            //Por defecto todas las posiciones del array valen null.
-            
-            
-            
-            //ArrayList<Users> rol = new ArrayList<Users>();
-            
-            boolean posVacia=false, finArray=false;
-            int pos = 0;
-            String dato = null;
+        //si l'array users es null significa que no existeix l'array
+        if (users != null) {
 
-            // Recorremos todo el array del usuario
-            do{
-                if(users[pos]!=null){
-                    pos++;
-                } else{
-                    users[pos] = new User();//Con esta linea le indico que le añado un nuevo empleado.
-                    users[pos].rol = "teacher";
-                    System.out.print("Introduce Nombre del profesor: ");
-                    dato = sc.next();
-                    users[pos].nombre = dato;
-                    System.out.print("Introduce Contraseña del profesor: ");
-                    dato = sc.next();
-                    users[pos].contraseña = dato;
-                    posVacia=true;
-                    
-                }
-                if (pos>=users.length-1){
-                    finArray=true;
-                }
-            }while(!posVacia&&!finArray);
-
-            for (int i=0;i<=1;i++){
-                System.out.println(users[i].nombre);
+            //buscar la última posicio disponible
+            //ALGORITMES DE CERCA
+            //mentre no hagis arribat al final de l'array
+            //i mentre hi hagi objectes en les posicions de l'array
+            int i = 0;
+            while (i < users.length && users[i] != null) {
+                i++;
             }
-            
-            ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream("files/users.dat"));
-            
-            //Con WriteObject escribimos directamente todo el array de empleados
-            fichero.writeObject(users);
 
-            //Cerramos el fichero
-            fichero.close();
-            
+            //Llegir un nou empleat i afegirlo en la ultima posicio disponible
+            //Si hem trobat una posicio valida de l'array (posicio nula) guardem el nou empleat
+            if (i < users.length) {
+                users[i] = introducirUser();
+                guardarArrayUsers(users);
+            } else {
+                System.out.println("No se admiten más usuarios, array lleno");
+            }
+        }
+    }
+
+    /**
+     * Funcion que retorna el array guardado en el fichero
+     *
+     * @return array guardado en el fichero
+     */
+    public static User[] cargarArrayUser() {
+        User[] resultat = null;
+        try {
+            //Carrrega el fitxer
+            ObjectInputStream input = new ObjectInputStream(new FileInputStream(RUTA_FICHERO_USUARIOS));
+
+            //Llegeix l'objecte i me'l carrega a la variable resultat
+            resultat = (User[]) input.readObject();
+
+            //tanca l'objecte amb el fitxer carregat
+            input.close();
+
         } catch (Exception e) {
-            System.out.println("Ha ocurrido un error al crear/guardar el fichero");
+            e.printStackTrace();
+        }
+        return resultat;
+    }
+
+    /**
+     * Machaca el array entero, pero como ya lo tenemos guardado en la funcion
+     * cargarArrayUser() en las primeras lineas del addUser(), cuando me lo
+     * guarda de nuevo, me guarda lo que tenia + lo que yo haya he hecho de
+     * nuevo
+     *
+     * @param users
+     */
+    public static void guardarArrayUsers(User[] users) {
+
+        //guardar tot l'array en el fitxer IMPORTANT: ha de sobreescriure tot el que hi havia
+        //carrega
+        ObjectOutputStream input;
+        try {
+            input = new ObjectOutputStream(new FileOutputStream(RUTA_FICHERO_USUARIOS, false));
+            //escriu
+            input.writeObject(users);
+            //tanca
+            input.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
+    }
+
+    /**
+     * Funcion que crea el fichero para guardar los usuarios en caso de que no
+     * exista
+     */
+    public static void crearFicheroUsers() {
+        try {
+            ObjectOutputStream input = new ObjectOutputStream(new FileOutputStream(RUTA_FICHERO_USUARIOS, false));
+            //Con WriteObject escribimos directamente todo el array de empleados
+            input.writeObject(new User[LONG_ARRAY_USUARIOS]);
+            //Cerramos el fichero
+            input.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Funcion generica para introducir usuarios
+     *
+     * @return
+     */
+    public static User introducirUser() {
+        //Con esta linea le indico que le añado un nuevo empleado.
+        User user = new User();
+
+        do {//Ha de demanar els camps per teclat i retornar una nova instància de user
+            System.out.println("Introducir rol: ");
+            user.rol = sc.nextLine();
+        } while (!user.rol.equals("teacher") && !user.rol.equals("Admin"));
+
+        //comprobar que el nombre del usuario no existe en el .dat
+        do {
+            System.out.print("Introduce Nombre del usuario: ");
+            user.nombre = sc.nextLine();
+        } while (ComprobarUser(user.nombre) == true);
+
+        System.out.print("Introduce Contraseña del usuario: ");
+        user.password = sc.nextLine();
+
+        return user;
+    }
+
+    /**
+     * Muestra los usuarios pasados en un array por parametro
+     *
+     * @param users
+     */
+    public static void mostrarUsers(User[] users) {
+        int i = 0;
+        //mirar que la i no es passi el tamany de l'array per tal d'evitar un error
+        //mirar que la posicio no sigui null
+        while (i < users.length && users[i] != null) {
+            mostrarUser(users[i]);
+            System.out.println();
+            i++;
+        }
+    }
+
+    /**
+     * Muestra un usuario en concreto
+     *
+     * @param user
+     */
+    public static void mostrarUser(User user) {
+        System.out.println("Rol: " + user.rol);
+        System.out.println("Nombre: " + user.nombre);
+        System.out.println("Contraseña: " + user.password);
     }
 
     /**
@@ -955,7 +1043,7 @@ public class LecturaAulas {
                 // Tenemos en cuenta que algunas posiciones del array valen null
                 // En ese caso no leas la información del usuario
                 if (users != null) {
-                    if (users.nombre.equals(user) && users.contraseña.equals(password)) {
+                    if (users.nombre.equals(user) && users.password.equals(password)) {
                         correct = true;
                     }
                 }
@@ -992,7 +1080,7 @@ public class LecturaAulas {
                 // Tenemos en cuenta que algunas posiciones del array valen null
                 // En ese caso no leas la información del usuario
                 if (users != null) {
-                    if (users.nombre.equals(user) && users.contraseña.equals(password)) {
+                    if (users.nombre.equals(user) && users.password.equals(password)) {
                         rolUser = users.rol;
                     }
                 }
@@ -1003,37 +1091,6 @@ public class LecturaAulas {
             System.out.println("Ha ocurrido un error al leer el fichero");
         }
         return rolUser;
-    }
-    
-    public static void leerUsers() {
-
-        // LEER FICHERO
-        try {
-            // A partir de aquí accederemos al fichero a leer mediante la variable fichero
-            ObjectInputStream fichero = new ObjectInputStream(new FileInputStream("files/users.dat"));
-
-            // Creamos un nuevo array de usuarios
-            // Y rellenamos con lo recuperado de leer el fichero mediante readObject
-            // readObject recibe todo un array de Empleados y por eso lo casteamos (Users[])
-            User[] rol = (User[]) fichero.readObject();
-
-            // Recorremos todo el array del usuario
-            for (User users : rol) {
-                // Tenemos en cuenta que algunas posiciones del array valen null
-                // En ese caso no leas la información del usuario
-                if (users != null) {
-
-                    System.out.println("rol: " + users.rol);
-                    System.out.println("Nombre: " + users.nombre);
-                    System.out.println("Contraseña: " + users.contraseña);
-                    System.out.println("--------------------");
-                }
-            }
-            // Cerramos el fichero
-            fichero.close();
-        } catch (Exception e) {
-            System.out.println("Ha ocurrido un error al leer el fichero");
-        }
     }
 
     public static void MenuTeacher() throws FileNotFoundException {
@@ -1088,16 +1145,16 @@ public class LecturaAulas {
 
             switch (opcion) {
                 case 1:
-                    registrarUsers();
+                    addUser();
                     break;
                 case 2:
-                    addRecord();
+                    listarUsers();
                     break;
                 case 3:
-                    modRecord();
+                    //TODO Modificar contraseña y email de un usuario
                     break;
                 case 4:
-                    eliminar();
+                    //TODO Eliminar usuario
                     break;
                 case 5:
                     System.out.println("Saliendo del programa...");
@@ -1107,5 +1164,13 @@ public class LecturaAulas {
                     break;
             }
         } while (opcion != 5);
+    }
+
+    /**
+     * Lista los usuarios registrados en el fichero.dat
+     */
+    public static void listarUsers() {
+        User[] users = cargarArrayUser();
+        mostrarUsers(users);
     }
 }

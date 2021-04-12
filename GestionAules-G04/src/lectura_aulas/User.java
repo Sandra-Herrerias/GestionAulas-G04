@@ -11,11 +11,9 @@ import java.io.Serializable;
  *
  * @author Alumne
  */
-public class User implements Serializable{
-   public String rol;
-   public String nombre;
-   public String contraseña;
-  
-   
-    
+public class User implements Serializable {
+
+    public String rol;
+    public String nombre;
+    public String password;
 }
