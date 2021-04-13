@@ -30,13 +30,14 @@ public class LecturaAulas {
         // leer_archivo();
         //eliminar();
         //MenuTeacher();
-        //registrarAdmin();
+        registrarAdmin();
         //leerUsers();
-        //Login();
-        //listarUsers();
+        listarUsers();
+        Login();
+        
         //addUser();
 
-        addUser();
+        //addUser();
     }
 
     /**
@@ -757,15 +758,15 @@ public class LecturaAulas {
 
         try {
             //SI NO EXISTE EL ARCHIVO BINARIO, LO CREA.
-            ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream("files/users.dat", true));
+            ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream(RUTA_FICHERO_USUARIOS, true));
 
             //CREAMOS UN ARRAY DE USUARIOS
             //Por defecto todas las posiciones del array valen null.
-            User[] users = new User[10000];
+            User[] users = new User[LONG_ARRAY_USUARIOS];//TODO
 
             //PASAMOS DEL OBJETO BINARIO AL ARRAY.
             try {
-                ObjectInputStream Openfichero = new ObjectInputStream(new FileInputStream("files/users.dat"));
+                ObjectInputStream Openfichero = new ObjectInputStream(new FileInputStream(RUTA_FICHERO_USUARIOS));
                 users = (User[]) Openfichero.readObject();
                 Openfichero.close();
             } catch (Exception e) {
@@ -994,7 +995,7 @@ public class LecturaAulas {
         // LEER FICHERO
         try {
             // A partir de aquí accederemos al fichero a leer mediante la variable fichero
-            ObjectInputStream fichero = new ObjectInputStream(new FileInputStream("files/users.dat"));
+            ObjectInputStream fichero = new ObjectInputStream(new FileInputStream(RUTA_FICHERO_USUARIOS));
 
             // Creamos un nuevo array de usuarios
             // Y rellenamos con lo recuperado de leer el fichero mediante readObject
@@ -1031,7 +1032,7 @@ public class LecturaAulas {
         // LEER FICHERO
         try {
             // A partir de aquí accederemos al fichero a leer mediante la variable fichero
-            ObjectInputStream fichero = new ObjectInputStream(new FileInputStream("files/users.dat"));
+            ObjectInputStream fichero = new ObjectInputStream(new FileInputStream(RUTA_FICHERO_USUARIOS));
 
             // Creamos un nuevo array de usuarios
             // Y rellenamos con lo recuperado de leer el fichero mediante readObject
@@ -1068,7 +1069,7 @@ public class LecturaAulas {
         // LEER FICHERO
         try {
             // A partir de aquí accederemos al fichero a leer mediante la variable fichero
-            ObjectInputStream fichero = new ObjectInputStream(new FileInputStream("files/users.dat"));
+            ObjectInputStream fichero = new ObjectInputStream(new FileInputStream(RUTA_FICHERO_USUARIOS));
 
             // Creamos un nuevo array de usuarios
             // Y rellenamos con lo recuperado de leer el fichero mediante readObject
@@ -1130,7 +1131,7 @@ public class LecturaAulas {
      *
      * @throws FileNotFoundException
      */
-    public static void MenuAdmin() throws FileNotFoundException {
+    public static void MenuAdmin() throws FileNotFoundException{//TODO sacar exception e insertar try catch
         Scanner sn = new Scanner(System.in);
         int opcion = 0;
 
