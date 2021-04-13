@@ -897,7 +897,7 @@ public class LecturaAulas {
         do {//Ha de demanar els camps per teclat i retornar una nova instància de user
             System.out.println("Introducir rol: ");
             user.rol = sc.nextLine();
-        } while (!user.rol.equals("teacher"));
+        } while (!user.rol.equalsIgnoreCase("teacher"));
 
         //comprobar que el nombre del usuario no existe en el .dat
         do {
