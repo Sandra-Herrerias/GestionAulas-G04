@@ -1,0 +1,28 @@
+Casos test de la función addUser():
+
+Caso 1:
+DESCRIPCIÓN: Introduzco el rol teacher
+ENTRADA: teacher
+SALIDA: Se añade correctamente el nuevo rol
+
+Caso 2:
+DESCRIPCIÓN: Introduzco un rol erróneo
+ENTRADA: hola
+SALIDA: "Introducir rol:" (el programa volverá a preguntar por el rol)
+
+Caso 3:
+DESCRIPCIÓN: Introduzco un nombre de usuaria que no existe
+ENTRADA: nombre_nuevo_usuaria
+SALIDA: Se añade correctamente la nueva usuaria en la última posición
+disponible. 
+
+Caso 4:
+DESCRIPCIÓN: Introduzco un nombre de usuaria que ya existe 
+ENTRADA: nombre_existente_usuaria
+SALIDA: "Introduce Nombre del usuario:"(el programa volverá a preguntar por el nombre)
+
+Caso 5:
+DESCRIPCIÓN: Quiero introducir un usuario pero no hay espacio en el array 
+para introducir nuevos objetos. 
+ENTRADA: -
+SALIDA: "No se admiten más usuarios, array lleno"
