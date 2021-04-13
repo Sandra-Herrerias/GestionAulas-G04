@@ -921,7 +921,7 @@ public class LecturaAulas {
         int i = 0;
         //mirar que la i no es passi el tamany de l'array per tal d'evitar un error
         //mirar que la posicio no sigui null
-        while (i < users.length && users[i] != null) {
+        while (i < users.length && users[i] != null && !users[i].nombre.isEmpty()) {
             mostrarUser(users[i]);
             System.out.println();
             i++;
