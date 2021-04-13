@@ -34,7 +34,6 @@ public class LecturaAulas {
         //leerUsers();
         listarUsers();
         Login();
-
         //addUser();
         //addUser();
     }
@@ -948,7 +947,7 @@ public class LecturaAulas {
         boolean correctLogin = false;
         int intentos = 3;
 
-        System.out.println("Control de acceso");
+        System.out.println("\n\nControl de acceso");
         System.out.println("***********************\n");
         do {
             System.out.print("Usuario: ");
@@ -972,9 +971,9 @@ public class LecturaAulas {
         } while (!correctLogin && intentos > 0);
 
         if (rol.equalsIgnoreCase("teacher")) {
-            MenuTeacher();
+            MenuTeacher(user);
         } else if (rol.equalsIgnoreCase("admin")) {
-            MenuAdmin();
+            MenuAdmin(user);
         } else if (intentos < 1) {
             System.out.println("ERROR: SE HAN ACABADO LOS INTENTOS.");
         } else {
@@ -1096,21 +1095,21 @@ public class LecturaAulas {
      * Esta Finción muestra el menú de profesor.
      * @throws FileNotFoundException 
      */
-    public static void MenuTeacher() throws FileNotFoundException {
+    public static void MenuTeacher(String user) throws FileNotFoundException {
         Scanner sn = new Scanner(System.in);
         int opcion = 0;
         // imprimir menú y pedir la opción.
         do {
-            System.out.print("Menú de Teacher: "
-                    +"-----------------------------------"
-                    +"Bienvenido usuario:" 
-                    +"-----------------------------------"
+            System.out.print("\nMenú de Teacher: "
+                    +"\n-----------------------------------"
+                    +"\nBienvenido usuario: "+user 
+                    +"\n-----------------------------------"
                     + "\n 1.Listar todas las clases  "
                     + "\n 2.Crear nueva clase "
                     + "\n 3.Modificar la clase "
                     + "\n 4.Eliminar la clase "
                     + "\n 5.Salir "
-                    + "-----------------------------------"
+                    + "\n-----------------------------------"
                     + "\n  Ingresa el numero de la opción: ");
                     
             opcion = sn.nextInt();
@@ -1130,7 +1129,7 @@ public class LecturaAulas {
                     eliminar();
                     break;
                 case 5:
-                    System.out.println("Saliendo del programa...");
+                    System.out.println("\nSaliendo del menu...");
                     Login();
                     break;
                 default:
@@ -1145,21 +1144,21 @@ public class LecturaAulas {
      * Esta Finción muestra el menú de Administrador.
      * @throws FileNotFoundException 
      */
-    public static void MenuAdmin() throws FileNotFoundException {//TODO sacar exception e insertar try catch
+    public static void MenuAdmin(String user) throws FileNotFoundException {//TODO sacar exception e insertar try catch
         Scanner sn = new Scanner(System.in);
         int opcion = 0;
         // imprimir menú y pedir la opción.
         do {
-            System.out.print("Menú de Admin: "
-                    +"-----------------------------------"
-                    +"Bienvenido usuario:" 
-                    +"-----------------------------------"
+            System.out.print("\nMenú de Admin: "
+                    +"\n-----------------------------------"
+                    +"\nBienvenido usuario: "+user 
+                    +"\n-----------------------------------"
                     + "\n 1.Alta usuario"
                     + "\n 2.Listar todos los usuarios"
                     + "\n 3.Modificar contraseña y email de un usuario"
                     + "\n 4.Eliminar usuario"
                     + "\n 5.Salir"
-                    +"-----------------------------------"
+                    +"\n-----------------------------------"
                     + "\n  Ingresa el numero de la opción: ");
             opcion = sn.nextInt();
              //Ponemos un switch con las funciones de cada opción.
@@ -1177,7 +1176,7 @@ public class LecturaAulas {
                     eliminarUsuario();
                     break;
                 case 5:
-                    System.out.println("Saliendo del programa...");
+                    System.out.println("\nSaliendo del menu...");
                     Login();
                     break;
                 default:
@@ -1210,32 +1209,35 @@ public class LecturaAulas {
         boolean encontrado = false;
         
         for (User user : users) {
-            if (usuario == user.nombre) {
+            if (user != null && usuario.equals(user.nombre)) {
                 encontrado = true;
             }
         }
-
+        System.out.println(encontrado);
         return encontrado;
     }
 /**
  * Esta función permite modificar un usuario mediante su nombre.
  */
     public static void modificarUser() {
+        
+        User[] users = cargarArrayUser();
         // ACTUALIZAR DATOS
         // Buscaremos por la clave primaria o varios campos, en este 
         //caso por Nombre y actualizaremos el nombre
         System.out.print("Introduce el nombre del usuario: ");
-        String nombreActualizado = sc.nextLine();
+        String nombreActualizado = sc.next();
  
 
         // AMPLIACIÓN: Comprobar si se ha encontrado o no ese usuario a 
         //modificar e informar al usuario
+        
         if (BuscarUser(nombreActualizado) == true) {
             for (User user : users) {
             if (user != null && user.nombre.equals(nombreActualizado)) {
                 System.out.println("Usuario actual: " + user.nombre);
                 System.out.print("Introduce el nuevo nombre de usuario: ");
-                user.nombre = sc.nextLine();
+                user.nombre = sc.next();
                 System.out.println("Registro actualizado correctamente!");
             }
         }
@@ -1250,11 +1252,12 @@ public class LecturaAulas {
      * Función que elimina un usuario según su nombre.
      */
    public static void eliminarUsuario() {
+       User[] users = cargarArrayUser();
    // ACTUALIZAR DATOS
         // Buscaremos por la clave primaria o varios campos, 
         //en este caso por Nombre.
         System.out.print("Qué usuario quiere borrar?: ");
-        String nombreBorrar = sc.nextLine();
+        String nombreBorrar = sc.next();
  
 
         // AMPLIACIÓN: Comprobar si se ha encontrado o no ese usuario a 
