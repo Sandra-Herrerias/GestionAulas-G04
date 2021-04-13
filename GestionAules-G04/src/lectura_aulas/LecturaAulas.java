@@ -972,9 +972,9 @@ public class LecturaAulas {
             }
         } while (!correctLogin && intentos > 0);
 
-        if (rol.equals("teacher")) {
+        if (rol.equalsIgnoreCase("teacher")) {
             MenuTeacher();
-        } else if (rol.equals("Admin")) {
+        } else if (rol.equalsIgnoreCase("admin")) {
             MenuAdmin();
         } else if (intentos < 1) {
             System.out.println("ERROR: SE HAN ACABADO LOS INTENTOS.");
