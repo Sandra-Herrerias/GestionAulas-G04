@@ -34,9 +34,8 @@ public class LecturaAulas {
         //leerUsers();
         listarUsers();
         Login();
-        
-        //addUser();
 
+        //addUser();
         //addUser();
     }
 
@@ -1093,15 +1092,29 @@ public class LecturaAulas {
         }
         return rolUser;
     }
-
+    /**
+     * Esta Finción muestra el menú de profesor.
+     * @throws FileNotFoundException 
+     */
     public static void MenuTeacher() throws FileNotFoundException {
         Scanner sn = new Scanner(System.in);
         int opcion = 0;
-
+        // imprimir menú y pedir la opción.
         do {
-            System.out.print("Menú de Teacher: \n 1.Listar todas las clases  \n 2.Crear nueva clase \n 3.Modificar la clase \n 4.Eliminar la clase \n 5.Salir \n  Ingresa el numero de la opción: ");
+            System.out.print("Menú de Teacher: "
+                    +"-----------------------------------"
+                    +"Bienvenido usuario:" 
+                    +"-----------------------------------"
+                    + "\n 1.Listar todas las clases  "
+                    + "\n 2.Crear nueva clase "
+                    + "\n 3.Modificar la clase "
+                    + "\n 4.Eliminar la clase "
+                    + "\n 5.Salir "
+                    + "-----------------------------------"
+                    + "\n  Ingresa el numero de la opción: ");
+                    
             opcion = sn.nextInt();
-
+            //Ponemos un switch con las funciones de cada opción.
             switch (opcion) {
                 case 1:
                     leer_archivo();
@@ -1118,32 +1131,38 @@ public class LecturaAulas {
                     break;
                 case 5:
                     System.out.println("Saliendo del programa...");
+                    Login();
                     break;
                 default:
                     System.out.println("La opcion que has seleccionado es erronea");
                     break;
             }
+            //Mientras que opción no sea 5 seguirá mostrando el menú.
         } while (opcion != 5);
     }
 
     /**
-     * PARA EL STRING 5
-     *
-     * @throws FileNotFoundException
+     * Esta Finción muestra el menú de Administrador.
+     * @throws FileNotFoundException 
      */
-    public static void MenuAdmin() throws FileNotFoundException{//TODO sacar exception e insertar try catch
+    public static void MenuAdmin() throws FileNotFoundException {//TODO sacar exception e insertar try catch
         Scanner sn = new Scanner(System.in);
         int opcion = 0;
-
+        // imprimir menú y pedir la opción.
         do {
-            System.out.print("Menú de Admin: \n 1.Alta usuario"
+            System.out.print("Menú de Admin: "
+                    +"-----------------------------------"
+                    +"Bienvenido usuario:" 
+                    +"-----------------------------------"
+                    + "\n 1.Alta usuario"
                     + "\n 2.Listar todos los usuarios"
                     + "\n 3.Modificar contraseña y email de un usuario"
                     + "\n 4.Eliminar usuario"
                     + "\n 5.Salir"
+                    +"-----------------------------------"
                     + "\n  Ingresa el numero de la opción: ");
             opcion = sn.nextInt();
-
+             //Ponemos un switch con las funciones de cada opción.
             switch (opcion) {
                 case 1:
                     addUser();
@@ -1152,18 +1171,20 @@ public class LecturaAulas {
                     listarUsers();
                     break;
                 case 3:
-                    //TODO Modificar contraseña y email de un usuario
+                    modificarUser();
                     break;
                 case 4:
-                    //TODO Eliminar usuario
+                    eliminarUsuario();
                     break;
                 case 5:
                     System.out.println("Saliendo del programa...");
+                    Login();
                     break;
                 default:
                     System.out.println("La opcion que has seleccionado es erronea");
                     break;
             }
+            //Mientras que opción no sea 5 seguirá mostrando el menú.
         } while (opcion != 5);
     }
 
@@ -1171,7 +1192,90 @@ public class LecturaAulas {
      * Lista los usuarios registrados en el fichero.dat
      */
     public static void listarUsers() {
+        //Llamamos las funciones.
         User[] users = cargarArrayUser();
         mostrarUsers(users);
     }
+    /**
+     * Función que comprueba si existe o no un usuario en nuestro 
+     * array de usuarios.
+     * @param usuario
+     * @return 
+     */
+    public static boolean BuscarUser(String usuario) {
+        
+        // LEER FICHERO EN MEMORIA
+        // Creamos la variable que contendrá el array de Usuario en memoria
+        User[] users = cargarArrayUser();
+        boolean encontrado = false;
+        
+        for (User user : users) {
+            if (usuario == user.nombre) {
+                encontrado = true;
+            }
+        }
+
+        return encontrado;
+    }
+/**
+ * Esta función permite modificar un usuario mediante su nombre.
+ */
+    public static void modificarUser() {
+        // ACTUALIZAR DATOS
+        // Buscaremos por la clave primaria o varios campos, en este 
+        //caso por Nombre y actualizaremos el nombre
+        System.out.print("Introduce el nombre del usuario: ");
+        String nombreActualizado = sc.nextLine();
+ 
+
+        // AMPLIACIÓN: Comprobar si se ha encontrado o no ese usuario a 
+        //modificar e informar al usuario
+        if (BuscarUser(nombreActualizado) == true) {
+            for (User user : users) {
+            if (user != null && user.nombre.equals(nombreActualizado)) {
+                System.out.println("Usuario actual: " + user.nombre);
+                System.out.print("Introduce el nuevo nombre de usuario: ");
+                user.nombre = sc.nextLine();
+                System.out.println("Registro actualizado correctamente!");
+            }
+        }
+        }else{
+            System.out.println("El usuario introducido no existe");
+        }
+        // GUARDAR FICHERO
+        guardarArrayUsers(users);
+
+    }
+    /**
+     * Función que elimina un usuario según su nombre.
+     */
+   public static void eliminarUsuario() {
+   // ACTUALIZAR DATOS
+        // Buscaremos por la clave primaria o varios campos, 
+        //en este caso por Nombre.
+        System.out.print("Qué usuario quiere borrar?: ");
+        String nombreBorrar = sc.nextLine();
+ 
+
+        // AMPLIACIÓN: Comprobar si se ha encontrado o no ese usuario a 
+        //borrar e informar al usuario
+        if (BuscarUser(nombreBorrar) == true) {
+             for (User user : users) {
+            if (user != null && user.nombre.equals(nombreBorrar)) {
+                user.nombre = "";
+                user.rol = "";
+                user.password= "";
+                
+                user = null;
+                System.out.println("Se ha eliminado el siguiente usuario: " + nombreBorrar);
+            }
+        }
+        }else{
+            System.out.println("El usuario introducido no existe");
+        }
+        // GUARDAR FICHERO
+        guardarArrayUsers(users);
+        
+    
+   }
 }
