@@ -971,7 +971,7 @@ public class LecturaAulas {
         boolean correctLogin = false;
         int intentos = 3;
 
-        System.out.println("\n\nControl de acceso");
+        System.out.println("\nControl de acceso");
         System.out.println("***********************\n");
         do {
             System.out.print("Usuario: ");
@@ -1155,8 +1155,8 @@ public class LecturaAulas {
                     eliminar();
                     break;
                 case 5:
-                    System.out.println("Hasta la próxima " + user);
-                    System.out.println("\nSaliendo del menu...");
+                    System.out.println("\nHasta la próxima " + user);
+                    System.out.println("Saliendo del menu...");
                     Login();
                     break;
                 default:
@@ -1204,8 +1204,8 @@ public class LecturaAulas {
                     eliminarUsuario();
                     break;
                 case 5:
-                    System.out.println("Hasta la próxima " + user);
-                    System.out.println("\nSaliendo del menu...");
+                    System.out.println("\nHasta la próxima " + user);
+                    System.out.println("Saliendo del menu...");
                     Login();
                     break;
                 default:
