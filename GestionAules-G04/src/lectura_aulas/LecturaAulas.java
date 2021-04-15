@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -20,14 +19,15 @@ public class LecturaAulas {
     public static Scanner sc = new Scanner(System.in);
     public static final int AULA_SIN_ORDENADORES = 0;
     static User[] users;
+    public static final String RUTA_FICHEROS_CLASSROOM = "files/classrooms.csv";
     public static final String RUTA_FICHERO_USUARIOS = "files/users.dat";
     public static final int LONG_ARRAY_USUARIOS = 100;
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         /*MAPEADO DE NAVEGACIÓN
         
-        - Login()
-            -MenuTeacher()
+        - login()
+            -menuTeacher()
                 1.Listar todas las clases
                     -leer_archivo();
                 2.Crear nueva clase
@@ -37,8 +37,8 @@ public class LecturaAulas {
                 4.Eliminar la clase
                     -eliminar();
                 5.Salir
-                    -Login();
-            -MenuAdmin()
+                    -login();
+            -menuAdmin()
                 1.Alta usuario
                     -addUser();
                 2.Listar todos los usuarios
@@ -48,7 +48,7 @@ public class LecturaAulas {
                 4.Eliminar usuario
                     -eliminarUsuario();
                 5.Salir
-                    -Login();
+                    -login();
          */
 
         System.out.println("");
@@ -58,11 +58,9 @@ public class LecturaAulas {
         System.out.println("");
         //En caso de no existir users.dat, te lo crea con usr:Admin psw:Admin1
         registrarAdmin();
-        
-        //Ejecuta el Login, este llama a menuTeacher() o menuAdmin().
-        Login();
-        
 
+        //Ejecuta el login, este llama a menuTeacher() o menuAdmin().
+        login();
     }
 
     /**
@@ -75,18 +73,22 @@ public class LecturaAulas {
         boolean pc_aula, projector_aula, insonoritzada_aula;
         //File: clase que me guarda el fichero
         //classrooms: variable que me apunta al fichero de texto que quiero leer
-        File classrooms = new File("files/classrooms.csv");
+        File classrooms = new File(RUTA_FICHEROS_CLASSROOM);
         //le decimos que intente hacer el siguiente codigo (abrir el fichero para
         //leerlo porque puede ser que de error)   
         String[] clase;
         try {
             Scanner sc = new Scanner(classrooms);
-            boolean first_see = true;//variable que usaremos para no imprimir la cabecera en la primera vuelta del bucle
-            while (sc.hasNextLine()) {//mientras haya una siguiente linea que leer ejecutar el siguiente codigo
+            boolean first_see = true;//variable que usaremos para no imprimir la 
+            //cabecera en la primera vuelta del bucle
+            while (sc.hasNextLine()) {//mientras haya una siguiente linea que 
+                //leer ejecutar el siguiente codigo
                 classroom = sc.nextLine();
-                clase = classroom.split(",");//separamos String[] por comas para poder tratar cada valor por separado
+                clase = classroom.split(",");//separamos String[] por comas para 
+                //poder tratar cada valor por separado
                 if (!first_see) {
-                    //Asignamos el valor de la pos[x] del vector clase[] a una variable determinada
+                    //Asignamos el valor de la pos[x] del vector clase[] a una 
+                    //variable determinada
                     id_aula = clase[0];
                     descripcio_aula = clase[1];
                     capacitat_aula = Integer.parseInt(clase[2]);
@@ -115,15 +117,13 @@ public class LecturaAulas {
 
     /**
      * Funcion que permite crear a la usuaria una nueva entrada en el fichero
-     *
-     * @throws java.io.FileNotFoundException
      */
-    public static void addRecord() throws FileNotFoundException {
+    public static void addRecord() {
 
-        File file_classrooms = new File("files/classrooms.csv");
-        Scanner leerFichero = new Scanner(file_classrooms);
+        File file_classrooms = new File(RUTA_FICHEROS_CLASSROOM);
 
         try {
+            Scanner leerFichero = new Scanner(file_classrooms);
             String id_aula, descripcio_aula, capacitatAulaStr, numPcStr,
                     pcAulaStr, projectorAulaStr, insonoritzadaAulaStr;
             int capacitat_aula, num_pc;
@@ -155,7 +155,8 @@ public class LecturaAulas {
                 num_pc = AULA_SIN_ORDENADORES;
             } else {
                 //Nueva entrada de num_pc
-                System.out.println("Introduce el numero de ordenadores que tiene el Aula: ");
+                System.out.println("Introduce el numero de ordenadores que "
+                        + "tiene el Aula: ");
                 numPcStr = sc.nextLine();
                 num_pc = nuevaEntradaDatosNums(numPcStr, esNumero);
             }
@@ -163,23 +164,27 @@ public class LecturaAulas {
             //Nueva entrada de projector_aula           
             System.out.println("Introduce si el Aula tiene proyector o no: ");
             projectorAulaStr = sc.nextLine();
-            projector_aula = nuevaEntradaDatosBoolean(projector_aula, projectorAulaStr, esValido);
+            projector_aula = nuevaEntradaDatosBoolean(projector_aula,
+                    projectorAulaStr, esValido);
 
             //Nueva entrada de insonoritzada_aula
             System.out.println("Introduce si el Aula está insonorizada o no: ");
             insonoritzadaAulaStr = sc.nextLine();
-            insonoritzada_aula = nuevaEntradaDatosBoolean(insonoritzada_aula, insonoritzadaAulaStr, esValido);
+            insonoritzada_aula = nuevaEntradaDatosBoolean(insonoritzada_aula,
+                    insonoritzadaAulaStr, esValido);
 
-            // El true al final indica que escribiremos al final del fichero añadiendo texto
+            // El true al final indica que escribiremos al final del fichero 
+            //añadiendo texto
             FileWriter nuevaLinea = new FileWriter(file_classrooms, true);
             //Se secribe la nueva entrada del resto de atributos en el fichero     
             nuevaLinea.write(descripcio_aula + "," + capacitat_aula + ","
-                    + pc_aula + "," + num_pc + "," + projector_aula + "," + insonoritzada_aula + "\n");
+                    + pc_aula + "," + num_pc + "," + projector_aula + ","
+                    + insonoritzada_aula + "\n");
             nuevaLinea.flush();//limpia la memoria del writer
 
             nuevaLinea.close();
         } catch (Exception e) {
-            System.out.println("Ha ocurrido un error al crear/escribir en el fichero");
+            System.out.println("Ha ocurrido un error al añadir el aula");
         }
 
     }
@@ -272,22 +277,26 @@ public class LecturaAulas {
      *
      * @param dadaEntradaStr
      * @return
-     * @throws FileNotFoundException
      */
-    public static boolean compruebaSiIdAulaYaExiste(String dadaEntradaStr) throws FileNotFoundException {
-        File file_classrooms = new File("files/classrooms.csv");
+    public static boolean compruebaSiIdAulaYaExiste(String dadaEntradaStr) {
+        File file_classrooms = new File(RUTA_FICHEROS_CLASSROOM);
         //Accedemos al fichero que queremos leer
-        Scanner lectura = new Scanner(file_classrooms);
-        boolean resultat = false;
 
-        //Lee cada linea del fichero y la añade en un ArrayList
-        while (lectura.hasNext() && resultat == false) {
-            String linea = lectura.nextLine();
-            if (linea.startsWith(dadaEntradaStr)) {
-                resultat = true;
+        boolean resultat = false;
+        try {
+            Scanner lectura = new Scanner(file_classrooms);
+
+            //Lee cada linea del fichero y la añade en un ArrayList
+            while (lectura.hasNext() && resultat == false) {
+                String linea = lectura.nextLine();
+                if (linea.startsWith(dadaEntradaStr)) {
+                    resultat = true;
+                }
             }
+            lectura.close();
+        } catch (Exception e) {
+            System.out.println("Error, no se puede comprobar si el aula existe");
         }
-        lectura.close();
         return resultat;
     }
 
@@ -295,15 +304,15 @@ public class LecturaAulas {
      * Añade una nueva aula en el caso que no exista ya en el archivo
      *
      * @param id_aula
-     * @throws IOException
+     *
      */
-    public static void anadirIdAulaNuevo(String id_aula) throws IOException {
+    public static void anadirIdAulaNuevo(String id_aula) {
 
         boolean esValido = true;
-        File file_classrooms = new File("files/classrooms.csv");
-        FileWriter nuevaLinea = new FileWriter(file_classrooms, true);
+        File file_classrooms = new File(RUTA_FICHEROS_CLASSROOM);
 
         try {
+            FileWriter nuevaLinea = new FileWriter(file_classrooms, true);
             while (compruebaSiIdAulaYaExiste(id_aula)) {
                 System.out.println("El aula ya existe");
                 System.out.println("Introduce un id de Aula nuevo: ");
@@ -317,7 +326,7 @@ public class LecturaAulas {
                 nuevaLinea.flush();//limpia la memoria del writer
                 nuevaLinea.close();
             }
-        } catch (FileNotFoundException ex) {
+        } catch (Exception e) {
             System.out.println("No se ha encontrado ningun fichero");
         }
     }
@@ -354,7 +363,8 @@ public class LecturaAulas {
      * @param esValido
      * @return dato de tipo Boolean (ya validado)
      */
-    public static boolean nuevaEntradaDatosBoolean(boolean dadaEntrada, String dadaEntradaStr, boolean esValido) {
+    public static boolean nuevaEntradaDatosBoolean(boolean dadaEntrada,
+            String dadaEntradaStr, boolean esValido) {
         do {
             esValido = validarSiNo(dadaEntradaStr);
             if (esValido == false) {
@@ -364,9 +374,9 @@ public class LecturaAulas {
             }
         } while (esValido == false);
 
-        if ("si".equals(dadaEntradaStr) || "SI".equals(dadaEntradaStr)) {
+        if ("si".equalsIgnoreCase(dadaEntradaStr)) {
             dadaEntrada = true;
-        } else if ("no".equals(dadaEntradaStr) || "NO".equals(dadaEntradaStr)) {
+        } else if ("no".equalsIgnoreCase(dadaEntradaStr)) {
             dadaEntrada = false;
         }
 
@@ -379,7 +389,7 @@ public class LecturaAulas {
     public static void modRecord() {
 
         //LECTURA DE ARCHIVO
-        File file_classrooms = new File("files/classrooms.csv");
+        File file_classrooms = new File(RUTA_FICHEROS_CLASSROOM);
 
         //ASIGNACION DE VARIABLES
         ArrayList<String> classroom_info = new ArrayList<>();
@@ -395,7 +405,7 @@ public class LecturaAulas {
         boolean pc_aula = false, projector_aula = false, insonoritzada_aula = false;
 
         //VOLCANDO DEL FICHERO A LA MEMORIA
-        classroom_info = FileToArrayList(file_classrooms, classroom_info);
+        classroom_info = fileToArrayList(file_classrooms, classroom_info);
 
         //BLOQUE DE EDICIÓN
         try {
@@ -409,7 +419,8 @@ public class LecturaAulas {
 
                 //Recorremos el ArrayList
                 for (String classroom : classroom_info) {
-                    //Si el aula coincide con el id_aula del archivo lo registrará en variables.
+                    //Si el aula coincide con el id_aula del archivo lo registrará 
+                    //en variables.
                     if (aula.equals(classroom.substring(0, classroom.indexOf(",")))) {
                         laClaseExiste = true;
                         lineaAula = classroom;
@@ -456,45 +467,50 @@ public class LecturaAulas {
                             case 1:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next();
-                                id_aula = writeUniqueID(claseRepetida, valor, id_aula, classroom_info);
+                                id_aula = writeUniqueID(claseRepetida, valor,
+                                        id_aula, classroom_info);
                                 break;
                             //MODIFICAR descripcio_aula
                             case 2:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next();
-                                descripcio_aula = WriteCorrectDesc(valor, descripcio_aula);
+                                descripcio_aula = writeCorrectDesc(valor,
+                                        descripcio_aula);
                                 break;
                             //MODIFICAR capacitat_aula
                             case 3:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next();
-                                capacitat_aula = WriteCorrectNum(valor, capacitat_aula);
+                                capacitat_aula = writeCorrectNum(valor,
+                                        capacitat_aula);
                                 break;
 
                             //MODIFICAR pc_aula
                             case 4:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next().toLowerCase();
-                                pc_aula = WriteCorrectBoolean(valor, pc_aula);
+                                pc_aula = writeCorrectBoolean(valor, pc_aula);
 
                                 break;
                             //MODIFICAR num_pc
                             case 5:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next();
-                                num_pc = WriteCorrectNum(valor, num_pc);
+                                num_pc = writeCorrectNum(valor, num_pc);
                                 break;
                             //MODIFICAR projector_aula
                             case 6:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next().toLowerCase();
-                                projector_aula = WriteCorrectBoolean(valor, projector_aula);
+                                projector_aula = writeCorrectBoolean(valor,
+                                        projector_aula);
                                 break;
                             //MODIFICAR insonoritzada_aula
                             case 7:
                                 System.out.print("Inserte nuevo registro: ");
                                 valor = sc.next().toLowerCase();
-                                insonoritzada_aula = WriteCorrectBoolean(valor, insonoritzada_aula);
+                                insonoritzada_aula = writeCorrectBoolean(valor,
+                                        insonoritzada_aula);
                                 break;
                             //APLICAR MODIFICACIONES
                             case 0:
@@ -522,12 +538,17 @@ public class LecturaAulas {
         }
 
         //ACTUALIZANDO EL ARCHIVO
-        WriteFile(file_classrooms, classroom_info, aula, laClaseExiste, error, id_aula, descripcio_aula, capacitat_aula, pc_aula, num_pc, projector_aula, insonoritzada_aula);
+        writeFile(file_classrooms, classroom_info, aula, laClaseExiste, error,
+                id_aula, descripcio_aula, capacitat_aula, pc_aula, num_pc,
+                projector_aula, insonoritzada_aula);
 
     }
 
+    /**
+     * Elimina el registro de un aula en el fichero classroom.csv
+     */
     public static void eliminar() {
-        File file_classrooms = new File("files/classrooms.csv");
+        File file_classrooms = new File(RUTA_FICHEROS_CLASSROOM);
 
         // Array para guardar todas las líneas leídas del fichero
         ArrayList<String> classroom_info = new ArrayList<>();
@@ -625,7 +646,8 @@ public class LecturaAulas {
      * @param classroom_info ArrayList
      * @return String id_aula (actualizada)/(nueva)
      */
-    public static String writeUniqueID(boolean claseRepetida, String valor, String id_aula, ArrayList<String> classroom_info) {
+    public static String writeUniqueID(boolean claseRepetida, String valor,
+            String id_aula, ArrayList<String> classroom_info) {
 
         claseRepetida = checkUniqueID(valor, classroom_info);
         if (!claseRepetida) {
@@ -638,14 +660,14 @@ public class LecturaAulas {
 
     //FUNCIONES PARA DESCRIPCIO_AULA
     /**
-     * WriteCorrectDesc() Escribe una descripción correcta
+     * writeCorrectDesc() Escribe una descripción correcta
      *
      * @param valor String descripcio_aula(temporal)
      * @param descripcio_aula String
      * descripcio_aula(actual)/descripcio_aula(temporal)[Si es nuevo registro]
      * @return String descripcio_aula(actualizada)/(nueva)
      */
-    public static String WriteCorrectDesc(String valor, String descripcio_aula) {
+    public static String writeCorrectDesc(String valor, String descripcio_aula) {
         if (validarIdDescripcio(valor)) {
             descripcio_aula = valor;
         } else {
@@ -660,14 +682,14 @@ public class LecturaAulas {
 
     //FUNCIONES PARA NUMEROS
     /**
-     * WriteCorrectNum() Escribe un valor numérico correcto.
+     * writeCorrectNum() Escribe un valor numérico correcto.
      *
      * @param valor int valor_numerico(temporal)
      * @param to_return int valor_numerico(actual)/int valor [Si es nuevo
      * registro]
      * @return int valor_numerico(actualizado)/(nuevo)
      */
-    public static int WriteCorrectNum(String valor, int to_return) {
+    public static int writeCorrectNum(String valor, int to_return) {
         if (validarStringNum(valor)) {
             to_return = convertirStringaInt(valor);
         } else {
@@ -682,14 +704,14 @@ public class LecturaAulas {
 
     //FUNCIONES PARA BOOLEANOS
     /**
-     * WriteCorrectBoolean() Escribe un boolean correcto
+     * writeCorrectBoolean() Escribe un boolean correcto
      *
      * @param valor boolean valor(temporal)"si"/"no"
      * @param to_return boolean valor(actual)/valor (temporal)[Si es nuevo
      * registro]
      * @return valor "true"/"false"
      */
-    public static boolean WriteCorrectBoolean(String valor, boolean to_return) {
+    public static boolean writeCorrectBoolean(String valor, boolean to_return) {
         if (valor.equals("si") | valor.equals("no")) {
             if (valor.equals("si")) {
                 to_return = true;
@@ -708,13 +730,14 @@ public class LecturaAulas {
 
     //FUNCION ESCRIBIR ARCHIVO
     /**
-     * FileToArrayList() Añade las lineas de un fichero a una ArrayList
+     * fileToArrayList() Añade las lineas de un fichero a una ArrayList
      *
      * @param file_classrooms Variable del archivo cargado
      * @param classroom_info Variable de la ArrayList
      * @return ArrayList con las lineas del fichero
      */
-    public static ArrayList<String> FileToArrayList(File file_classrooms, ArrayList<String> classroom_info) {
+    public static ArrayList<String> fileToArrayList(File file_classrooms,
+            ArrayList<String> classroom_info) {
         try {
             Scanner leerFichero = new Scanner(file_classrooms);
 
@@ -730,7 +753,7 @@ public class LecturaAulas {
     }
 
     /**
-     * WriteFile() Escribe los registros alterados en memoria al archivo. NOTA:
+     * writeFile() Escribe los registros alterados en memoria al archivo. NOTA:
      * ESTA FUNCION ELIMINA EL ARCHIVO ANTES DE ESCRIBIR
      *
      * @param file_classrooms
@@ -746,14 +769,18 @@ public class LecturaAulas {
      * @param projector_aula
      * @param insonoritzada_aula
      */
-    public static void WriteFile(File file_classrooms, ArrayList<String> classroom_info, String aula, boolean laClaseExiste, boolean error, String id_aula, String descripcio_aula, int capacitat_aula, boolean pc_aula, int num_pc, boolean projector_aula, boolean insonoritzada_aula) {
+    public static void writeFile(File file_classrooms, ArrayList<String> classroom_info,
+            String aula, boolean laClaseExiste, boolean error, String id_aula,
+            String descripcio_aula, int capacitat_aula, boolean pc_aula, int num_pc,
+            boolean projector_aula, boolean insonoritzada_aula) {
         try {
             FileWriter writer = new FileWriter(file_classrooms);
 
             //Recorremos la ArrayList
             for (String classroom : classroom_info) {
                 //Si id_aula coincide con el aula modificada actualiza los campos
-                if (aula.equals(classroom.substring(0, classroom.indexOf(","))) && laClaseExiste && !error) {
+                if (aula.equals(classroom.substring(0, classroom.indexOf(",")))
+                        && laClaseExiste && !error) {
 
                     writer.write(id_aula
                             + "," + descripcio_aula
@@ -769,15 +796,19 @@ public class LecturaAulas {
             }
             //Si el programa finaliza sin problemas.
             if (laClaseExiste && !error) {
-                System.out.println("\nREGISTRO AZTUALIZADO CON ÉXITO\n");
+                System.out.println("\nREGISTRO ACTUALIZADO CON ÉXITO\n");
             }
 
             writer.close();
         } catch (Exception e) {
-            System.out.println("¡HA OCURRIDO UN ERROR!");
+            System.out.println("Ha ocurrido un error al escribir el archivo");
         }
     }
 
+    /**
+     * Genera el archivo users.dat con un Administrador por defecto si no existe
+     * el archivo
+     */
     public static void registrarAdmin() {
         //CREAR/GUARDAR FICHERO BINARIO
 
@@ -810,7 +841,7 @@ public class LecturaAulas {
             fichero.close();
 
         } catch (Exception e) {
-            System.out.println("Ha ocurrido un error al crear/guardar el fichero");
+            System.out.println("Ha ocurrido un error al crear el fichero user.dat");
         }
 
     }
@@ -891,7 +922,6 @@ public class LecturaAulas {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
     }
 
     /**
@@ -914,14 +944,14 @@ public class LecturaAulas {
     /**
      * Funcion generica para introducir usuarios
      *
-     * @return
+     * @return nuevo usuario
      */
     public static User introducirUser() {
         //Con esta linea le indico que le añado un nuevo empleado.
         User user = new User();
 
         do {//Ha de demanar els camps per teclat i retornar una nova instància de user
-            System.out.println("Introducir rol: ");
+            System.out.println("Introducir rol ('admin' o 'teacher'): ");
             user.rol = sc.nextLine();
         } while (!user.rol.equalsIgnoreCase("teacher"));
 
@@ -929,7 +959,7 @@ public class LecturaAulas {
         do {
             System.out.print("Introduce Nombre del usuario: ");
             user.nombre = sc.nextLine();
-        } while (ComprobarUser(user.nombre) == true);
+        } while (comprobarUser(user.nombre) == true);
 
         System.out.print("Introduce Contraseña del usuario: ");
         user.password = sc.nextLine();
@@ -965,11 +995,11 @@ public class LecturaAulas {
     }
 
     /**
-     * Login()
-     *
-     * @throws FileNotFoundException
+     * Introducción del usuario con rol de admin o teacher Comprueba si el
+     * usuario es correcto o no Según su rol, llamará a la función de Menú
+     * Teacher o Menú Admin
      */
-    public static void Login() throws FileNotFoundException {
+    public static void login() {
         String user, password, rol = "";
         boolean correctLogin = false;
         int intentos = 3;
@@ -979,10 +1009,10 @@ public class LecturaAulas {
         do {
             System.out.print("Usuario: ");
             user = sc.next();
-            if (ComprobarUser(user)) {
+            if (comprobarUser(user)) {
                 System.out.print("Password: ");
                 password = sc.next();
-                if (ComprobarPassword(user, password)) {
+                if (comprobarPassword(user, password)) {
                     rol = asignarRol(user, password);
                     correctLogin = true;
                 } else {
@@ -998,9 +1028,9 @@ public class LecturaAulas {
         } while (!correctLogin && intentos > 0);
 
         if (rol.equalsIgnoreCase("teacher")) {
-            MenuTeacher(user);
+            menuTeacher(user);
         } else if (rol.equalsIgnoreCase("admin")) {
-            MenuAdmin(user);
+            menuAdmin(user);
         } else if (intentos < 1) {
             System.out.println("ERROR: SE HAN ACABADO LOS INTENTOS.");
         } else {
@@ -1010,12 +1040,12 @@ public class LecturaAulas {
     }
 
     /**
-     * ComprobarUser(String user)
+     * Se comprueba que el usuario exista en el fichero users.dat
      *
      * @param user
-     * @return
+     * @return true si existe el usuario || false si no existe el usuario
      */
-    public static boolean ComprobarUser(String user) {
+    public static boolean comprobarUser(String user) {
         boolean correct = false;
         // LEER FICHERO
         try {
@@ -1046,13 +1076,13 @@ public class LecturaAulas {
     }
 
     /**
-     * ComprobarPassword(String user, String password)
+     * Se comprueba que el password exista en el fichero users.dat
      *
      * @param user
      * @param password
-     * @return
+     * @return true si el password coincide || false si no existe
      */
-    public static boolean ComprobarPassword(String user, String password) {
+    public static boolean comprobarPassword(String user, String password) {
         boolean correct = false;
         // LEER FICHERO
         try {
@@ -1083,11 +1113,12 @@ public class LecturaAulas {
     }
 
     /**
-     * asignarRol(String user, String password)
+     * Comprueba si el el usuario y el password introducidos son correctos y
+     * retorna su rol
      *
      * @param user
      * @param password
-     * @return
+     * @return el rol del usuario
      */
     public static String asignarRol(String user, String password) {
         String rolUser = "";
@@ -1120,62 +1151,64 @@ public class LecturaAulas {
     }
 
     /**
-     * Esta Finción muestra el menú de profesor.
+     * Esta Función muestra el menú de profesor.
      *
-     * @throws FileNotFoundException
      */
-    public static void MenuTeacher(String user) throws FileNotFoundException {
-        Scanner sn = new Scanner(System.in);
-        int opcion = 0;
-        // imprimir menú y pedir la opción.
-        do {
-            System.out.print("\nMenú de Teacher: "
-                    + "\n-----------------------------------"
-                    + "\nBienvenido usuario: " + user
-                    + "\n-----------------------------------"
-                    + "\n 1.Listar todas las clases  "
-                    + "\n 2.Crear nueva clase "
-                    + "\n 3.Modificar la clase "
-                    + "\n 4.Eliminar la clase "
-                    + "\n 5.Salir "
-                    + "\n-----------------------------------"
-                    + "\n  Ingresa el numero de la opción: ");
+    public static void menuTeacher(String user) {
+        try {
 
-            opcion = sn.nextInt();
-            //Ponemos un switch con las funciones de cada opción.
-            switch (opcion) {
-                case 1:
-                    leer_archivo();
+            Scanner sn = new Scanner(System.in);
+            int opcion = 0;
+            // imprimir menú y pedir la opción.
+            do {
+                System.out.print("\nMenú de Teacher: "
+                        + "\n-----------------------------------"
+                        + "\nBienvenido usuario: " + user
+                        + "\n-----------------------------------"
+                        + "\n 1.Listar todas las clases  "
+                        + "\n 2.Crear nueva clase "
+                        + "\n 3.Modificar la clase "
+                        + "\n 4.Eliminar la clase "
+                        + "\n 5.Salir "
+                        + "\n-----------------------------------"
+                        + "\n  Ingresa el numero de la opción: ");
 
-                    break;
-                case 2:
-                    addRecord();
-                    break;
-                case 3:
-                    modRecord();
-                    break;
-                case 4:
-                    eliminar();
-                    break;
-                case 5:
-                    System.out.println("\nHasta la próxima " + user);
-                    System.out.println("Saliendo del menu...");
-                    Login();
-                    break;
-                default:
-                    System.out.println("La opcion que has seleccionado es erronea");
-                    break;
-            }
-            //Mientras que opción no sea 5 seguirá mostrando el menú.
-        } while (opcion != 5);
+                opcion = sn.nextInt();
+                //Ponemos un switch con las funciones de cada opción.
+                switch (opcion) {
+                    case 1:
+                        leer_archivo();
+
+                        break;
+                    case 2:
+                        addRecord();
+                        break;
+                    case 3:
+                        modRecord();
+                        break;
+                    case 4:
+                        eliminar();
+                        break;
+                    case 5:
+                        System.out.println("\nHasta la próxima " + user);
+                        System.out.println("Saliendo del menu...");
+                        login();
+                        break;
+                    default:
+                        System.out.println("La opcion que has seleccionado es erronea");
+                        break;
+                }
+                //Mientras que opción no sea 5 seguirá mostrando el menú.
+            } while (opcion != 5);
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error en la función Menú Teacher");
+        }
     }
 
     /**
-     * Esta Finción muestra el menú de Administrador.
-     *
-     * @throws FileNotFoundException
+     * Esta Función muestra el menú de Administrador.
      */
-    public static void MenuAdmin(String user) throws FileNotFoundException {//TODO sacar exception e insertar try catch
+    public static void menuAdmin(String user) {
         Scanner sn = new Scanner(System.in);
         int opcion = 0;
         // imprimir menú y pedir la opción.
@@ -1186,7 +1219,7 @@ public class LecturaAulas {
                     + "\n-----------------------------------"
                     + "\n 1.Alta usuario"
                     + "\n 2.Listar todos los usuarios"
-                    + "\n 3.Modificar contraseña y email de un usuario"
+                    + "\n 3.Modificar contraseña y usuario"
                     + "\n 4.Eliminar usuario"
                     + "\n 5.Salir"
                     + "\n-----------------------------------"
@@ -1201,7 +1234,7 @@ public class LecturaAulas {
                     listarUsers();
                     break;
                 case 3:
-                    modificarUser();
+                    menuModificar();
                     break;
                 case 4:
                     eliminarUsuario();
@@ -1209,7 +1242,7 @@ public class LecturaAulas {
                 case 5:
                     System.out.println("\nHasta la próxima " + user);
                     System.out.println("Saliendo del menu...");
-                    Login();
+                    login();
                     break;
                 default:
                     System.out.println("La opcion que has seleccionado es erronea");
@@ -1233,9 +1266,9 @@ public class LecturaAulas {
      * usuarios.
      *
      * @param usuario
-     * @return
+     * @return true si ha encontrado el usuario || false si no lo ha encontrado
      */
-    public static boolean BuscarUser(String usuario) {
+    public static boolean buscarUser(String usuario) {
 
         // LEER FICHERO EN MEMORIA
         // Creamos la variable que contendrá el array de Usuario en memoria
@@ -1247,7 +1280,6 @@ public class LecturaAulas {
                 encontrado = true;
             }
         }
-        System.out.println(encontrado);
         return encontrado;
     }
 
@@ -1265,7 +1297,7 @@ public class LecturaAulas {
 
         // AMPLIACIÓN: Comprobar si se ha encontrado o no ese usuario a 
         //modificar e informar al usuario
-        if (BuscarUser(nombreActualizado) == true) {
+        if (buscarUser(nombreActualizado)) {
             for (User user : users) {
                 if (user != null && user.nombre.equals(nombreActualizado)) {
                     System.out.println("Usuario actual: " + user.nombre);
@@ -1279,7 +1311,69 @@ public class LecturaAulas {
         }
         // GUARDAR FICHERO
         guardarArrayUsers(users);
+    }
 
+    /**
+     * Esta función permite modificar un password mediante su nombre.
+     */
+    public static void modificarPassword() {
+
+        User[] users = cargarArrayUser();
+        // ACTUALIZAR DATOS
+        // Buscaremos por la clave primaria o varios campos, en este 
+        //caso por Nombre y actualizaremos el nombre
+        System.out.print("Introduce el nombre del usuario: ");
+        String nombreActualizado = sc.next();
+
+        // AMPLIACIÓN: Comprobar si se ha encontrado o no ese usuario a 
+        //modificar e informar al usuario
+        if (buscarUser(nombreActualizado)) {
+            for (User user : users) {
+                if (user != null && user.nombre.equals(nombreActualizado)) {
+                    System.out.println("Usuario actual: " + user.nombre);
+                    System.out.print("Introduce el nuevo password de usuario: ");
+                    user.password = sc.next();
+                    System.out.println("Registro actualizado correctamente!");
+                }
+            }
+        } else {
+            System.out.println("El usuario introducido no existe");
+        }
+        // GUARDAR FICHERO
+        guardarArrayUsers(users);
+    }
+
+    /**
+     * Se crea un menú para modificar el password o el usuario
+     */
+    public static void menuModificar() {
+
+        int opcion;
+        String opcion_introducida;
+        System.out.println("\n");
+        System.out.println("MENU MODIFICAR");
+        System.out.println("\n");
+
+        System.out.println("1. Modificar usuario");
+        System.out.println("2. Modificar password");
+        System.out.println("");
+        System.out.println("Qué quiere modificar: ");
+
+        opcion_introducida = sc.next();
+
+        if (validarStringNum(opcion_introducida)) {
+            opcion = convertirStringaInt(opcion_introducida);
+        } else {
+            opcion = 99;
+        }
+
+        if (opcion == 1) {
+            modificarUser();
+        } else if (opcion == 2) {
+            modificarPassword();
+        } else {
+            System.out.println("Opcion incorrecta, elige 1 o 2");
+        }
     }
 
     /**
@@ -1295,7 +1389,7 @@ public class LecturaAulas {
 
         // AMPLIACIÓN: Comprobar si se ha encontrado o no ese usuario a 
         //borrar e informar al usuario
-        if (BuscarUser(nombreBorrar) == true) {
+        if (buscarUser(nombreBorrar) == true) {
             for (User user : users) {
                 if (user != null && user.nombre.equals(nombreBorrar)) {
                     user.nombre = "";
