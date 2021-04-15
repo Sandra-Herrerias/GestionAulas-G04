@@ -52,7 +52,10 @@ public class LecturaAulas {
          */
 
         System.out.println("");
-        
+        System.out.println("+------------------+");
+        System.out.println("| GESTIÓN DE AULAS |");
+        System.out.println("+------------------+");
+        System.out.println("");
         //En caso de no existir users.dat, te lo crea con usr:Admin psw:Admin1
         registrarAdmin();
         
@@ -1308,6 +1311,5 @@ public class LecturaAulas {
         }
         // GUARDAR FICHERO
         guardarArrayUsers(users);
-
     }
 }
