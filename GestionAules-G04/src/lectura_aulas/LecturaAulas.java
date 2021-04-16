@@ -949,20 +949,28 @@ public class LecturaAulas {
     public static User introducirUser() {
         //Con esta linea le indico que le añado un nuevo empleado.
         User user = new User();
-
+        
         do {//Ha de demanar els camps per teclat i retornar una nova instància de user
-            System.out.println("Introducir rol ('admin' o 'teacher'): ");
-            user.rol = sc.nextLine();
+            System.out.println("Introducir rol 'teacher': ");
+            user.rol = sc.next();
+            if (!user.rol.equalsIgnoreCase("teacher")){
+                System.out.println("Rol incorrecto");
+                System.out.println("");
+            }
         } while (!user.rol.equalsIgnoreCase("teacher"));
 
         //comprobar que el nombre del usuario no existe en el .dat
         do {
+            if (comprobarUser(user.nombre) == true){
+                System.out.println("El nombre de usuario ya existe, inserte uno nuevo");
+                System.out.println("");
+            }
             System.out.print("Introduce Nombre del usuario: ");
-            user.nombre = sc.nextLine();
+            user.nombre = sc.next();
         } while (comprobarUser(user.nombre) == true);
 
         System.out.print("Introduce Contraseña del usuario: ");
-        user.password = sc.nextLine();
+        user.password = sc.next();
 
         return user;
     }
