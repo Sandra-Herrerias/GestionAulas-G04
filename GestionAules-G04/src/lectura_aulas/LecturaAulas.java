@@ -818,12 +818,15 @@ public class LecturaAulas {
 
         try {
             //SI NO EXISTE EL ARCHIVO BINARIO, LO CREA.
+            File ficheroUsers = new File(RUTA_FICHERO_USUARIOS);
+            boolean existe = ficheroUsers.exists();
             ObjectOutputStream fichero = new ObjectOutputStream(new FileOutputStream(RUTA_FICHERO_USUARIOS, true));
+            
 
             //CREAMOS UN ARRAY DE USUARIOS
             //Por defecto todas las posiciones del array valen null.
             User[] users = new User[LONG_ARRAY_USUARIOS];//TODO
-
+            
             //PASAMOS DEL OBJETO BINARIO AL ARRAY.
             try {
                 ObjectInputStream Openfichero = new ObjectInputStream(new FileInputStream(RUTA_FICHERO_USUARIOS));
@@ -833,10 +836,26 @@ public class LecturaAulas {
             }
 
             //CREAMOS EL ADMIN
-            users[0] = new User();
-            users[0].rol = "Admin";
-            users[0].nombre = "Admin";
-            users[0].password = "Admin1";
+
+            if (!existe){
+                users[0] = new User();
+                users[0].rol = "Admin";
+                System.out.println("***********************************");
+                System.out.println("Bienvenido nuevo usuario.");
+                System.out.println("Registre su cuenta de Administrador.");
+                System.out.println("************************************\n");
+                System.out.println("Introduce el nombre del Administrador");
+                System.out.print("> ");
+                String nombreUser = sc.next();
+                users[0].nombre = nombreUser;
+                System.out.println("Introduce la contraseña: ");
+                System.out.print("> ");
+                String Password = sc.next();
+                users[0].password = Password;
+                System.out.println("\nUsuario registrado correctamente."
+                        + "\nIniciando el programa.");
+            }
+            
 
             //Con WriteObject escribimos directamente todo el array de empleados
             fichero.writeObject(users);
@@ -1436,7 +1455,11 @@ public class LecturaAulas {
                 if (user.nombre.equalsIgnoreCase(usuario)) {
                     System.out.println("Rol: " + user.rol);
                     System.out.println("Nombre: " + user.nombre);
-                    System.out.println("Contraseña: " + user.password);
+                    System.out.print("Password: ");
+                    for (int i=0;i<user.password.length();i++){
+                        System.out.print("*");
+                    }
+                    System.out.println("");
                 
             }
         }
