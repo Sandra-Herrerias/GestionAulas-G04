@@ -43,13 +43,13 @@ public class LecturaAulas {
                     -addUser();
                 2.Listar todos los usuarios
                     -listarUsers();
-                3.Modificar contraseña y email de un usuario
+                3.Modificar contraseña y usuario
                     -modificarUser();
                 4.Eliminar usuario
                     -eliminarUsuario();
-                case 5:
+                5.Buscar usuario por nombre:
                     filtrarUser(user);
-                case 6:
+                6.Salir:
                     login();
                     
          */
