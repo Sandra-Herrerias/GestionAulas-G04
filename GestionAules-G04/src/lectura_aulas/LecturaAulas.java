@@ -47,8 +47,11 @@ public class LecturaAulas {
                     -modificarUser();
                 4.Eliminar usuario
                     -eliminarUsuario();
-                5.Salir
-                    -login();
+                case 5:
+                    filtrarUser(user);
+                case 6:
+                    login();
+                    
          */
 
         System.out.println("");
@@ -58,6 +61,7 @@ public class LecturaAulas {
         System.out.println("");
         //En caso de no existir users.dat, te lo crea con usr:Admin psw:Admin1
         registrarAdmin();
+  
 
         //Ejecuta el login, este llama a menuTeacher() o menuAdmin().
         login();
@@ -949,11 +953,11 @@ public class LecturaAulas {
     public static User introducirUser() {
         //Con esta linea le indico que le añado un nuevo empleado.
         User user = new User();
-        
+
         do {//Ha de demanar els camps per teclat i retornar una nova instància de user
             System.out.println("Introducir rol 'teacher': ");
             user.rol = sc.next();
-            if (!user.rol.equalsIgnoreCase("teacher")){
+            if (!user.rol.equalsIgnoreCase("teacher")) {
                 System.out.println("Rol incorrecto");
                 System.out.println("");
             }
@@ -961,7 +965,7 @@ public class LecturaAulas {
 
         //comprobar que el nombre del usuario no existe en el .dat
         do {
-            if (comprobarUser(user.nombre) == true){
+            if (comprobarUser(user.nombre) == true) {
                 System.out.println("El nombre de usuario ya existe, inserte uno nuevo");
                 System.out.println("");
             }
@@ -1094,7 +1098,8 @@ public class LecturaAulas {
         boolean correct = false;
         // LEER FICHERO
         try {
-            // A partir de aquí accederemos al fichero a leer mediante la variable fichero
+            // A partir de aquí accederemos al fichero a leer mediante la variable 
+            //fichero
             ObjectInputStream fichero = new ObjectInputStream(new FileInputStream(RUTA_FICHERO_USUARIOS));
 
             // Creamos un nuevo array de usuarios
@@ -1177,7 +1182,7 @@ public class LecturaAulas {
                         + "\n 2.Crear nueva clase "
                         + "\n 3.Modificar la clase "
                         + "\n 4.Eliminar la clase "
-                        + "\n 5.Salir "
+                        + "\n 5.Cerrar sesión"
                         + "\n-----------------------------------"
                         + "\n  Ingresa el numero de la opción: ");
 
@@ -1229,7 +1234,8 @@ public class LecturaAulas {
                     + "\n 2.Listar todos los usuarios"
                     + "\n 3.Modificar contraseña y usuario"
                     + "\n 4.Eliminar usuario"
-                    + "\n 5.Salir"
+                    + "\n 5.Mostrar un usuario"
+                    + "\n 6.Cerrar sesión"
                     + "\n-----------------------------------"
                     + "\n  Ingresa el numero de la opción: ");
             opcion = sn.nextInt();
@@ -1248,6 +1254,9 @@ public class LecturaAulas {
                     eliminarUsuario();
                     break;
                 case 5:
+                    filtrarUser(user);
+                    break;
+                case 6:
                     System.out.println("\nHasta la próxima " + user);
                     System.out.println("Saliendo del menu...");
                     login();
@@ -1257,7 +1266,7 @@ public class LecturaAulas {
                     break;
             }
             //Mientras que opción no sea 5 seguirá mostrando el menú.
-        } while (opcion != 5);
+        } while (opcion != 6);
     }
 
     /**
@@ -1413,5 +1422,30 @@ public class LecturaAulas {
         }
         // GUARDAR FICHERO
         guardarArrayUsers(users);
+    }
+
+    public static void filtrarUser(String currentUser) {
+        User[] users = cargarArrayUser();
+        String usuario;
+
+        System.out.println("Dime el nombre del usuario que quiere ver: ");
+        usuario = sc.next();
+        
+        for (User user : users) {
+            if (comprobarUser(usuario) && user != null) {
+                if (user.nombre.equalsIgnoreCase(usuario)) {
+                    System.out.println("Rol: " + user.rol);
+                    System.out.println("Nombre: " + user.nombre);
+                    System.out.println("Contraseña: " + user.password);
+                
+            }
+        }
+        }
+        
+        if (comprobarUser(usuario) == false){
+            System.out.println("El usuario no existe");
+        }
+        
+        menuAdmin(currentUser);
     }
 }
