@@ -1054,7 +1054,7 @@ public class LecturaAulas {
     /**
      * Se comprueba que el usuario exista en el fichero users.dat
      *
-     * @param user
+     * @param user el nombre del usuario por el que se va abuscar
      * @return true si existe el usuario || false si no existe el usuario
      */
     public static boolean comprobarUser(String user) {
