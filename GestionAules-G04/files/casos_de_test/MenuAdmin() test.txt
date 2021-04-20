@@ -1,4 +1,4 @@
-Casos test de la función MenuTeacher.
+Casos test de la función MenuAdmin.
 
 Caso 1:
 DESCRIPCIÓN:Si elijo una ocpción que no existe.
