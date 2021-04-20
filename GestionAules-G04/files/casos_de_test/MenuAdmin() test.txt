@@ -1,0 +1,16 @@
+Casos test de la función MenuTeacher.
+
+Caso 1:
+DESCRIPCIÓN:Si elijo una ocpción que no existe.
+ENTRADA:9
+SALIDA:La opcion que has seleccionado es erronea.
+
+Caso 2:
+DESCRIPCIÓN:Si elijo una ocpción que existe.
+ENTRADA:1
+SALIDA:Mostraría todas las clases que existen.
+
+Caso 3:
+DESCRIPCIÓN:Si elijo la opción 6
+ENTRADA:6
+SALIDA:Saliendo del programa... (Saldría del menú de opciones)

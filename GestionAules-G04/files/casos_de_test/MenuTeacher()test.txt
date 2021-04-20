@@ -11,7 +11,7 @@ ENTRADA:1
 SALIDA:Mostraría todas las clases que existen.
 
 Caso 3:
-DESCRIPCIÓN:Si elijo la opción 5
-ENTRADA:5
+DESCRIPCIÓN:Si elijo la opción 6
+ENTRADA:6
 SALIDA:Saliendo del programa... (Saldría del menú de opciones)
 
