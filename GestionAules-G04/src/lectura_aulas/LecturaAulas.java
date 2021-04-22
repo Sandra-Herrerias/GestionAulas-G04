@@ -2,7 +2,6 @@ package lectura_aulas;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.ObjectInputStream;
@@ -18,7 +17,6 @@ public class LecturaAulas {
     //Declaramos un objeto Scanner para leer los datos
     public static Scanner sc = new Scanner(System.in);
     public static final int AULA_SIN_ORDENADORES = 0;
-    static User[] users;
     public static final String RUTA_FICHEROS_CLASSROOM = "files/classrooms.csv";
     public static final String RUTA_FICHERO_USUARIOS = "files/users.dat";
     public static final int LONG_ARRAY_USUARIOS = 100;
@@ -81,7 +79,7 @@ public class LecturaAulas {
         //leerlo porque puede ser que de error)   
         String[] clase;
         try {
-            Scanner sc = new Scanner(classrooms);
+            sc = new Scanner(classrooms);
             boolean first_see = true;//variable que usaremos para no imprimir la 
             //cabecera en la primera vuelta del bucle
             while (sc.hasNextLine()) {//mientras haya una siguiente linea que 
@@ -119,7 +117,7 @@ public class LecturaAulas {
     }
 
     /**
-     * Funcion que permite crear a la usuaria una nueva entrada en el fichero
+     * Funcion que permite crear a al usuario un nuevo registro de aula.
      */
     public static void addRecord() {
 
@@ -198,7 +196,7 @@ public class LecturaAulas {
     /**
      * Valida si el String es un numero (puede ser de 1 o mas digitos)o no
      *
-     * @param cadena
+     * @param cadena Comprobar que el String solo contenga numeros.
      * @return true si es un numero / false si no lo es
      */
     public static boolean validarStringNum(String cadena) {
@@ -215,7 +213,7 @@ public class LecturaAulas {
      * Convierte un String a Int para poder seguir tratando con el tipo de datos
      * que queremos, una vez hemos hecho la validacion
      *
-     * @param numero
+     * @param numero String que se convierte a Int.
      * @return numero convertido a tipo Int
      */
     public static int convertirStringaInt(String numero) {
@@ -226,7 +224,7 @@ public class LecturaAulas {
      * Valida si empieza por lo menos por una letra mayúscula o minúscula y que
      * acabe con dos dígitos
      *
-     * @param cadena
+     * @param cadena Un String con formato descripción.
      * @return true si es valido / false si no lo es
      */
     public static boolean validarIdDescripcio(String cadena) {
@@ -242,8 +240,8 @@ public class LecturaAulas {
     /**
      * Valida si el String tiene los caracteres validos para este campo
      *
-     * @param cadena
-     * @return true si es valido / false si no lo es
+     * @param cadena Valor Booleano de classroom.csv .
+     * @return true si contiene si / false si contiene no.
      */
     public static boolean validarSiNo(String cadena) {
         //validamos que los caracteres introducidos sean validos 
@@ -257,8 +255,8 @@ public class LecturaAulas {
     /**
      * Crea una nueva entrada de id_aula y descripcio_aula validados
      *
-     * @param dadaEntradaStr
-     * @param esValido
+     * @param dadaEntradaStr Descripción de classrooms.csv.
+     * @param esValido Un Boolean donde guardará si es valido o no.
      * @return dato de tipo String introducido (ya validado)
      */
     public static String validaLetrasyNums(String dadaEntradaStr, boolean esValido) {
@@ -278,8 +276,8 @@ public class LecturaAulas {
     /**
      * Comprueba si el aula ya existe en el fichero
      *
-     * @param dadaEntradaStr
-     * @return
+     * @param dadaEntradaStr La id del aula a comprobar.
+     * @return True si el aula existe y false si no existe.
      */
     public static boolean compruebaSiIdAulaYaExiste(String dadaEntradaStr) {
         File file_classrooms = new File(RUTA_FICHEROS_CLASSROOM);
@@ -306,7 +304,7 @@ public class LecturaAulas {
     /**
      * Añade una nueva aula en el caso que no exista ya en el archivo
      *
-     * @param id_aula
+     * @param id_aula Id del aula acrear.
      *
      */
     public static void anadirIdAulaNuevo(String id_aula) {
@@ -337,8 +335,8 @@ public class LecturaAulas {
     /**
      * Crea una nueva entrada de datos numericos
      *
-     * @param dadaEntradaStr
-     * @param esNumero
+     * @param dadaEntradaStr String de numeros a validar.
+     * @param esNumero true si es numero y false si no es numero.
      * @return dato numerico (ya validado)
      */
     public static int nuevaEntradaDatosNums(String dadaEntradaStr, boolean esNumero) {
@@ -361,9 +359,9 @@ public class LecturaAulas {
     /**
      * Crea una nueva entrada de datos de tipo Boolean
      *
-     * @param dadaEntrada
-     * @param dadaEntradaStr
-     * @param esValido
+     * @param dadaEntrada Boolean que retornará.
+     * @param dadaEntradaStr String de si o no.
+     * @param esValido Si es 'si' es true si es 'no' es false.
      * @return dato de tipo Boolean (ya validado)
      */
     public static boolean nuevaEntradaDatosBoolean(boolean dadaEntrada,
@@ -759,18 +757,18 @@ public class LecturaAulas {
      * writeFile() Escribe los registros alterados en memoria al archivo. NOTA:
      * ESTA FUNCION ELIMINA EL ARCHIVO ANTES DE ESCRIBIR
      *
-     * @param file_classrooms
-     * @param classroom_info
-     * @param aula
-     * @param laClaseExiste
-     * @param error
-     * @param id_aula
-     * @param descripcio_aula
-     * @param capacitat_aula
-     * @param pc_aula
-     * @param num_pc
-     * @param projector_aula
-     * @param insonoritzada_aula
+     * @param file_classrooms Archivo classroom.
+     * @param classroom_info Array list de classroom.
+     * @param aula String de aula.
+     * @param laClaseExiste Boolean si la clase existe o no
+     * @param error Boolean si encuentra un error.
+     * @param id_aula String Id aula.
+     * @param descripcio_aula String descripcion aula.
+     * @param capacitat_aula Int capacitat aula.
+     * @param pc_aula Boolean oc aula.
+     * @param num_pc Int numero pc.
+     * @param projector_aula Boolean projector aula.
+     * @param insonoritzada_aula Boolean insonoritzacion del aula.
      */
     public static void writeFile(File file_classrooms, ArrayList<String> classroom_info,
             String aula, boolean laClaseExiste, boolean error, String id_aula,
@@ -920,23 +918,23 @@ public class LecturaAulas {
     }
 
     /**
-     * Machaca el array entero, pero como ya lo tenemos guardado en la funcion
-     * cargarArrayUser() en las primeras lineas del addUser(), cuando me lo
-     * guarda de nuevo, me guarda lo que tenia + lo que yo haya he hecho de
-     * nuevo
+     * Machaca el array entero, pero al tenerlo guardado en la función
+     * cargarArrayUser() (en las primeras lineas del addUser()), al guardarlo de 
+     * nuevo contiene lo que tenia y las novedades añadidas.
      *
-     * @param users
+     * @param users Array de usuarios a guardar.
      */
     public static void guardarArrayUsers(User[] users) {
 
-        //guardar tot l'array en el fitxer IMPORTANT: ha de sobreescriure tot el que hi havia
-        //carrega
+        //Guardadr todo el array en el fichero IMPORTANTE:Tiene que sobrescribi
+        //todo lo que  se habia cargado anteriormente.
+        //Añade
         ObjectOutputStream input;
         try {
             input = new ObjectOutputStream(new FileOutputStream(RUTA_FICHERO_USUARIOS, false));
-            //escriu
+            //escribe
             input.writeObject(users);
-            //tanca
+            //Cierra
             input.close();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -963,7 +961,7 @@ public class LecturaAulas {
     /**
      * Funcion generica para introducir usuarios
      *
-     * @return nuevo usuario
+     * @return nuevo usuario.
      */
     public static User introducirUser() {
         //Con esta linea le indico que le añado un nuevo empleado.
@@ -997,7 +995,7 @@ public class LecturaAulas {
     /**
      * Muestra los usuarios pasados en un array por parametro
      *
-     * @param users
+     * @param users Array de usuarios.
      */
     public static void mostrarUsers(User[] users) {
         int i = 0;
@@ -1013,7 +1011,7 @@ public class LecturaAulas {
     /**
      * Muestra un usuario en concreto
      *
-     * @param user
+     * @param user Array de usuarios.
      */
     public static void mostrarUser(User user) {
         //System.out.println("Contraseña: " + user.password);
@@ -1110,8 +1108,8 @@ public class LecturaAulas {
     /**
      * Se comprueba que el password exista en el fichero users.dat
      *
-     * @param user
-     * @param password
+     * @param user String de usuario.
+     * @param password String password introducido.
      * @return true si el password coincide || false si no existe
      */
     public static boolean comprobarPassword(String user, String password) {
@@ -1149,8 +1147,8 @@ public class LecturaAulas {
      * Comprueba si el el usuario y el password introducidos son correctos y
      * retorna su rol
      *
-     * @param user
-     * @param password
+     * @param user String usuario.
+     * @param password String password introducido.
      * @return el rol del usuario
      */
     public static String asignarRol(String user, String password) {
@@ -1186,12 +1184,13 @@ public class LecturaAulas {
     /**
      * Esta Función muestra el menú de profesor.
      *
+     * @param user Nombre de usuario logeado.
      */
     public static void menuTeacher(String user) {
         try {
 
             Scanner sn = new Scanner(System.in);
-            int opcion = 0;
+            int opcion;
             // imprimir menú y pedir la opción.
             do {
                 System.out.print("\nMenú de Teacher: "
@@ -1240,10 +1239,11 @@ public class LecturaAulas {
 
     /**
      * Esta Función muestra el menú de Administrador.
+     * @param user String usuario.
      */
     public static void menuAdmin(String user) {
         Scanner sn = new Scanner(System.in);
-        int opcion = 0;
+        int opcion;
         // imprimir menú y pedir la opción.
         do {
             System.out.print("\nMenú de Admin: "
@@ -1285,7 +1285,7 @@ public class LecturaAulas {
                     System.out.println("La opcion que has seleccionado es erronea");
                     break;
             }
-            //Mientras que opción no sea 5 seguirá mostrando el menú.
+            //Mientras que opción no sea 6 seguirá mostrando el menú.
         } while (opcion != 6);
     }
 
@@ -1302,7 +1302,7 @@ public class LecturaAulas {
      * Función que comprueba si existe o no un usuario en nuestro array de
      * usuarios.
      *
-     * @param usuario
+     * @param usuario Nombre del usuario a buscar.
      * @return true si ha encontrado el usuario || false si no lo ha encontrado
      */
     public static boolean buscarUser(String usuario) {
@@ -1424,8 +1424,7 @@ public class LecturaAulas {
         System.out.print("Qué usuario quiere borrar?: ");
         String nombreBorrar = sc.next();
 
-        // AMPLIACIÓN: Comprobar si se ha encontrado o no ese usuario a 
-        //borrar e informar al usuario
+        
         if (buscarUser(nombreBorrar) == true) {
             for (User user : users) {
                 if (user != null && user.nombre.equals(nombreBorrar)) {
@@ -1443,7 +1442,11 @@ public class LecturaAulas {
         // GUARDAR FICHERO
         guardarArrayUsers(users);
     }
-
+    
+    /**
+     * Filtra un usuario mediante el nombre y lo muestra.
+     * @param currentUser Usuario actual.
+     */
     public static void filtrarUser(String currentUser) {
         User[] users = cargarArrayUser();
         String usuario;
