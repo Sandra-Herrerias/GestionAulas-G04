@@ -529,6 +529,11 @@ public class LecturaAulas {
                     } while (opcion_menu != 0);//END do
                 } //END else
             } while (!laClaseExiste);
+            
+            //ACTUALIZANDO EL ARCHIVO
+        writeFile(file_classrooms, classroom_info, aula, laClaseExiste, error,
+                id_aula, descripcio_aula, capacitat_aula, pc_aula, num_pc,
+                projector_aula, insonoritzada_aula);
 
         } catch (Exception e) {
 
@@ -538,10 +543,7 @@ public class LecturaAulas {
             error = true;
         }
 
-        //ACTUALIZANDO EL ARCHIVO
-        writeFile(file_classrooms, classroom_info, aula, laClaseExiste, error,
-                id_aula, descripcio_aula, capacitat_aula, pc_aula, num_pc,
-                projector_aula, insonoritzada_aula);
+        
 
     }
 
@@ -587,6 +589,7 @@ public class LecturaAulas {
                     lineaBorrar = classroom;
 
                     System.out.println("La linea ha sido eliminada");
+                    
 
                 } else {
                     System.out.println("");
@@ -598,8 +601,8 @@ public class LecturaAulas {
             System.out.println("El aula que ha intoducido no existe");
         }
         try {
-            FileWriter writer = new FileWriter(file_classrooms);
             if (laClaseExiste) {
+                FileWriter writer = new FileWriter(file_classrooms);
                 for (String classroom : classroom_info) {
                     if (!lineaBorrar.equals(classroom)) {
                         writer.write(classroom + "\n");
