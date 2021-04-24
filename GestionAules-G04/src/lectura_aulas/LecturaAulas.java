@@ -78,7 +78,7 @@ public class LecturaAulas {
         //le decimos que intente hacer el siguiente codigo (abrir el fichero para
         //leerlo porque puede ser que de error)   
         String[] clase;
-        
+
         try {
             Scanner sn = new Scanner(classrooms);
             boolean first_see = true;//variable que usaremos para no imprimir la 
@@ -111,10 +111,11 @@ public class LecturaAulas {
                 first_see = false;
             }
             sn.close();//cerramos escaner   
+            System.out.println("");
+            System.out.println("** Final del listado **");
         } catch (Exception e) {//CATCH: capturar posibles errores
             //Exception e: Cualquier tipo de error (no especifico) lo detecta
             System.out.println("No se lee el archivo.");//mostramos mensaje de error
-            e.printStackTrace();
         }
     }
 
@@ -141,12 +142,12 @@ public class LecturaAulas {
             System.out.println("Introduce la descripcion de el Aula: ");
             System.out.println("*(Debe empezar con una letra y acabar con 2 dígitos)*");
             System.out.print(">");
-            descripcio_aula = nuevaEntradaLetrasyNums();
+            descripcio_aula = nuevaEntradaLetrasyNums("Descripción aula erroneo");
 
             //Nueva entrada de capacitat_aula
             System.out.println("Introduce la capacidad de el Aula: ");
             System.out.print(">");
-            capacitat_aula = nuevaEntradaDatosNums();
+            capacitat_aula = nuevaEntradaDatosNums("Capacidad de aula erronea");
 
             //Nueva entrada de pc_aula 
             System.out.println("Introduce si el Aula tiene ordenadores o no: ");
@@ -160,7 +161,7 @@ public class LecturaAulas {
                 System.out.println("Introduce el numero de ordenadores que "
                         + "tiene el Aula: ");
                 System.out.print(">");
-                num_pc = nuevaEntradaDatosNums();
+                num_pc = nuevaEntradaDatosNums("Número de pc erroneo");
             }
 
             //Nueva entrada de projector_aula           
@@ -177,7 +178,7 @@ public class LecturaAulas {
             //añadiendo texto
             FileWriter nuevaLinea = new FileWriter(file_classrooms, true);
             //Se secribe la nueva entrada del resto de atributos en el fichero     
-            nuevaLinea.write(id_aula + "," +descripcio_aula + "," + capacitat_aula + ","
+            nuevaLinea.write(id_aula + "," + descripcio_aula + "," + capacitat_aula + ","
                     + pc_aula + "," + num_pc + "," + projector_aula + ","
                     + insonoritzada_aula + "\n");
             nuevaLinea.flush();//limpia la memoria del writer
@@ -254,18 +255,20 @@ public class LecturaAulas {
     /**
      * Crea una nueva entrada de id_aula y descripcio_aula validados
      *
+     * @param mensajeError - mensaje que aparecerá mientras no valide el valor
+     * introducido
      * @return dato de tipo String introducido (ya validado)
      */
-    public static String nuevaEntradaLetrasyNums() {
-        String dadaEntradaStr = sc.next(); 
+    public static String nuevaEntradaLetrasyNums(String mensajeError) {
+        String dadaEntradaStr = sc.next();
         boolean esValido;
         do {
             //validaciones 
             esValido = validarIdDescripcio(dadaEntradaStr);
 
             if (esValido == false) {
-                System.out.println("Se han introducido caracteres erróneos");
-                System.out.println("Introduce caracteres correctos");
+                System.out.println(mensajeError);
+                System.out.println("Tiene que empezar con letra y terminar con 2 número");
                 dadaEntradaStr = sc.next();
             }
         } while (esValido == false);
@@ -302,30 +305,32 @@ public class LecturaAulas {
 
     /**
      * Añade una nueva aula en el caso que no exista ya en el archivo
+     *
      * @return id del aula nueva
      */
     public static String getIdAulaNuevo() {
-
-        String id_aula = nuevaEntradaLetrasyNums();
+        String msgErr = "Id Aula erroneo";
+        String id_aula = nuevaEntradaLetrasyNums(msgErr);
         try {
             while (existeIdAula(id_aula)) {
                 System.out.println("El aula ya existe");
                 System.out.println("Introduce un id de Aula nuevo: ");
-                id_aula = nuevaEntradaLetrasyNums();
+                id_aula = nuevaEntradaLetrasyNums(msgErr);
             }
         } catch (Exception e) {
             System.out.println("No se ha encontrado ningun fichero");
         }
-        
+
         return id_aula;
     }
 
     /**
      * Crea una nueva entrada de datos numericos
      *
+     * @param mensajeError mensaje de error que se muestra mientras no valide
      * @return dato numerico (ya validado)
      */
-    public static int nuevaEntradaDatosNums() {
+    public static int nuevaEntradaDatosNums(String mensajeError) {
         int numEntrada = -1;
         String dadaEntradaStr = sc.next();
         boolean esNumero;
@@ -335,7 +340,7 @@ public class LecturaAulas {
             if (esNumero) {
                 numEntrada = Integer.parseInt(dadaEntradaStr);
             } else {
-                System.out.println("Se han introducido caracteres incorrectos");
+                System.out.println(mensajeError);
                 System.out.println("Introduce caracteres numéricos positivos");
                 dadaEntradaStr = sc.next();
             }
@@ -346,6 +351,7 @@ public class LecturaAulas {
 
     /**
      * Crea una nueva entrada de datos de tipo Boolean
+     *
      * @return dato de tipo Boolean (ya validado)
      */
     public static boolean nuevaEntradaDatosBoolean() {
@@ -513,11 +519,11 @@ public class LecturaAulas {
                     } while (opcion_menu != 0);//END do
                 } //END else
             } while (!laClaseExiste);
-            
+
             //ACTUALIZANDO EL ARCHIVO
-        writeFile(file_classrooms, classroom_info, aula, laClaseExiste, error,
-                id_aula, descripcio_aula, capacitat_aula, pc_aula, num_pc,
-                projector_aula, insonoritzada_aula);
+            writeFile(file_classrooms, classroom_info, aula, laClaseExiste, error,
+                    id_aula, descripcio_aula, capacitat_aula, pc_aula, num_pc,
+                    projector_aula, insonoritzada_aula);
 
         } catch (Exception e) {
 
@@ -906,7 +912,7 @@ public class LecturaAulas {
 
     /**
      * Machaca el array entero, pero al tenerlo guardado en la función
-     * cargarArrayUser() (en las primeras lineas del addUser()), al guardarlo de 
+     * cargarArrayUser() (en las primeras lineas del addUser()), al guardarlo de
      * nuevo contiene lo que tenia y las novedades añadidas.
      *
      * @param users Array de usuarios a guardar.
@@ -1196,7 +1202,6 @@ public class LecturaAulas {
                 switch (opcion) {
                     case 1:
                         leer_archivo();
-
                         break;
                     case 2:
                         addRecord();
@@ -1225,6 +1230,7 @@ public class LecturaAulas {
 
     /**
      * Esta Función muestra el menú de Administrador.
+     *
      * @param user String usuario.
      */
     public static void menuAdmin(String user) {
@@ -1428,9 +1434,10 @@ public class LecturaAulas {
         // GUARDAR FICHERO
         guardarArrayUsers(users);
     }
-    
+
     /**
      * Filtra un usuario mediante el nombre y lo muestra.
+     *
      * @param currentUser Usuario actual.
      */
     public static void filtrarUser(String currentUser) {
