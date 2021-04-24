@@ -78,13 +78,14 @@ public class LecturaAulas {
         //le decimos que intente hacer el siguiente codigo (abrir el fichero para
         //leerlo porque puede ser que de error)   
         String[] clase;
+        
         try {
-            sc = new Scanner(classrooms);
+            Scanner sn = new Scanner(classrooms);
             boolean first_see = true;//variable que usaremos para no imprimir la 
             //cabecera en la primera vuelta del bucle
-            while (sc.hasNextLine()) {//mientras haya una siguiente linea que 
+            while (sn.hasNextLine()) {//mientras haya una siguiente linea que 
                 //leer ejecutar el siguiente codigo
-                classroom = sc.nextLine();
+                classroom = sn.nextLine();
                 clase = classroom.split(",");//separamos String[] por comas para 
                 //poder tratar cada valor por separado
                 if (!first_see) {
@@ -109,10 +110,11 @@ public class LecturaAulas {
                 }
                 first_see = false;
             }
-            sc.close();//cerramos escaner   
+            sn.close();//cerramos escaner   
         } catch (Exception e) {//CATCH: capturar posibles errores
             //Exception e: Cualquier tipo de error (no especifico) lo detecta
             System.out.println("No se lee el archivo.");//mostramos mensaje de error
+            e.printStackTrace();
         }
     }
 
@@ -125,32 +127,25 @@ public class LecturaAulas {
 
         try {
             Scanner leerFichero = new Scanner(file_classrooms);
-            String id_aula, descripcio_aula, capacitatAulaStr, numPcStr,
-                    pcAulaStr, projectorAulaStr, insonoritzadaAulaStr;
+            String id_aula, descripcio_aula, pcAulaStr, projectorAulaStr, insonoritzadaAulaStr;
             int capacitat_aula, num_pc;
-            boolean pc_aula = true, projector_aula = true, insonoritzada_aula = true,
-                    esNumero = true, esValido = true;
+            boolean pc_aula = true, projector_aula = true, insonoritzada_aula = true;
 
             //Nueva entrada de id_aula
             System.out.println("Introduce el id de el Aula: ");
-            id_aula = sc.nextLine();
-            id_aula = validaLetrasyNums(id_aula, esValido);
-            anadirIdAulaNuevo(id_aula);
+            id_aula = getIdAulaNuevo();
 
             //Nueva entrada de descripcio_aula
             System.out.println("Introduce la descripcion de el Aula: ");
-            descripcio_aula = sc.nextLine();
-            descripcio_aula = validaLetrasyNums(descripcio_aula, esValido);
+            descripcio_aula = nuevaEntradaLetrasyNums();
 
             //Nueva entrada de capacitat_aula
             System.out.println("Introduce la capacidad de el Aula: ");
-            capacitatAulaStr = sc.nextLine();
-            capacitat_aula = nuevaEntradaDatosNums(capacitatAulaStr, esNumero);
+            capacitat_aula = nuevaEntradaDatosNums();
 
             //Nueva entrada de pc_aula 
             System.out.println("Introduce si el Aula tiene ordenadores o no: ");
-            pcAulaStr = sc.nextLine();
-            pc_aula = nuevaEntradaDatosBoolean(pc_aula, pcAulaStr, esValido);
+            pc_aula = nuevaEntradaDatosBoolean();
 
             if (pc_aula == false) {
                 num_pc = AULA_SIN_ORDENADORES;
@@ -158,27 +153,22 @@ public class LecturaAulas {
                 //Nueva entrada de num_pc
                 System.out.println("Introduce el numero de ordenadores que "
                         + "tiene el Aula: ");
-                numPcStr = sc.nextLine();
-                num_pc = nuevaEntradaDatosNums(numPcStr, esNumero);
+                num_pc = nuevaEntradaDatosNums();
             }
 
             //Nueva entrada de projector_aula           
             System.out.println("Introduce si el Aula tiene proyector o no: ");
-            projectorAulaStr = sc.nextLine();
-            projector_aula = nuevaEntradaDatosBoolean(projector_aula,
-                    projectorAulaStr, esValido);
+            projector_aula = nuevaEntradaDatosBoolean();
 
             //Nueva entrada de insonoritzada_aula
             System.out.println("Introduce si el Aula está insonorizada o no: ");
-            insonoritzadaAulaStr = sc.nextLine();
-            insonoritzada_aula = nuevaEntradaDatosBoolean(insonoritzada_aula,
-                    insonoritzadaAulaStr, esValido);
+            insonoritzada_aula = nuevaEntradaDatosBoolean();
 
             // El true al final indica que escribiremos al final del fichero 
             //añadiendo texto
             FileWriter nuevaLinea = new FileWriter(file_classrooms, true);
             //Se secribe la nueva entrada del resto de atributos en el fichero     
-            nuevaLinea.write(descripcio_aula + "," + capacitat_aula + ","
+            nuevaLinea.write(id_aula + "," +descripcio_aula + "," + capacitat_aula + ","
                     + pc_aula + "," + num_pc + "," + projector_aula + ","
                     + insonoritzada_aula + "\n");
             nuevaLinea.flush();//limpia la memoria del writer
@@ -255,11 +245,11 @@ public class LecturaAulas {
     /**
      * Crea una nueva entrada de id_aula y descripcio_aula validados
      *
-     * @param dadaEntradaStr Descripción de classrooms.csv.
-     * @param esValido Un Boolean donde guardará si es valido o no.
      * @return dato de tipo String introducido (ya validado)
      */
-    public static String validaLetrasyNums(String dadaEntradaStr, boolean esValido) {
+    public static String nuevaEntradaLetrasyNums() {
+        String dadaEntradaStr = sc.next(); 
+        boolean esValido;
         do {
             //validaciones 
             esValido = validarIdDescripcio(dadaEntradaStr);
@@ -267,7 +257,7 @@ public class LecturaAulas {
             if (esValido == false) {
                 System.out.println("Se han introducido caracteres erróneos");
                 System.out.println("Introduce caracteres correctos");
-                dadaEntradaStr = sc.nextLine();
+                dadaEntradaStr = sc.next();
             }
         } while (esValido == false);
         return dadaEntradaStr;
@@ -279,7 +269,7 @@ public class LecturaAulas {
      * @param dadaEntradaStr La id del aula a comprobar.
      * @return True si el aula existe y false si no existe.
      */
-    public static boolean compruebaSiIdAulaYaExiste(String dadaEntradaStr) {
+    public static boolean existeIdAula(String dadaEntradaStr) {
         File file_classrooms = new File(RUTA_FICHEROS_CLASSROOM);
         //Accedemos al fichero que queremos leer
 
@@ -289,7 +279,7 @@ public class LecturaAulas {
 
             //Lee cada linea del fichero y la añade en un ArrayList
             while (lectura.hasNext() && resultat == false) {
-                String linea = lectura.nextLine();
+                String linea = lectura.next();
                 if (linea.startsWith(dadaEntradaStr)) {
                     resultat = true;
                 }
@@ -304,43 +294,33 @@ public class LecturaAulas {
     /**
      * Añade una nueva aula en el caso que no exista ya en el archivo
      *
-     * @param id_aula Id del aula acrear.
-     *
+     * @return 
      */
-    public static void anadirIdAulaNuevo(String id_aula) {
+    public static String getIdAulaNuevo() {
 
-        boolean esValido = true;
-        File file_classrooms = new File(RUTA_FICHEROS_CLASSROOM);
-
+        String id_aula = nuevaEntradaLetrasyNums();
         try {
-            FileWriter nuevaLinea = new FileWriter(file_classrooms, true);
-            while (compruebaSiIdAulaYaExiste(id_aula)) {
+            while (existeIdAula(id_aula)) {
                 System.out.println("El aula ya existe");
                 System.out.println("Introduce un id de Aula nuevo: ");
-                id_aula = sc.nextLine();
-                id_aula = validaLetrasyNums(id_aula, esValido);
-            }
-
-            if (compruebaSiIdAulaYaExiste(id_aula) == false) {
-                //Se secribe la nueva entrada completa en el fichero     
-                nuevaLinea.write(id_aula + ",");
-                nuevaLinea.flush();//limpia la memoria del writer
-                nuevaLinea.close();
+                id_aula = nuevaEntradaLetrasyNums();
             }
         } catch (Exception e) {
             System.out.println("No se ha encontrado ningun fichero");
         }
+        
+        return id_aula;
     }
 
     /**
      * Crea una nueva entrada de datos numericos
      *
-     * @param dadaEntradaStr String de numeros a validar.
-     * @param esNumero true si es numero y false si no es numero.
      * @return dato numerico (ya validado)
      */
-    public static int nuevaEntradaDatosNums(String dadaEntradaStr, boolean esNumero) {
+    public static int nuevaEntradaDatosNums() {
         int numEntrada = -1;
+        String dadaEntradaStr = sc.next();
+        boolean esNumero;
         do {
             esNumero = validarStringNum(dadaEntradaStr);
 
@@ -349,7 +329,7 @@ public class LecturaAulas {
             } else {
                 System.out.println("Se han introducido caracteres incorrectos");
                 System.out.println("Introduce caracteres numéricos positivos");
-                dadaEntradaStr = sc.nextLine();
+                dadaEntradaStr = sc.next();
             }
         } while (esNumero == false);
 
@@ -358,26 +338,22 @@ public class LecturaAulas {
 
     /**
      * Crea una nueva entrada de datos de tipo Boolean
-     *
-     * @param dadaEntrada Boolean que retornará.
-     * @param dadaEntradaStr String de si o no.
-     * @param esValido Si es 'si' es true si es 'no' es false.
      * @return dato de tipo Boolean (ya validado)
      */
-    public static boolean nuevaEntradaDatosBoolean(boolean dadaEntrada,
-            String dadaEntradaStr, boolean esValido) {
+    public static boolean nuevaEntradaDatosBoolean() {
+        boolean dadaEntrada;
+        String dadaEntradaStr = sc.next();
         do {
-            esValido = validarSiNo(dadaEntradaStr);
-            if (esValido == false) {
+            if (!validarSiNo(dadaEntradaStr)) {
                 System.out.println("Caracteres erroneos, sólo se aceptan (si|SI|no|NO)");
                 System.out.println("Introduce caracteres correctos");
-                dadaEntradaStr = sc.nextLine();
+                dadaEntradaStr = sc.next();
             }
-        } while (esValido == false);
+        } while (!validarSiNo(dadaEntradaStr));
 
         if ("si".equalsIgnoreCase(dadaEntradaStr)) {
             dadaEntrada = true;
-        } else if ("no".equalsIgnoreCase(dadaEntradaStr)) {
+        } else { //Siempre sera no porque se ha forzado en el do while.
             dadaEntrada = false;
         }
 
@@ -565,7 +541,7 @@ public class LecturaAulas {
             Scanner leerFichero = new Scanner(file_classrooms);
 
             while (leerFichero.hasNext()) {
-                classroom_info.add(leerFichero.nextLine());
+                classroom_info.add(leerFichero.next());
             }
 
             leerFichero.close();
@@ -575,7 +551,7 @@ public class LecturaAulas {
 
         //Array para eliminar la linea.
         try {
-            Scanner sc = new Scanner(System.in);
+            sc = new Scanner(System.in);
 
             //Introducimos el aula a modificar.
             System.out.print("Introduce el aula a eliminar: ");
@@ -598,7 +574,7 @@ public class LecturaAulas {
             }
 
         } catch (Exception e) {
-            System.out.println("El aula que ha intoducido no existe");
+            System.out.println("El aula que ha introducido no existe");
         }
         try {
             if (laClaseExiste) {
@@ -746,7 +722,7 @@ public class LecturaAulas {
             Scanner leerFichero = new Scanner(file_classrooms);
 
             while (leerFichero.hasNext()) {
-                classroom_info.add(leerFichero.nextLine());
+                classroom_info.add(leerFichero.next());
             }
 
             leerFichero.close();
@@ -1192,7 +1168,6 @@ public class LecturaAulas {
     public static void menuTeacher(String user) {
         try {
 
-            Scanner sn = new Scanner(System.in);
             int opcion;
             // imprimir menú y pedir la opción.
             do {
@@ -1208,7 +1183,7 @@ public class LecturaAulas {
                         + "\n-----------------------------------"
                         + "\n  Ingresa el numero de la opción: ");
 
-                opcion = sn.nextInt();
+                opcion = sc.nextInt();
                 //Ponemos un switch con las funciones de cada opción.
                 switch (opcion) {
                     case 1:
