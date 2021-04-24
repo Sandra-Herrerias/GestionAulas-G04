@@ -1,0 +1,266 @@
+				CREACIÓN DE ADMINISTRADOR
+
+CASO 1A:
+Iniciar el programa con el user.dat borrado.
+
+	-Descripción:Al no existir el user.dat nos pide el nombre y la contraseña del admin 		 para crearlo junto al fichero.
+	-Entrada: Nombre del administrador por ejemplo "Admin" y la contraseña "admin1"
+	-Salida: Usuario registrado correctamente.
+	 Iniciando el programa.
+
+
+
+
+
+
+
+
+
+					LOGIN
+
+
+CASO 1B:
+Iniciar el programa con el user.dat existente.
+	
+	-Descripción:Al existir el user.dat el programa inicializa en el control de acceso, 		 donde nos piden el usuario y la contraeña.
+
+		CASO 1B1:
+			-Descripción:Si introducimos los datos erroneos en el usuario					 (recuerda que por ahora tenemos un admin creado con nombre "Admin" 				 y contraseña "admin1").
+			-Entrada: Sandra
+			-Salida: USUARIO INCORRECTO, Quedan 2 intentos.
+
+		CASO 1B2:
+			-Descripción:Si introducimos los datos erroneos .
+			-Entrada: 3 veces datos erroneos 
+			-Salida: USUARIO INCORRECTO, Quedan 0 intentos. Y se cierra el 					 programa.
+
+		CASO 1B3:
+			-Descripción:Si introducimos la contraseña erronea.
+			-Entrada: admin59 
+			-Salida: CONTRASEÑA INCORRECTA, Quedan 2 intentos.
+
+		CASO 1B4:
+			-Descripción:Si introducimos la contraseña erronea.
+			-Entrada: 3 veces 
+			-Salida: CONTRASEÑA INCORRECTA, Quedan 0 intentos.
+
+		CASO 1B5:
+			-Descripción:Si introducimos los datos correctos.
+			-Entrada: Usuario: Admin, contraseña:admin 1.
+			-Salida: Menú admin.
+
+
+
+
+
+
+
+
+
+
+
+				MENÚ ADMIN
+
+
+Caso 2:
+		CASO 2A:
+			-Descripción:Si introducimos una opción incorrecta.
+			-Entrada: 8
+			-Salida: La opcion que has seleccionado es erronea.
+
+		CASO 2B:
+			-Descripción:Si introducimos una opción correcta.
+			-Entrada: 1-6
+			-Salida: Salida de la opcion correcta.
+		
+
+CASO 3:
+	-Descripción:Si introducimos opcion 1 (Alta usuario).
+	-Entrada: 1
+	-Salida: Introducir rol, usuario y contraseña.
+	
+		CASO 3A:
+			-Descripción:Si introducimos un rol incorrecto.
+			-Entrada: un rol erroneo
+			-Salida: Rol incorrecto
+
+		CASO 3B:
+			-Descripción:Si introducimos todo correctamente.						-Entrada: teacher &&  Jonathan && 12356
+			-Salida: Se crea el usuario.
+
+CASO 4:
+	-Descripción:Si introducimos opcion 2 (Listar todos los usuarios).
+	-Entrada: 2
+	-Salida: Listado de los usuarios que tenemos creados, admin's y teacher's.
+
+CASO 5:
+	-Descripción:Si introducimos opcion 3 (Modificar contraseña y usuario).
+	-Entrada: 3
+	-Salida: Menú modificar.
+
+		CASO 5A:
+			-Descripción:Si introducimos opción incorrecta.
+			-Entrada: 3
+			-Salida: Opcion incorrecta, elige 1 o 2.
+		CASO 5B:
+			-Descripción:Si introducimos opción correcta.
+			-Entrada: 1
+			-Salida: Introduce nombre usuario.
+
+				CASO 5B1:
+					-Descripción:Si introducimos nombre usuario 							 incorrecto.
+					-Entrada: un usuario erroneo
+					-Salida: El usuario introducio no existe.
+				CASO 5B2:
+					-Descripción:Si introducimos nombre usuario 							 correcto y le damos un nuevo nombre.
+					-Entrada: Jonathan && Samar.
+					-Salida:Registro actualizado correctamente.
+
+		CASO 5C:
+			-Descripción:Si introducimos opción correcta.
+			-Entrada: 2
+			-Salida: Introduce nombre usuario.
+
+				CASO 5C1:
+					-Descripción:Si introducimos nombre usuario 							 incorrecto.
+					-Entrada: un usuario erroneo
+					-Salida: El usuario introducio no existe.
+				CASO 5C2:
+					-Descripción:Si introducimos nombre usuario 							 correcto y le damos un nueva contraseña.
+					-Entrada: Samar && 1234.
+					-Salida:Registro actualizado correctamente.
+
+CASO 6:
+	-Descripción:Si introducimos opcion 4 (Eliminar usuario).
+	-Entrada: 4
+	-Salida: Qué usuario quiere borrar?.
+
+		CASO 6A:
+			-Descripción:Si introducimos nombre usuario 							 incorrecto.
+			-Entrada: un usuario erroneo
+			-Salida: El usuario introducio no existe.
+		CASO 6B:
+			-Descripción:Si introducimos nombre usuario 							 correcto.
+			-Entrada: Samar.
+			-Salida:Se ha eliminado el siguiente usuario: Samar
+
+CASO 7:
+	-Descripción:Si introducimos opcion 5(Mostrar un usuario).
+	-Entrada: un usuario erroneo.
+	-Salida: El usuario no existe.
+
+CASO 7A:
+	-Descripción:Si introducimos opcion 5(Mostrar un usuario).
+	-Entrada: usuario correcto.
+	-Salida: Rol,nombre y contraseña del usuario introducido.
+
+CASO 8:
+	-Descripción:Si introducimos opcion 6(Cerrar sesión).
+	-Entrada: 6.
+	-Salida: Hasta la próxima Admin, Saliendo del menu.... (Y volvemos al login).
+
+
+
+
+
+
+
+
+
+
+				MENÚ TEACHER
+
+
+
+CASO 9:
+	-Descripción:Entramos con un usuario teacher
+	-Entrada: Usuario correcto
+	-Salida: Menú teacher.
+
+CASO 10:
+	-Descripción: Si introducimos opción 1 (Listar todas las clases).
+	-Entrada: 1
+	-Salida: Lista de todas las clases que tenemos guardadas.
+
+CASO 11:
+	-Descripción: Si introducimos opción 2 (Crear nueva clase).
+	-Entrada: 2
+	-Salida: Nos pide los datos de la aula a crear.
+
+		CASO 11A:
+			-Descripción: Si introducimos los datos en un formato erroneo, ya 			 que nos pide que empiece con un letra y acabe con 2 digitos.
+			-Entrada: 259vd
+			-Salida: Se han introducido caracteres erroneos.
+
+		CASO 11B:
+			-Descripción: Si introducimos los datos en un formato correcta.
+			-Entrada: la25
+			-Salida: nos pide los demas datos.
+
+		CASO 11C:
+			-Descripción: Si introducimos todos los datos en un formato 			correcta.
+			-Entrada: todo correcto.
+			-Salida: nos crea la nueva aula.
+
+CASO 12:
+	-Descripción: Si introducimos opción 3 (modificar la clase).
+	-Entrada: 3
+	-Salida: Nos pide los datos de la aula a modificar.
+
+		CASO 12A:
+			-Descripción: Si introducimos el id del aula incorrectamente.
+			-Entrada: id aula  incorrecto.
+			-Salida:La clase introducida no existe.
+
+		CASO 12B:
+			-Descripción: Si introducimos el id del aula correctamente.
+			-Entrada: id aula correcto
+			-Salida:Un menú para elegir quequermos modificar.
+
+		CASO 12C:
+			-Descripción: Si introducimos codigo incorrecto.
+			-Entrada: 8.
+			-Salida:ERROR:OPCIÓ INCORRECTA.
+
+		CASO 12A:
+			-Descripción: Si introducimos codigo correcto.
+			-Entrada: 0-7.
+			-Salida:Nos va cambiando lo datos hasta que le demos al 0 para 			 aceptar los cambios y guardarlos.
+
+CASO 13:
+	-Descripción: Si introducimos opción 4 (Eliminar la clase).
+	-Entrada: 4
+	-Salida: Nos pide los datos de la aula a modificar.
+
+		CASO 13A:
+			-Descripción: Si introducimos el id del aula incorrectamente.
+			-Entrada: id aula  incorrecto.
+			-Salida:Nos devuelve al menú teacher.
+		CASO 13B:
+			-Descripción: Si introducimos el id del aula correctamente.
+			-Entrada: id aula correcto.
+			-Salida:La lnea ha sido liminada.
+CASO 14:
+	-Descripción: Si introducimos opción 5(Cerrar sesión).
+	-Entrada: 4
+	-Salida: Nos Saca al login.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
