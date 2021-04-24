@@ -533,8 +533,6 @@ public class LecturaAulas {
             error = true;
         }
 
-        
-
     }
 
     /**
@@ -578,11 +576,8 @@ public class LecturaAulas {
                     laClaseExiste = true;
                     lineaBorrar = classroom;
 
-                    System.out.println("La linea ha sido eliminada");
-                    
+                    System.out.println("\nLa linea ha sido eliminada");
 
-                } else {
-                    System.out.println("");
                 }
 
             }
@@ -1183,6 +1178,7 @@ public class LecturaAulas {
         try {
 
             int opcion;
+            String opcion_introducida;
             // imprimir menú y pedir la opción.
             do {
                 System.out.print("\nMenú de Teacher: "
@@ -1197,7 +1193,13 @@ public class LecturaAulas {
                         + "\n-----------------------------------"
                         + "\n  Ingresa el numero de la opción: ");
 
-                opcion = sc.nextInt();
+                opcion_introducida = sc.next();
+
+                if (validarStringNum(opcion_introducida)) {
+                    opcion = convertirStringaInt(opcion_introducida);
+                } else {
+                    opcion = 99;
+                }
                 //Ponemos un switch con las funciones de cada opción.
                 switch (opcion) {
                     case 1:
@@ -1236,6 +1238,7 @@ public class LecturaAulas {
     public static void menuAdmin(String user) {
         Scanner sn = new Scanner(System.in);
         int opcion;
+        String opcion_introducida;
         // imprimir menú y pedir la opción.
         do {
             System.out.print("\nMenú de Admin: "
@@ -1250,7 +1253,13 @@ public class LecturaAulas {
                     + "\n 6.Cerrar sesión"
                     + "\n-----------------------------------"
                     + "\n  Ingresa el numero de la opción: ");
-            opcion = sn.nextInt();
+            opcion_introducida = sc.next();
+
+            if (validarStringNum(opcion_introducida)) {
+                opcion = convertirStringaInt(opcion_introducida);
+            } else {
+                opcion = 99;
+            }
             //Ponemos un switch con las funciones de cada opción.
             switch (opcion) {
                 case 1:
@@ -1416,7 +1425,6 @@ public class LecturaAulas {
         System.out.print("Qué usuario quiere borrar?: ");
         String nombreBorrar = sc.next();
 
-        
         if (buscarUser(nombreBorrar) == true) {
             for (User user : users) {
                 if (user != null && user.nombre.equals(nombreBorrar)) {
