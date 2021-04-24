@@ -293,8 +293,7 @@ public class LecturaAulas {
 
     /**
      * Añade una nueva aula en el caso que no exista ya en el archivo
-     *
-     * @return 
+     * @return id del aula nueva
      */
     public static String getIdAulaNuevo() {
 
