@@ -133,18 +133,24 @@ public class LecturaAulas {
 
             //Nueva entrada de id_aula
             System.out.println("Introduce el id de el Aula: ");
+            System.out.println("*(Debe empezar con una letra y acabar con 2 dígitos)*");
+            System.out.print(">");
             id_aula = getIdAulaNuevo();
 
             //Nueva entrada de descripcio_aula
             System.out.println("Introduce la descripcion de el Aula: ");
+            System.out.println("*(Debe empezar con una letra y acabar con 2 dígitos)*");
+            System.out.print(">");
             descripcio_aula = nuevaEntradaLetrasyNums();
 
             //Nueva entrada de capacitat_aula
             System.out.println("Introduce la capacidad de el Aula: ");
+            System.out.print(">");
             capacitat_aula = nuevaEntradaDatosNums();
 
             //Nueva entrada de pc_aula 
             System.out.println("Introduce si el Aula tiene ordenadores o no: ");
+            System.out.print(">");
             pc_aula = nuevaEntradaDatosBoolean();
 
             if (pc_aula == false) {
@@ -153,15 +159,18 @@ public class LecturaAulas {
                 //Nueva entrada de num_pc
                 System.out.println("Introduce el numero de ordenadores que "
                         + "tiene el Aula: ");
+                System.out.print(">");
                 num_pc = nuevaEntradaDatosNums();
             }
 
             //Nueva entrada de projector_aula           
             System.out.println("Introduce si el Aula tiene proyector o no: ");
+            System.out.print(">");
             projector_aula = nuevaEntradaDatosBoolean();
 
             //Nueva entrada de insonoritzada_aula
             System.out.println("Introduce si el Aula está insonorizada o no: ");
+            System.out.print(">");
             insonoritzada_aula = nuevaEntradaDatosBoolean();
 
             // El true al final indica que escribiremos al final del fichero 
